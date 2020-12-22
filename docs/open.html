@@ -43,25 +43,25 @@ SOFTWARE.
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
 				}
 				else if (regex2.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex2)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
 				}
 				else if (url.includes("https://github.com")) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url;
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
 				}
 				else if ((url == "") || (url.includes("arcade.makecode.com"))) {
 					targetURL = targetURL + URLSuffix + URLSuffix2; 
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
 				}
 				else {
 					document.getElementById("output").innerHTML = "Invalid MakeCode Arcade input!";

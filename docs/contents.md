@@ -3,7 +3,6 @@
 ### Open MakeCode Arcade page to download executable game file for RetroPie/Raspberry Pi OS
 
 {% include_relative open.html %}
-{% include_relative contents.md %}
 
 **Accepted inputs:**
 - _**MakeCode Arcade project number**_: Any text containing a MakeCode Arcade project number (12345-12345-12345-12345)
