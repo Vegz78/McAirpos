@@ -30,7 +30,14 @@ SOFTWARE.
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 		</style>
-		<script> 
+		<script>
+			countFunc() {
+				let targetUrl = window.location.href;
+				$.ajax('https://hitcounter.pythonanywhere.com/count', {
+    					data: { url: targetUrl },
+    					xhrFields: { withCredentials: true }
+				}).then(return count));
+			}
 			// https://arcade.makecode.com/55248-84325-28221-54831
 			function myFunc() {
 				var url = document.getElementById("makecode").value;
@@ -40,8 +47,8 @@ SOFTWARE.
 				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
 				if (regex1.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
-					document.getElementById("output").innerHTML = targetURL;
 					window.open(targetURL, '_blank').focus();
+					document.getElementById("output").innerHTML = "Valid link no. " + countFunc() + ": " + targetURL;
 				}
 				else if (url.includes("https://github.com")) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url;
