@@ -126,6 +126,7 @@ int main(int argc, char** argv) {
       sprintf(newEventNo, "%d.py)&",numberOfPads); 
       strcat(strcat(strcat(strcat(uiMapCommand, "(../uinput-mapper/input-read -C -D "), eventPaths), "| ../uinput-mapper/input-create -C -S ../uinput-mapper/configs/arcade"), newEventNo);
       printf("%s\n", uiMapCommand);
+      system("stty -ixon"); //Prevent Ctrl+s to hang gamepad input
       /*if (!fork()) {
          setpgid(0, 0);
          system(uiMapCommand);
@@ -175,6 +176,7 @@ besure:
         snprintf(killAllCmd, 100, "killall %s", processName);
         system(killAllCmd);
         system("sudo killall input-create&&sudo killall input-read");
+        system("stty ixon"); //Restore normal terminal function
 
         // Terminal Fixer's cleanup part, which returns control of the
         // framebuffer and input mode to calling process after game's exit
