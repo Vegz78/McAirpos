@@ -1,0 +1,87 @@
+#!/usr/bin/env python
+import ctypes, sys
+
+import uinputmapper
+import uinputmapper.linux_uinput
+from uinputmapper.cinput import *
+from uinputmapper.mapper import KeyMapper, pretty_conf_print, \
+    get_exported_device_count
+from uinputmapper.linux_input import timeval, input_event
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
+
+import imp
+import optparse
+
+_usage = 'python create.py /path/to/config1 ... /path/to/configN'
+parser = optparse.OptionParser(description='Create input devices.',
+        usage=_usage,
+        version='0.01'
+        )
+parser.add_option('-C', '--compat', action='store_true',
+        help='Enable compatibility mode; for Python < 2.7')
+parser.add_option('-S', '--sync', action='store_true',
+        help='Synchronise all events on an synchronise event')
+parser.add_option('-v', '--verbose', action='store_true',
+        help='Enable verbose mode')
+
+args, cfg = parser.parse_args()
+
+# Unpickle from stdin ; currently this is the default and only way
+in_f = pickle.Unpickler(sys.stdin)
+
+# Read input device count
+nifd = in_f.load()
+
+# Read configuration
+conf = in_f.load()
+
+# Read names
+names = in_f.load()
+
+if args.verbose:
+    pretty_conf_print(conf)
+
+# Allow configurations to change our current configuration
+for path in cfg:
+    config_merge = imp.load_source('', path).config_merge
+    config_merge(conf, names)
+
+if args.verbose:
+    pretty_conf_print(conf)
+
+m = KeyMapper(conf)
+
+# Get number of output devices (determined from conf)
+nofd = get_exported_device_count(conf)
+
+# Create and expose uinput devices
+ofs = []
+for f in xrange(nofd):
+    name = names[f]
+    d = UInputDevice()
+    m.expose(d, f)
+    d.setup('UInputMapper: %s' % name)
+    ofs.append(d)
+
+# Map events
+while True:
+    if not args.compat:
+        fd, ev = in_f.load()
+    else:
+        fd, ev_p = in_f.load()
+        ti = timeval(ev_p[0], ev_p[1])
+        ev = input_event(ti, ev_p[2], ev_p[3], ev_p[4])
+
+    idx, ev = m.map_event(ev, fd)
+    d = ofs[idx]
+
+    # Sync always to all devices?
+    if args.sync and ev.type == EV_SYN and ev.code == SYN_REPORT and ev.value == 0:
+        for fd in ofs:
+            fd.fire_event(ev)
+    else:
+        d.fire_event(ev)
