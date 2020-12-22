@@ -1,1 +1,6 @@
 theme: jekyll-theme-minimal
+title:
+description:
+logo: MakeCode_Arcade_RetroPie.gif
+show_downloads: true
+google_analytics:
