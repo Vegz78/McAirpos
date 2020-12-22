@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+import ctypes, sys
+
+import uinputmapper
+import uinputmapper.linux_uinput
+from uinputmapper.cinput import *
+from uinputmapper.mapper import KeyMapper, parse_conf, pretty_conf_print, \
+    get_exported_device_count
+from uinputmapper.linux_input import timeval, input_event
+
+import time
+
+try:
+    import cPickle as pickle
+except ImportError:
+    import pickle
+
+import imp
+import optparse
+
+_usage = 'python create.py /path/to/config1 ... /path/to/configN'
+parser = optparse.OptionParser(description='Create input devices.',
+        usage=_usage,
+        version='0.01'
+        )
+parser.add_option('-C', '--compat', action='store_true',
+        help='Enable compatibility mode; for Python < 2.7')
+parser.add_option('-f', '--input-file', type=str,
+        help='File to read from')
+parser.add_option('-v', '--verbose', action='store_true',
+        help='Enable verbose mode')
+
+args, cfg = parser.parse_args()
+
+f = open(args.input_file)
+
+# Unpickle from stdin ; currently this is the default and only way
+in_f = pickle.Unpickler(f)
+
+# Read input device count
+nifd = in_f.load()
+
+# Read configuration
+conf = in_f.load()
+
+# Read names
+names = in_f.load()
+
+if args.verbose:
+    pretty_conf_print(conf)
+
+# Allow configurations to change our current configuration
+for path in cfg:
+    config_merge = imp.load_source('', path).config_merge
+    config_merge(conf)
+
+if args.verbose:
+    pretty_conf_print(conf)
+
+m = KeyMapper(conf)
+
+# Get number of output devices (determined from conf)
+nofd = get_exported_device_count(conf)
+
+# Create and expose uinput devices
+ofs = []
+for f in xrange(nofd):
+    name = names[f]
+    d = UInputDevice()
+    m.expose(d, f)
+    d.setup('UInputMapper: %s' % name)
+    ofs.append(d)
+
+#start_time = time.time()
+last_time = False
+
+# Map events
+while True:
+    if not args.compat:
+        fd, ev = in_f.load()
+    else:
+        fd, ev_p = in_f.load()
+        ti = timeval(ev_p[0], ev_p[1])
+        ev = input_event(ti, ev_p[2], ev_p[3], ev_p[4])
+
+    idx, ev = m.map_event(ev, fd)
+    d = ofs[idx]
+
+    if not last_time:
+        last_time = (ev.time.tv_sec, ev.time.tv_usec)
+        time.sleep(0.05)
+    else:
+        time.sleep(ev.time.tv_sec - last_time[0] + \
+        (ev.time.tv_usec - last_time[1]) / 1000000.)
+        last_time = (ev.time.tv_sec, ev.time.tv_usec)
+
+    #print 'Event time:', ev.time.tv_sec, ev.time.tv_usec
+    #print ev.type, ev.code
+
+    d.fire_event(ev)

@@ -1,0 +1,33 @@
+= Going beyond simple input mapping =
+
+We want to be able to ``clone'' devices remotely.
+Something like this would be nice:
+
+Device 0:
+netcat port | ./clone-device
+
+Device 1:
+read-device /dev/input/inputX | netcat addr port
+
+--
+
+Filtering, injecting or rewriting of input would also be very nice. Possibly
+with a configuration file / small scripting language.
+
+Filtering could be done either with another program, or integrated into
+clone-device; since filtering makes no sense if you do not also create a new
+device. OTOH, if you're doing much more than filtering, like injection or
+rewriting, then it makes more sense to give a different name, maybe
+input-modify?
+
+
+Problems:
+- We cannot just pass around struct input_event ; endianness may become an issue
+- We cannot perform ioctls to read all the events/buttons exposed by a device
+over the network. I suggest that by design these are just passed over the
+network once. (As they cannot change at runtime anyway)
+
+- We need a proper configuration file or scripting language. Although I guess
+the C macros work fine for now. We can even make a nice Makefile that generates
+seperate binaries per config:
+make my_config # uses config/my_config.h to generate map-my_config
