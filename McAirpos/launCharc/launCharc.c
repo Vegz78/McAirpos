@@ -1,8 +1,21 @@
-/* MakeCode Arcade native game file launcher for RetroPie/Raspberry Pi OS. * * Based on Terminal fixer * https://github.com/hobbitalistair/termfix, * * which in turn was based on * 
- https://gist.github.com/joerick/9e2d244f456c2431619e7063eda62e1d * * Wraps the MakeCode Arcade game ELF executables launcher's process, so * that RetroPie does not reactivate EmulationStation with the game still * running in the 
- background every time the game finishes or resets. * Restores the terminal or EmulationStation GUI session, which is messed * up by the MakeCode Arcade ELF executable game file, that does not * release the framebuffer or raw input 
- modes on exit. * * This file is a part of the https://github.com/vegz78/McAirpos repository. * * MIT License * * Copyright (c) 2020 Vegz78
-
+/* MakeCode Arcade native game file launcher for RetroPie/Raspberry Pi OS.
+ *
+ * Based on Terminal fixer * https://github.com/hobbitalistair/termfix,
+ *
+ * which in turn was based on
+ * https://gist.github.com/joerick/9e2d244f456c2431619e7063eda62e1d
+ *
+ * launCharc wraps the MakeCode Arcade game ELF executables' process, so
+ * that RetroPie does not reactivate EmulationStation with the game still
+ * running in the background every time the game finishes or resets.
+ * Restores the terminal or EmulationStation GUI session, which is messed
+ * up by the MakeCode Arcade ELF executable game file, that does not
+ * release the framebuffer or raw input modes on exit.
+ *
+ * This file is a part of the https://github.com/vegz78/McAirpos repository.
+ *
+ * MIT License * * Copyright (c) 2020 Vegz78
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights

@@ -1,0 +1,9 @@
+  <system>
+    <name>MakeCode</name>
+    <fullname>MakeCode Arcade</fullname>
+    <path>/home/pi/RetroPie/roms/makecode</path>
+    <extension>.elf .ELF</extension>
+    <command>/home/pi/McAirpos/McAirpos/launCharc/launCharc %ROM%</command>
+    <platform>makecode</platform>
+    <theme>makecode</theme>
+  </system>
