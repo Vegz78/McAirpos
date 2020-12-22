@@ -1,0 +1,73 @@
+<!--
+This file is a part of the https://github.com/vegz78/McAirpos repository.
+
+MIT License
+
+Copyright (c) 2020 Vegz78
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html>
+	<head>
+		<meta name="keywords" content="HTML, CSS, JavaScript">
+		<meta name="description" content="McAirpos - MakeCode Arcade in RetroPie/Raspberry Pi OS">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<style>
+		</style>
+		<script> 
+			// https://arcade.makecode.com/55248-84325-28221-54831
+			function myFunc() {
+				var url = document.getElementById("makecode").value;
+				var targetURL = "https://arcade.makecode.com/";
+				var URLSuffix = "?nolocalhost=1&compile=rawELF&hw=rpi";
+				var URLSuffix2 = "#editor";
+				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
+				if (regex1.test(url)) {
+					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
+					document.getElementById("output").innerHTML = targetURL;
+					window.open(targetURL, '_blank').focus();
+				}
+				else if (url.includes("https://github.com")) {
+					targetURL = targetURL + URLSuffix + "#pub:" + url;
+					document.getElementById("output").innerHTML = targetURL;
+					window.open(targetURL, '_blank').focus();
+				}
+				else if ((url == "") || (url.includes("arcade.makecode.com"))) {
+					targetURL = targetURL + URLSuffix + URLSuffix2; 
+					document.getElementById("output").innerHTML = targetURL;
+					window.open(targetURL, '_blank').focus();
+				}
+				else {
+					document.getElementById("output").innerHTML = "Invalid MakeCode Arcade input!";
+					setTimeout(() => { document.getElementById("output").innerHTML = ""; }, 1500);
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="myDiv">
+			<form onsubmit="event.preventDefault();myFunc()">
+				<input type="text" style="width: 80%" id="makecode" name="makecode"><br>
+				<button type="button" id="myBtn" onclick="myFunc()">Open MakeCode Arcade with ELF</button>
+			</form>
+			<p id="output"></p>
+		</div>
+	</body>
+</html>
