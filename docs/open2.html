@@ -26,7 +26,7 @@ SOFTWARE.
 <html>
 	<head>
 		<meta name="keywords" content="HTML, CSS, JavaScript">
-		<meta name="description" content="McAirpos - MakeCode Arcade in RetroPie/Raspberry Pi OS">
+		<meta name="description" content="open2.html">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 		</style>
@@ -43,25 +43,25 @@ SOFTWARE.
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { location.reload(); }, waitTime);
 				}
 				else if (regex2.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex2)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { location.reload(); }, waitTime);
 				}
 				else if (url.includes("https://github.com")) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url;
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { location.reload(); }, waitTime);
 				}
 				else if ((url == "") || (url.includes("arcade.makecode.com"))) {
 					targetURL = targetURL + URLSuffix + URLSuffix2; 
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./open2.html", "_self"); }, waitTime);
+					setTimeout(() => { location.reload(); }, waitTime);
 				}
 				else {
 					document.getElementById("output").innerHTML = "Invalid MakeCode Arcade input!";
@@ -78,6 +78,7 @@ SOFTWARE.
 				<button type="button" id="myBtn" onclick="myFunc()">Open MakeCode Arcade with ELF</button>
 			</form>
 			<p id="output"></p>
+			<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fvegz78.github.io%2FMcAirpos&count_bg=%23FF4000&title_bg=%23FF4000&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true"/></a>
 		</div>
 	</body>
 </html>
