@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 import ctypes, fcntl, os, sys
 import select
 
@@ -24,7 +24,8 @@ parser.add_option('-v', '--verbose', action='store_true',
         default=False, help='Enable verbose mode (do not combine with -D)')
 parser.add_option('-G', '--grab', action='append',
         type=str, default=[])
-
+parser.add_option('-p', '--pad', action='store_true',
+       default =False, help='Only output to check gamepad presence (combine with -v)')
 parser.add_option('-C', '--compat', action='store_true',
         help='Enable compatibility mode; for Python < 2.7')
 
@@ -58,9 +59,11 @@ for idx, f in enumerate(fs):
 
 if args.verbose:
     pretty_conf_print(config)
-
 poll_obj, poll_mask = (select.poll, select.POLLIN) if args.compat else \
         (select.epoll, select.EPOLLIN)
+
+if args.pad:
+    exit(0)
 
 # Add all devices to epoll
 pp = poll_obj()
