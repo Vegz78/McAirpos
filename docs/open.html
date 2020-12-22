@@ -36,7 +36,7 @@ SOFTWARE.
 				$.ajax('https://hitcounter.pythonanywhere.com/count', {
     					data: { url: targetUrl },
     					xhrFields: { withCredentials: true }
-				}).then(return count));
+				}).then(count => return count));
 			}
 			// https://arcade.makecode.com/55248-84325-28221-54831
 			function myFunc() {
@@ -47,7 +47,7 @@ SOFTWARE.
 				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
 				if (regex1.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
-					window.open(targetURL, '_blank').focus();
+					//window.open(targetURL, '_blank').focus();
 					document.getElementById("output").innerHTML = "Valid link no. " + countFunc() + ": " + targetURL;
 				}
 				else if (url.includes("https://github.com")) {
