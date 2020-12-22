@@ -6,7 +6,7 @@
 - _**Empty or URL from your MCA editor**_: Opens a new page for your currently open or last opened MakeCode Arcade project 
 
 <a class="github-button" href="https://github.com/Vegz78/McAirpos" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-
-label="Star Vegz78/McAirpos on GitHub">Star</a><
+label="Star Vegz78/McAirpos on GitHub">Star</a> Please star this project if you like and use it.
 <br>
 <br>
 <br>
