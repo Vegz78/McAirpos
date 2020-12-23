@@ -13,19 +13,20 @@ Either make your own games in the editor, or download from various places, like:
 
 - [MakCode's official forum](https://forum.makecode.com/c/Share-your-Arcade-projects-here/show-tell/)
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
-
+- [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
+- Other suggestions where to find good games?
 
 ## Contents
-- [Tool for setting the MakeCode Arcade editor in native executable mode or downloading executables](https://vegz78.github.io/McAirpos)
-- A game launcher, _launCharc_, 
-  - for keeping the game in the foreground in RetroPie, 
-  - for cleaning up the terminal on exit, 
-  - automatically checking and setting up gampad and keyboard controls
+- [Tool for setting the MakeCode Arcade editor in native executable mode for downloading executables](https://vegz78.github.io/McAirpos)
+- A game launcher, _launCharc_, for:
+  - keeping the game in the foreground in RetroPie, 
+  - cleaning up the terminal on exit, 
+  - automatically checking and setting up gamepad and keyboard controls
 - [uinput-mapper](https://github.com/MarlijnWajer/uinput-mapper) to map gamepad inputs to to keyboard 
 
 ## Features
 - Launch and exit natively executable MakeCode Arcade games gracefully from RetroPie and the Raspberry Pi OS console
-- Auto detect gamepad and keyboard controls for up to 2 players
+- Autodetect gamepad and keyboard controls for up to 2 players
 - [Easily download and ready the editor for natively executable game files](https://vegz78.github.io/McAirpos)
 
 ## Installation
@@ -39,12 +40,12 @@ From _/sd/_: ```chown pi *&&chgrp pi *&&chmod 644 *```
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
-- Run from the text console(games do not run within X), from the top of repo folder:
+- Run from the text console(games do not run within X), from the top of the repo folder:
 ```./McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
-I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just work.. ;-)<br>
+I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
 But I haven't testet on other systems than my own Raspberry Pi 4 yet, and I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together.<br>
 <br>
 **Happy retro gaming and retro game making!!!**<br><br>
