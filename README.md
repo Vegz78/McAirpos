@@ -30,6 +30,15 @@ Either make your own games in the editor, or download from various places, like:
 - Autodetect gamepad and keyboard controls for up to 2 players
 - [Easily download and ready the editor for natively executable game files](https://vegz78.github.io/McAirpos)
 
+## Why the need for McAirpos?
+The current MakeCode Arcade natively executable game files compiled with the Raspberry Pi as target have 2 problems preventing a nice experience from within RetroPie:
+- The parent game process ID shifts during game play, which makes RetroPie think the game has exited and then puts it still running in the background. On exit, the game files do not release and clean up the framebuffer and key inputs, giving the impression that the system has frozen/halted.<br>
+https://github.com/microsoft/pxt-arcade/issues/2435
+- The game files only supports 1 game controller and 1 input event, but multiple game players.<br>
+https://github.com/microsoft/pxt-arcade/issues/2245
+
+McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
+
 ## Installation
 1. Clone this repo from and into _/home/pi/_: ```git clone https://github.com/Vegz78/McAirpos.git```<br>
 _(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
