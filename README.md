@@ -1,5 +1,5 @@
 # McAirpos
-MakeCode Arcade games in RetroPie, running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
+[MakeCode Arcade](https://arcade.makecode.com) games in [RetroPie](https://retropie.org.uk), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
 ![](docs/MakeCode_Arcade_RetroPie.gif)
 
 Very happy to finally present a working solution for running MakeCode Arcade games natively in RetroPie/Raspberry Pi OS!<br>
@@ -11,6 +11,7 @@ https://vegz78.github.io/McAirpos
 
 Either make your own games in the editor, or download from various places, like:
 
+- [MakeCode Arcade home(https://arcade.makecode.com)](https://arcade.makecode.com)
 - [MakCode's official forum](https://forum.makecode.com/c/Share-your-Arcade-projects-here/show-tell/)
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
