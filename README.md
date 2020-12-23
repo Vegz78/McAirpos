@@ -30,7 +30,8 @@ Either make your own games in the editor, or download from various places, like:
 - [Easily download and ready the editor for natively executable game files](https://vegz78.github.io/McAirpos)
 
 ## Installation
-1. Clone this repo from and into _/home/pi/_: ```git clone https://github.com/Vegz78/McAirpos.git```
+1. Clone this repo from and into _/home/pi/_: ```git clone https://github.com/Vegz78/McAirpos.git```<br>
+_(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
 2. Copy the repo folder _./McAirpos/MakeCode/sd_ with all its contents into root the folder _/_.
 3. Make sure the contents of _/sd_ are owned and writable for your user(normally _pi_):<br>
 From _/sd/_: ```chown pi *&&chgrp pi *&&chmod 644 *```
