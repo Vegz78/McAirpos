@@ -91,11 +91,11 @@ int main(int argc, char** argv) {
    for (int i = 0; i < numberOfEvents; i++) {
       if (numberOfPads < 2) {
       char processCommand[100];
-      snprintf(processCommand, 100, "../uinput-mapper/input-read -vp /dev/input/event%d | grep DPAD", i);
+      snprintf(processCommand, 100, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d | grep DPAD", i);
       char* event = getSystemOutput(processCommand);
       if (strcmp(event, "")) {
          printf("%s, Output:%s\n", processCommand, getSystemOutput(processCommand));
-         printf("Hei på dere, %d mulige controllere!\n", numberOfEvents);
+         printf("%d Possible gamepads\n", numberOfEvents);
          char iString[20];
          sprintf(iString, "%d", i);
          strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
@@ -121,12 +121,11 @@ int main(int argc, char** argv) {
       char newEventNo[20];
       sprintf(newEventNo, "%d", numberOfEvents);
       strcat(strcat(defaultEvent, "event"), newEventNo);
-      char uiMapCommand[200];
+      char uiMapCommand[400];
       memset (uiMapCommand, 0, sizeof(uiMapCommand));
       sprintf(newEventNo, "%d.py)&",numberOfPads); 
-      strcat(strcat(strcat(strcat(uiMapCommand, "(../uinput-mapper/input-read -C -D "), eventPaths), "| ../uinput-mapper/input-create -C -S ../uinput-mapper/configs/arcade"), newEventNo);
+      strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), newEventNo);
       printf("%s\n", uiMapCommand);
-      system("stty -ixon"); //Prevent Ctrl+s to hang gamepad input
       /*if (!fork()) {
          setpgid(0, 0);
          system(uiMapCommand);
@@ -176,7 +175,6 @@ besure:
         snprintf(killAllCmd, 100, "killall %s", processName);
         system(killAllCmd);
         system("sudo killall input-create&&sudo killall input-read");
-        system("stty ixon"); //Restore normal terminal function
 
         // Terminal Fixer's cleanup part, which returns control of the
         // framebuffer and input mode to calling process after game's exit
