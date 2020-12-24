@@ -54,6 +54,23 @@ From _/sd/_: ```chown pi *&&chgrp pi *&&chmod 644 *```
 - Run from the text console(games do not run within X), from the top of the repo folder:
 ```./McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
+## Default layout for controls
+|Move|Keyb pl1|Keyb pl2|Gamepads|
+|----|--------|--------|--------|
+|Up  |W       |Up arrow|DPAD_UP|
+|Down|S       |Down arrow|DPAD_DOWN|
+|Left|A       |Left arrow|DPAD_LEFT|
+|Right|D      |Right arrow|DPAD_RIGHT|
+|Fire|Left Ctrl|Right ALT|BTN_SOUTH/A|
+|Fire2|Left Shift|Space bar|BTN_NORTH/X|
+|Exit|Esc||BTN_START|
+|Restart|F1||BTN_SELECT|
+|Menu|F2||BTN_MODE/PS|
+
+Should gamepad Fire2 button be changed to BTN_EAST/B for compatibility?
+
+When changing button layouts, edit _/SD/arcade.cfg_ for keyboard and in _arcade1.py_ and _arcade2.py_ in _/uinput-mapper/configs/_ for gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/SD/arcade.cfg_.
+
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
 I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
