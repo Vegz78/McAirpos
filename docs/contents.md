@@ -1,7 +1,7 @@
 
 **Accepted inputs:**
 - _**MakeCode Arcade project number**_: Any text containing a MakeCode Arcade project number (12345-12345-12345-12345)
-- _**MakeCode Arcate project link**_: Any text containing a MakeCode Arcade project link (makecode.com/_8A7izrgpeoVs)
+- _**MakeCode Arcade project link**_: Any text containing a MakeCode Arcade project link (makecode.com/_8A7izrgpeoVs)
 - _**MakeCode Arcade GitHub repo**_: GitHub repo URL (https:<span>//</span>github<span>.</span>com/_name_or_org_/_MakeCode_Arcade_repo_/)
 - _**Empty or URL from your MCA editor**_: Opens a new page for your currently open or last opened MakeCode Arcade project 
 <br>
