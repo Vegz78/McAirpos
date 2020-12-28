@@ -42,7 +42,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Installation
 1. Clone this repo from and into _/home/pi/_: ```git clone https://github.com/Vegz78/McAirpos.git```<br>
 _(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
-2. Copy the repo folder _./McAirpos/MakeCode/sd_ with all its contents into root the folder _/_.
+2. Copy the repo folder _./McAirpos/MakeCode/sd_ with all its contents into the root folder _/_.
 3. Make sure the contents of _/sd_ are owned and writable for your user(normally _pi_):<br>
 From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd```
 4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _</systemList>_ tag at the end of the file.
