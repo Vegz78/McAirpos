@@ -44,7 +44,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 _(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
 2. Copy the repo folder _./McAirpos/MakeCode/sd_ with all its contents into root the folder _/_.
 3. Make sure the contents of _/sd_ are owned and writable for your user(normally _pi_):<br>
-From _/sd/_: ```chown pi *&&chgrp pi *&&chmod 644 *```
+From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd```
 4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _</systemList>_ tag at the end of the file.
 5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.
 6. Make a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Argade games](https://vegz78.github.io/McAirpos).
