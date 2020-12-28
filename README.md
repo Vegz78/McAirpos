@@ -3,7 +3,10 @@
 ![](docs/MakeCode_Arcade_RetroPie.gif)
 
 Very happy to finally present a working solution for running MakeCode Arcade games natively in RetroPie/Raspberry Pi OS!<br>
-Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MarlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MarlijnWajer/uinput-mapper), I have used in my solution!!!
+
+Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MarlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MarlijnWajer/uinput-mapper), I have used in my solution!!!<br>
+
+Don't hesitate to open an issue here if something doesn't work for you.
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
 I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com) ready for downloading ELF executables of games here:<br>
