@@ -50,7 +50,7 @@ _(Paths are currently hardcoded and will only work with repo directly under /hom
 From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd```
 4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _</systemList>_ tag at the end of the file.
 5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.
-6. Make a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Argade games](https://vegz78.github.io/McAirpos).
+6. Make a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
@@ -77,7 +77,10 @@ When changing button layouts, edit _/SD/arcade.cfg_ for keyboard and in _arcade1
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
 I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
-But I haven't testet on other systems than my own Raspberry Pi 4 yet, and I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together.<br>
+
+I have now tested it ok on one Raspberry Pi 4 and two RPi3s, but only with PS3 controllers which I have available. My blogging colleage reported som trouble getting it to work with a PS3/PS4 fight stick and a Hori controller for the Switch, which he had lying around. Now fearing that it only works 100% in my own house, I have ordered one 8Bitdo and Retro-Bit NES controller, planning to test everything soon on a fresh Raspbian Lite image, to see if I've overlooked some dependencies or details.<br>
+
+I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!<br>
 <br>
 **Happy retro gaming and retro game making!!!**<br><br>
 [@Vegz78](https://github.com/Vegz78)<br>
