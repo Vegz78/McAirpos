@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
    memset (defaultEvent, 0, sizeof(defaultEvent));
    strcat(defaultEvent, "SCAN_CODES=/dev/input/");
    char sedCommand[100]; 
-   char* tempString = getSystemOutput("cat /proc/bus/input/devices | grep -B 7 120013 | tr ' ' '\n' | grep event");
+   char* tempString = getSystemOutput("cat /proc/bus/input/devices | grep -B 7 EV=12001 | tr ' ' '\n' | grep event");
    if ((numberOfPads == 1) || (numberOfPads == 2)) {
       if (numberOfPads == 1) {
          strcat(strcat(eventPaths, "/dev/input/"), tempString);
@@ -124,7 +124,7 @@ int main(int argc, char** argv) {
       char uiMapCommand[400];
       memset (uiMapCommand, 0, sizeof(uiMapCommand));
       sprintf(newEventNo, "%d.py)&",numberOfPads); 
-      strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), newEventNo);
+      strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), newEventNo);
       printf("%s\n", uiMapCommand);
       /*if (!fork()) {
          setpgid(0, 0);
@@ -138,7 +138,7 @@ int main(int argc, char** argv) {
    }
    snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
    system(sedCommand);
-
+   system("stty -ixon");
 
     // Fork game execution on launch, so that it is executed
     // the same way it's done in-game on reset and finish
@@ -148,6 +148,20 @@ int main(int argc, char** argv) {
         //execl(game, game, NULL);
     }else {
         sleep(2);  // Wait for fork/game to launch and get pid
+
+	//Switch console to graphics mode to avoid disturbing text output in borders
+        char* path = "/dev/tty";
+        int fd = open(path, O_RDWR, 0);
+        if (fd < 0) {
+            perror("unable to open tty");
+            return 1;
+        }
+	system("clear");
+        if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
+            perror("warn: ioctl KDSETMODE failed");
+        }
+	close(fd);
+        system("clear");
 
         // Get running game's process name
         char* processID = getSystemOutput("head -1 /tmp/pxt-pid");
@@ -176,17 +190,16 @@ besure:
         system(killAllCmd);
         system("sudo killall input-create&&sudo killall input-read");
 
+
+        // The following code is borrowed from https://github.com/hobbitalistair/termfix:
         // Terminal Fixer's cleanup part, which returns control of the
         // framebuffer and input mode to calling process after game's exit
-        char* path = "/dev/tty";
-        int fd = open(path, O_RDWR, 0);
+        fd = open(path, O_RDWR, 0);
         if (fd < 0) {
             perror("unable to open tty");
             return 1;
         }
 
-
-        // The following code is borrowed from https://github.com/hobbitalistair/termfix:
         // This one fails without sudo, but doesn't seem needed for 
         // MakeCode Arcade games(comment out or leave as and option?).
         if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
@@ -201,6 +214,7 @@ besure:
             perror("warn: ioctl KBSKBMODE failed");
         }
 
+        system("stty -ixon");
         system("clear");
     }
 
