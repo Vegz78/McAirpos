@@ -6,15 +6,17 @@ Very happy to finally present a working solution for running MakeCode Arcade gam
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-Don't hesitate to open an issue here if something doesn't work for you.
+**2020.01.02:** Having tested on a fresh/clean Raspbian Lite image today, some bugs where found and fixed, which hopefully will make McAirpos run with more certain discovery of keyboard devices and mapping of gamepads, and less chances of clutter/text inside the game screen borders on many systems. It now runs pretty stably with PS3 gamepads on my RPI3s and RPi4, and I will continue to test gamepad compatibility when I receive some new ones by mail shortly. 
+
+Feedback is valueable for fixing bugs, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) if something doesn't work for you.
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
-I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com) ready for downloading ELF executables of games here:<br>
+I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) ready for downloading native executables of games here:<br>
 https://vegz78.github.io/McAirpos
 
-Either make your own games in the editor, or download from various places, like:
+Either make your own games in the MakeCode web editor, or download from various places, like:
 
-- [MakeCode Arcade home (https://arcade.makecode.com)](https://arcade.makecode.com)
+- [MakeCode Arcade home (https://arcade.makecode.com)](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF)
 - [MakCode's official forum](https://forum.makecode.com/c/Share-your-Arcade-projects-here/show-tell/)
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
@@ -25,8 +27,8 @@ Either make your own games in the editor, or download from various places, like:
 - A game launcher, _launCharc_, for:
   - keeping the game in the foreground in RetroPie, 
   - cleaning up the terminal on exit, 
-  - automatically checking and setting up gamepad and keyboard controls
-- [uinput-mapper](https://github.com/MarlijnWajer/uinput-mapper) to map gamepad inputs to to keyboard 
+  - automatically detecting and setting up gamepad and keyboard controls
+- [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper) to map gamepad inputs to to keyboard 
 
 ## Features
 - Launch and exit natively executable MakeCode Arcade games gracefully from RetroPie and the Raspberry Pi OS console
@@ -42,20 +44,27 @@ https://github.com/microsoft/pxt-arcade/issues/2245
 
 McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
 
+## Prerequisites
+- Git (```sudo apt install git```)
+- Drivers for gamepads you have that don't work "out of the box"
+
 ## Installation
-1. Clone this repo from and into _/home/pi/_: ```git clone https://github.com/Vegz78/McAirpos.git```<br>
+1. Clone this repo from and into _/home/pi/_:<br>
+```git clone https://github.com/Vegz78/McAirpos.git```<br>
 _(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
-2. Copy the repo folder _./McAirpos/MakeCode/sd_ with all its contents into the root folder _/_.
+2. Copy the folder _.../MakeCode/sd_ with all its contents into the root folder _/_:<br>
+```sudo cp -r ~/McAirpos/McAirpos/MakeCode/sd /```<br>
+_(The game files are hardcoded to write to and read from this root/sd folder)_
 3. Make sure the contents of _/sd_ are owned and writable for your user(normally _pi_):<br>
 From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd```
-4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _</systemList>_ tag at the end of the file.
+4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _\</systemList\>_ tag at the end of the file.
 5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.
-6. Make a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).
+6. Create a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
-- Run from the text console(games do not run within X), from the top of the repo folder:
-```./McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
+- Run from the text console(games do not run within X):<br>
+```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
 ## Default layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads|
@@ -72,13 +81,11 @@ From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd``
 
 Should gamepad Fire2 button be changed to BTN_EAST/B for compatibility?
 
-When changing button layouts, edit _/SD/arcade.cfg_ for keyboard and in _arcade1.py_ and _arcade2.py_ in _/uinput-mapper/configs/_ for gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/SD/arcade.cfg_.
+When changing button layouts, edit _/sd/arcade.cfg_ for keyboard and edit _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
 I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
-
-I have now tested it ok on one Raspberry Pi 4 and two RPi3s, but only with PS3 controllers which I have available. My blogging colleage reported som trouble getting it to work with a PS3/PS4 fight stick and a Hori controller for the Switch, which he had lying around. Now fearing that it only works 100% in my own house, I have ordered one 8Bitdo and Retro-Bit NES controller, planning to test everything soon on a fresh Raspbian Lite image, to see if I've overlooked some dependencies or details.<br>
 
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!<br>
 <br>
