@@ -51,7 +51,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Installation
 1. Clone this repo from and into _/home/pi/_:<br>
 ```git clone https://github.com/Vegz78/McAirpos.git```<br>
-_(Paths are currently hardcoded and will only work with repo directly under /home/pi/)_
+_(Paths are currently hardcoded and will only work with the repo directly under /home/pi/)_
 2. Copy the folder _.../MakeCode/sd_ with all its contents into the root folder _/_:<br>
 ```sudo cp -r ~/McAirpos/McAirpos/MakeCode/sd /```<br>
 _(The game files are hardcoded to write to and read from this root/sd folder)_
