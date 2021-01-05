@@ -73,6 +73,8 @@ Also, make sure that every _game\_file.elf_ has executable permissions if they a
 
 **NB: The _game\_files.elf_ only work from the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console) and NOT with either launCharc or RetroPie started from a desktop/gui/X/terminal emulator environment.**
 
+If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+C, CTRL+D and CTRL+D_.
+
 ## Default layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads|
 |----|--------|--------|--------|
