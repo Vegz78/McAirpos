@@ -71,7 +71,7 @@ Also, make sure that every _game\_file.elf_ has executable permissions if they a
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
-**NB: The _game\_files.elf_ only work from the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console) and NOT with either launCharc or RetroPie started from a desktop/gui/X/terminal emulator environment.
+**NB: The _game\_files.elf_ only work from the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console) and NOT with either launCharc or RetroPie started from a desktop/gui/X/terminal emulator environment.**
 
 ## Default layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads|
