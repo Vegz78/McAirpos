@@ -28,7 +28,7 @@ Either make your own games in the MakeCode web editor, or download from various 
   - keeping the game in the foreground in RetroPie, 
   - cleaning up the terminal on exit, 
   - automatically detecting and setting up gamepad and keyboard controls
-- [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper) to map gamepad inputs to to keyboard 
+- [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper) to map gamepad inputs to the keyboard 
 
 ## Features
 - Launch and exit natively executable MakeCode Arcade games gracefully from RetroPie and the Raspberry Pi OS console
@@ -58,13 +58,20 @@ _(The game files are hardcoded to write to and read from this root/sd folder)_
 3. Make sure the contents of _/sd_ are owned and writable for your user(normally _pi_):<br>
 From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd```
 4. Copy the _contents_ of the file _./McAirpos/EmulationStation/es_systems.cfg_MakeCode_ into the end of the file _/etc/emulationstation/es_systems.cfg_. Make sure not to delete the _\</systemList\>_ tag at the end of the file.
-5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.
-6. Create a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).
+5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.<br>
+```sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon```
+6. Create a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).<br>
+Make sure that the _makecode_ games folder is owned by _pi_ and has the correct permissions. From inside this folder:<br>
+```sudo chown -R pi .&&sudo chgrp -R pi .&&sudo chmod -R 755 .```<br>
+Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically by [_umask_](https://en.wikipedia.org/wiki/Umask) when copying them to the _makecode_ games folder:<br>
+```sudo chmod +x ~/RetroPie/roms/makecode/game_file.elf```
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
+
+**NB: The _game\_files.elf_ only work from the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console) and NOT with either launCharc or RetroPie started from a desktop/gui/X/terminal emulator environment.
 
 ## Default layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads|
