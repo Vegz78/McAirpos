@@ -6,6 +6,8 @@ Very happy to finally present a working solution for running MakeCode Arcade gam
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+**2021.01.08:** Reveived 2 new gamepads today, and immediately discovered that the button layouts varied a lot more than I initially thought with only my PS3 controllers at hand. I'll try my best as soon as possible to hopefully improve gamepad support somewhat beyond the PS3 controller and maybe a few unknown others with similar layouts as the PS3(if they exist). Sorry about this!
+
 **2021.01.02:** Having tested on a fresh/clean Raspbian Lite image today, some bugs where found and fixed, which hopefully will make McAirpos run with more certain discovery of keyboard devices and mapping of gamepads, and less chances of clutter/text inside the game screen borders on many systems. It now runs pretty stably with PS3 gamepads on my RPI3s and RPi4, and I will continue to test gamepad compatibility when I receive some new ones by mail shortly. 
 
 Feedback is valueable for fixing bugs, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) if something doesn't work for you.
