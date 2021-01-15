@@ -6,9 +6,14 @@ Very happy to finally present a working solution for running MakeCode Arcade gam
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-**2021.01.08:** Reveived 2 new gamepads today, and immediately discovered that the button layouts varied a lot more than I initially thought with only my PS3 controllers at hand. I'll try my best as soon as possible to hopefully improve gamepad support somewhat beyond the PS3 controller and maybe a few unknown others with similar layouts as the PS3(if they exist). Sorry about this!
+**2021.01.15:** Added _nomap_ option for manual configuration and use of _/sd/arcade.cfg_ directly for controllers, instead of auto-detection and uinput-mapper. With some great help from [@Kay-Wolfe](https://github.com/Kay-Wolfe), gamepad support is now expanded and testet ok with various combinations of:
+- [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
+- [XBox One controller](https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1rfiZ?ver=03f2&q=90&m=6&h=705&w=1253&b=%23FFF0F0F0&f=jpg&o=f&p=140&aim=true),
+- [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus)(remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
+- [retro-bit controller](https://translate.google.com/translate?sl=no&tl=en&u=https://cdon.no/spill/retro-bit-nes-usb-controller-41757027), and
+- [8BitDo N30 Pro 2 controller](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2020/08/8bitdo-n30-pro-2/).
 
-**2021.01.02:** Having tested on a fresh/clean Raspbian Lite image today, some bugs where found and fixed, which hopefully will make McAirpos run with more certain discovery of keyboard devices and mapping of gamepads, and less chances of clutter/text inside the game screen borders on many systems. It now runs pretty stably with PS3 gamepads on my RPI3s and RPi4, and I will continue to test gamepad compatibility when I receive some new ones by mail shortly. 
+It should also work with other controllers with little or no modification of the _arcadeX.py_ files(appreciate feedback about controllers that work for you, so I can expand this list of supported controllers!...). 
 
 Feedback is valueable for fixing bugs, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) if something doesn't work for you.
 
@@ -73,6 +78,9 @@ Also, make sure that every _game\_file.elf_ has executable permissions if they a
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
+Now added a ```nomap``` for manual configuration of 1 keyboard(2 players) or 1 gamepad(1 player) using the _/sd/arcade.cfg_ file directly:
+```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_``` and similarly inside _/etc/emulationstation/es_systems.cfg_.
+
 **NB: The _game\_files.elf_ only work from the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console) and NOT with either launCharc or RetroPie started from a desktop/gui/X/terminal emulator environment.**
 
 If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+C, CTRL+D and CTRL+C_.
@@ -80,17 +88,15 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 ## Default layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads|
 |----|--------|--------|--------|
-|Up  |W       |Up arrow|DPAD_UP|
-|Down|S       |Down arrow|DPAD_DOWN|
-|Left|A       |Left arrow|DPAD_LEFT|
-|Right|D      |Right arrow|DPAD_RIGHT|
+|Up  |W       |Up arrow|DPAD/Hat/Axis UP|
+|Down|S       |Down arrow|DPAD/Hat/Axis DOWN|
+|Left|A       |Left arrow|DPAD/Hat/Axis LEFT|
+|Right|D      |Right arrow|DPAD/Hat/Axis RIGHT|
 |Fire|Left Ctrl|Right ALT|BTN_SOUTH/A|
-|Fire2|Left Shift|Space bar|BTN_NORTH/X|
+|Fire2|Left Shift|Space bar|BTN_EAST/B|
 |Exit|Esc||BTN_START|
 |Restart|F1||BTN_SELECT|
 |Menu|F2||BTN_MODE/PS|
-
-Should gamepad Fire2 button be changed to BTN_EAST/B for compatibility?
 
 When changing button layouts, edit _/sd/arcade.cfg_ for keyboard and edit _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
