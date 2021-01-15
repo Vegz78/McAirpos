@@ -74,14 +74,21 @@ int main(int argc, char** argv) {
 
     // Read game file argument to execute
     char* game = "";
+    char* options = "";
     if (argc == 2) {
         game = argv[1];
-    } else if (argc > 2) {
-        printf("usage: launchArcade [/path/to/arcadegame.elf]\n");
+    } else if (argc == 3) {
+	game = argv[2];
+	options = argv[1];
+    } else if ((argc > 3) || (argc < 2)) {
+        printf("usage: launchArcade [nomap] [/path/to/arcadegame.elf]\n");
         return 1;
     }
 
 
+   if (!strcmp(options, "nomap")) {
+	printf("%s, %s\n", game, options);
+   } else {
    // Determine the number of connected gamepads
    printf("%s\n", game);
    char eventPaths[100];
@@ -90,14 +97,15 @@ int main(int argc, char** argv) {
    int numberOfEvents = 1 + atoi(getSystemOutput("ls /dev/input | sed 's/event//' | sort -n | tail -1"));
    for (int i = 0; i < numberOfEvents; i++) {
       if (numberOfPads < 2) {
-      char processCommand[100];
-      snprintf(processCommand, 100, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d | grep DPAD", i);
+      char processCommand[120];
+      snprintf(processCommand, 120, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d | grep -e BTN_SOUTH -e BTN_PINKIE", i);
       char* event = getSystemOutput(processCommand);
       if (strcmp(event, "")) {
          printf("%s, Output:%s\n", processCommand, getSystemOutput(processCommand));
          printf("%d Possible gamepads\n", numberOfEvents);
          char iString[20];
          sprintf(iString, "%d", i);
+         strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
          strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
          numberOfPads++;
       }
@@ -138,7 +146,9 @@ int main(int argc, char** argv) {
    }
    snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
    system(sedCommand);
+   }
    system("stty -ixon");
+
 
     // Fork game execution on launch, so that it is executed
     // the same way it's done in-game on reset and finish
@@ -214,7 +224,7 @@ besure:
             perror("warn: ioctl KBSKBMODE failed");
         }
 
-        system("stty -ixon");
+        system("stty ixon");
         system("clear");
     }
 
