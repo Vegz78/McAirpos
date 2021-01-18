@@ -72,7 +72,9 @@ char* getSystemOutput(char* inputCommand) {
 // Main function
 int main(int argc, char** argv) {
 
+
     // Read game file argument to execute
+    system("clear");
     char* game = "";
     char* options = "";
     if (argc == 2) {
@@ -86,92 +88,164 @@ int main(int argc, char** argv) {
     }
 
 
+   // Check for nomap option
    if (!strcmp(options, "nomap")) {
-	printf("%s, %s\n", game, options);
+	printf("%s argument detected,\nStarting %s with no automatic gamepad mappings...\n", options, game);
+	sleep(1);
    } else {
-   // Determine the number of connected gamepads
-   printf("%s\n", game);
-   char eventPaths[100];
-   memset (eventPaths, 0, sizeof(eventPaths));
-   int numberOfPads = 0;
-   int numberOfEvents = 1 + atoi(getSystemOutput("ls /dev/input | sed 's/event//' | sort -n | tail -1"));
-   for (int i = 0; i < numberOfEvents; i++) {
-      if (numberOfPads < 2) {
-      char processCommand[120];
-      snprintf(processCommand, 120, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d | grep -e BTN_SOUTH -e BTN_PINKIE", i);
-      char* event = getSystemOutput(processCommand);
-      if (strcmp(event, "")) {
-         printf("%s, Output:%s\n", processCommand, getSystemOutput(processCommand));
-         printf("%d Possible gamepads\n", numberOfEvents);
-         char iString[20];
-         sprintf(iString, "%d", i);
-         strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
-         strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
-         numberOfPads++;
-      }
-      }
-   }
+	// Determine the number of connected gamepads
+	printf("Starting %s with automatic gamepad mappings...\n\n", game);
+	char eventPaths[100];
+	memset (eventPaths, 0, sizeof(eventPaths));
+	int numberOfPads = 0;
+	int numberOfEvents = 1 + atoi(getSystemOutput("ls /dev/input | sed 's/event//' | sort -n | tail -1"));
+       	printf("\nHighest found input event number: %d\n\n", numberOfEvents);
+	char padEvent[2][20];
+	for (int i = 0; i < numberOfEvents; i++) {
+      	    if (numberOfPads < 2) {
+      	    	char padCommand[150];
+      	    	snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_SOUTH -e BTN_PINKIE", i);
+      	    	char* event = getSystemOutput(padCommand);
+      	    	if (strcmp(event, "")) {
+		    if (numberOfPads == 0) {
+	    		printf("\nGamepad search hits:\n");
+		    }
+         	    printf("%s, Output:%s", padCommand, getSystemOutput(padCommand));
+         	    char iString[20];
+         	    sprintf(iString, "%d", i);
+         	    strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
+         	    strcat(strcat(strcat(eventPaths, "/dev/input/event"), iString), " ");
+		    memset (padEvent[numberOfPads], 0, sizeof(padEvent[numberOfPads]));
+		    strcat(strcat(padEvent[numberOfPads], "/dev/input/event"), iString);
+	       	    numberOfPads++;
+   	    	}
+      	    }
+    	}
+
+	// Determine if keyboard is connected
+    	char keybCommand[] = "cat /proc/bus/input/devices | grep -B 7 EV=12001 | tr ' ' '\\n' | grep event";
+    	char* keybEvent = getSystemOutput(keybCommand);
+	if (strcmp(keybEvent, "")) {
+	    printf("\nKeyboard search hit:\n");
+       	    printf("%s, Output:%s", keybCommand, getSystemOutput(keybCommand));
+	}
 
 
-   // Set up MakeCode Arcade and uinput-mapper with keyboard, 1 or 2 gamepads
-   printf("\n%s\n", eventPaths);
-   char defaultEvent[67];
-   memset (defaultEvent, 0, sizeof(defaultEvent));
-   strcat(defaultEvent, "SCAN_CODES=/dev/input/");
-   char sedCommand[100]; 
-   char* tempString = getSystemOutput("cat /proc/bus/input/devices | grep -B 7 EV=12001 | tr ' ' '\n' | grep event");
-   if ((numberOfPads == 1) || (numberOfPads == 2)) {
-      if (numberOfPads == 1) {
-         strcat(strcat(eventPaths, "/dev/input/"), tempString);
-         eventPaths[strlen(eventPaths)-1] = 0;
-         strcat(eventPaths, " ");
-      }
-      char newEventNo[20];
-      sprintf(newEventNo, "%d", numberOfEvents);
-      strcat(strcat(defaultEvent, "event"), newEventNo);
-      char uiMapCommand[400];
-      memset (uiMapCommand, 0, sizeof(uiMapCommand));
-      sprintf(newEventNo, "%d.py)&",numberOfPads); 
-      strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), newEventNo);
-      printf("%s\n", uiMapCommand);
-      /*if (!fork()) {
-         setpgid(0, 0);
-         system(uiMapCommand);
-      }else {}*/
-      system(uiMapCommand);
-   }
-   if (numberOfPads == 0) {
-      strcat(defaultEvent, tempString);
-      defaultEvent[strlen(defaultEvent)-1] = 0;
-   }
-   snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
-   system(sedCommand);
-   }
-   system("stty -ixon");
+    	// Automatically set up uinput-mapper with keyboard, 1 or 2 gamepads
+    	// printf("\n%s\n", eventPaths);
+    	char stringNumberOfPads[20];
+      	char uiMapCommand[400];
+      	memset (uiMapCommand, 0, sizeof(uiMapCommand));
+	char uinputMapperOrKeyboard[20];
+    	memset (uinputMapperOrKeyboard, 0, sizeof(uinputMapperOrKeyboard));
+    	char defaultEvent[67];
+    	memset (defaultEvent, 0, sizeof(defaultEvent));
+    	strcat(defaultEvent, "SCAN_CODES=/dev/input/");
+	printf("\n");
+	if ((numberOfPads == 0) && !strcmp(keybEvent, "")) {
+	    printf("\nFound no gamepads or keyboards to configure...\n");
+	    printf("\nPlease try the \"nomap\" option and configure /sd/arcade.cfg manually. If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    sleep(1);
+	    exit(1);
+	}
+	else if (numberOfPads == 2) {
+	    printf("\nFound %d gamepads to configure on:\n%s, and\n%s\n\n", numberOfPads, padEvent[0], padEvent[1]);
+	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	}
+	else if ((numberOfPads == 1) && strcmp(keybEvent, "")) {
+	    printf("\nFound %d gamepad to configure on:\n%s\n", numberOfPads, padEvent[0]);
+	    printf("\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
+            strcat(strcat(eventPaths, "/dev/input/"), keybEvent);
+            eventPaths[strlen(eventPaths)-1] = 0;
+            strcat(eventPaths, " ");
+	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	}
+	else if (strcmp(keybEvent, "")) {
+	    printf("\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
+      	    strcat(defaultEvent, keybEvent);
+      	    defaultEvent[strlen(defaultEvent)-1] = 0;
+	    strcat(uinputMapperOrKeyboard, "keyboard");
+	}
+	else if (numberOfPads == 1) {
+	    printf("\nFound %d gamepad to configure on:\n%s\n\n", numberOfPads, padEvent[0]);
+	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	}
+	else {
+	    printf("\nSomething went wrong, exiting...\n");
+	    printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    sleep(1);
+	    exit(1);
+	}
+
+
+	// Launching uinput-mapper
+	if (numberOfPads > 0) {
+            strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
+      	    if (system(uiMapCommand) == 0) {
+	    	printf("\nStarting UInput-Mapper with command:\n%s\n", uiMapCommand);
+	    	int whileCount = 0;
+	    	while (!strcmp("", getSystemOutput("cat /proc/bus/input/devices | grep -A 8 \"UInputMapper: MakeCode_Arcade\" | tr ' ' '\n' | grep event"))) {
+	    	    if (whileCount > 500) {
+	       	    	printf("\nTimed out trying to set up UInput-Mapper...\n");
+		        printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	       	    	exit(1);
+	    	    }
+	    	whileCount++;
+	    	}
+	    	char* uinputEvent = getSystemOutput("cat /proc/bus/input/devices | grep -A 8 \"UInputMapper: MakeCode_Arcade\" | tr ' ' '\n' | grep event");
+      	    	strcat(defaultEvent, uinputEvent);
+            	defaultEvent[strlen(defaultEvent)-1] = 0;
+		strcat(uinputMapperOrKeyboard, "UInputMapper");
+	    } else {
+	    	printf("\nUInput-Mapper failed to start...\n");
+	        printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    	exit(1);
+      	    }
+	    // Alternative way to launch uinput-mapper
+      	    /*if (!fork()) {
+           	setpgid(0, 0);
+           	system(uiMapCommand);
+	    }else {}*/
+	}
+
+
+	// Set default default event for MakeCode Arcade elf game file
+    	char sedCommand[100];
+    	snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
+    	if (system(sedCommand) == 0) {
+    	    printf("\n\nSetting up %s in MakeCode Arcade game's /sd/arcade.cfg with:\n%s\n\n", uinputMapperOrKeyboard, defaultEvent);
+	} else {
+	    printf("\n\nPlease check path or write permissions for /sd/arcade.cfg and try again.\n\n");
+	    goto cleanup;
+	}
+    }
+    system("stty -ixon");  //Disable pause in terminal with key combo CTRL+S
 
 
     // Fork game execution on launch, so that it is executed
     // the same way it's done in-game on reset and finish
+    char* path = "/dev/tty";
+    int fd = open(path, O_RDWR, 0);
     if  (!fork()) {
-        sleep(1);
-        system(game);
-        //execl(game, game, NULL);
-    }else {
-        sleep(2);  // Wait for fork/game to launch and get pid
-
 	//Switch console to graphics mode to avoid disturbing text output in borders
-        char* path = "/dev/tty";
-        int fd = open(path, O_RDWR, 0);
         if (fd < 0) {
             perror("unable to open tty");
             return 1;
         }
-	system("clear");
         if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
             perror("warn: ioctl KDSETMODE failed");
         }
 	close(fd);
-        system("clear");
+	system("sudo killall pulseaudio");
+        if (system(game) == 36608) {
+	    printf("\n\n%s was exited by the user\n\n\n", game);
+	} else {
+	    printf("\n\nPlease check path to and executable permissions for game_file.elf and try again.\n\n\n");
+	}
+	//Alternative way to launch game
+        //execl(game, game, NULL);
+    }else {
+        sleep(1);  // Wait for fork/game to launch and get pid
 
         // Get running game's process name
         char* processID = getSystemOutput("head -1 /tmp/pxt-pid");
@@ -185,7 +259,7 @@ int main(int argc, char** argv) {
         // Busy waiting to continue and cleanup when game is exited
         // Why does this not work without the printf?!?
 besure:
-        while (0 == system(processCheckCmd)) {
+	while (0 == system(processCheckCmd)) {
             printf("%s\n", getSystemOutput(processCheckCmd));
             sleep(2);
         }
@@ -194,11 +268,13 @@ besure:
         sleep(1);
         if (0 == system(processCheckCmd)) {goto besure;}
 
+
         // Kill any remaining/orphaned game processes before exit
         char killAllCmd[100];
-        snprintf(killAllCmd, 100, "killall %s", processName);
+        snprintf(killAllCmd, 100, "killall %s 2>&1", processName);
         system(killAllCmd);
-        system("sudo killall input-create&&sudo killall input-read");
+cleanup:
+        system("sudo killall input-create 2>&1 & sudo killall input-read 2>&1");
 
 
         // The following code is borrowed from https://github.com/hobbitalistair/termfix:
@@ -213,7 +289,7 @@ besure:
         // This one fails without sudo, but doesn't seem needed for 
         // MakeCode Arcade games(comment out or leave as and option?).
         if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
-            perror("warn: ioctl VT_UNLOCKSWITCH failed");
+            //perror("warn: ioctl VT_UNLOCKSWITCH failed");
         }
 
         if (ioctl(fd, KDSETMODE, KD_TEXT) < 0) {
@@ -225,7 +301,7 @@ besure:
         }
 
         system("stty ixon");
-        system("clear");
+        //system("clear");
     }
 
     return 0;
