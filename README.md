@@ -131,6 +131,7 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
   - Try to [use some of the controller configurations already set up in RetroPie](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-761888132)
 - Collect a library of well working controller configurations(Please share working _/sd/arcade.cfg_ and _arcade1&2.py_ files with the name and type of controllers in [the issues section](https://github.com/Vegz78/McAirpos/issues))<br>
 <br>
+
 **Happy retro gaming and retro game making!!!**<br><br>
 [@Vegz78](https://github.com/Vegz78)<br>
 (Thank you for awarding McAirpos a star if you like and use it!)<br>
