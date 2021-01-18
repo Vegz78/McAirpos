@@ -18,7 +18,7 @@ It should also work with other controllers with little or no modification of the
 
 Feedback is valueable for fixing bugs, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) if something doesn't work for you.
 
-Please scroll down this page or click the following links for: [Downloading game files](https://vegz78.github.io/McAirpos), [Contents](https://github.com/Vegz78/McAirpos#contents), [Features](https://github.com/Vegz78/McAirpos#features), [Why McAirpos?](https://github.com/Vegz78/McAirpos#why-the-need-for-mcairpos), [Prerequisites](https://github.com/Vegz78/McAirpos#prerequisites), [Installation](https://github.com/Vegz78/McAirpos#Installation), [Updates](https://github.com/Vegz78/McAirpos#Updates), [Usage](https://github.com/Vegz78/McAirpos#Usage), [Controller layout](https://github.com/Vegz78/McAirpos#default-layout-for-controls), [Issues](https://github.com/Vegz78/McAirpos#issues), [Todo list](https://github.com/Vegz78/McAirpos#todo) and [retro gaming](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja).
+Please scroll down this page or click the following links for: [Downloading game files](https://vegz78.github.io/McAirpos), [Contents](https://github.com/Vegz78/McAirpos#contents), [Features](https://github.com/Vegz78/McAirpos#features), [Why McAirpos?](https://github.com/Vegz78/McAirpos#why-the-need-for-mcairpos), [Prerequisites](https://github.com/Vegz78/McAirpos#prerequisites), [Installation](https://github.com/Vegz78/McAirpos#Installation), [Updates](https://github.com/Vegz78/McAirpos#Updates), [Usage](https://github.com/Vegz78/McAirpos#Usage), [Controller layout](https://github.com/Vegz78/McAirpos#default-layout-for-controls), [Issues](https://github.com/Vegz78/McAirpos#issues), [Todo list](https://github.com/Vegz78/McAirpos#todo) and [Retro gaming](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja).
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
 I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) ready for downloading native executables of games here:<br>
@@ -57,6 +57,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Prerequisites
 - Git (```sudo apt install git```)
 - Drivers for gamepads you have that don't work "out of the box"
+- [ALSA sound driver?](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 - Recommended(not required):
   - Newer hardware(RPi 4)
   - Newer Raspberry Pi OS(Buster)
