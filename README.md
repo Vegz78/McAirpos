@@ -18,6 +18,8 @@ It should also work with other controllers with little or no modification of the
 
 Feedback is valueable for fixing bugs, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) if something doesn't work for you.
 
+Please scroll down this page or click the following links for: [Downloading game files](https://vegz78.github.io/McAirpos), [Contents](https://github.com/Vegz78/McAirpos#contents), [Features](https://github.com/Vegz78/McAirpos#features), [Why McAirpos?](https://github.com/Vegz78/McAirpos#why-the-need-for-mcairpos), [Prerequisites](https://github.com/Vegz78/McAirpos#prerequisites), [Installation](https://github.com/Vegz78/McAirpos#Installation), [Updates](https://github.com/Vegz78/McAirpos#Updates), [Usage](https://github.com/Vegz78/McAirpos#Usage), [Controller layout](https://github.com/Vegz78/McAirpos#default-layout-for-controls), [Issues](https://github.com/Vegz78/McAirpos#issues), [Todo list](https://github.com/Vegz78/McAirpos#todo) and [retro gaming](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja).
+
 ## Make your own or dowload MakeCode Arcade games for RetroPie
 I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) ready for downloading native executables of games here:<br>
 https://vegz78.github.io/McAirpos
@@ -55,7 +57,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Prerequisites
 - Git (```sudo apt install git```)
 - Drivers for gamepads you have that don't work "out of the box"
-- Recommended:
+- Recommended(not required):
   - Newer hardware(RPi 4)
   - Newer Raspberry Pi OS(Buster)
   - Newer RetroPie(4.7+)
@@ -78,6 +80,13 @@ Make sure that the _makecode_ games folder is owned by _pi_ and has the correct 
 ```sudo chown -R pi .&&sudo chgrp -R pi .&&sudo chmod -R 755 .```<br>
 Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically by [_umask_](https://en.wikipedia.org/wiki/Umask) when copying them to the _makecode_ games folder:<br>
 ```sudo chmod +x ~/RetroPie/roms/makecode/game_file.elf```
+
+## Updating
+Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates on the top of this page with links to further details in the commit commemts. 
+
+Updates to included files located outside the _~/home/pi/McAirpos_ are seldomly expected, so to update, from inside this folder, simply type: ```git pull```
+
+Alternatively, if you've made changes to any of the files in this folder, simply back up those files, and then remove the folder an clone again, from _/home/pi_: ```rm -rf ./McAirpos&&git clone https://github.com/Vegz78/McAirpos.git```
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
@@ -110,7 +119,17 @@ When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) a
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
 I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
 
-I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!<br>
+I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
+
+## Todo
+Some thoughts and ideas I might start grappling with in the near or distant future. Don't hesitate to post good ideas in the issues section. If it's to big or difficult for me, maybe you want to contribute directly with a pull request?
+- Follow up bugs and improve stability
+- Expand gamepad support further
+- More command line options;
+  - Specify wanted /dev/input/eventXs manually,
+  - Incorporate/allow to connect via [other mapping apps/scripts](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-760950633)
+  - Try to [use some of the controller configurations already set up in RetroPie](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-761888132)
+- Collect a library of well working controller configurations(Please share working _/sd/arcade.cfg_ and _arcade1&2.py_ files with the name and type of controllers in [the issues section](https://github.com/Vegz78/McAirpos/issues))<br>
 <br>
 **Happy retro gaming and retro game making!!!**<br><br>
 [@Vegz78](https://github.com/Vegz78)<br>
