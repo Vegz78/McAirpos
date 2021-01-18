@@ -6,7 +6,8 @@ Very happy to finally present a working solution for running MakeCode Arcade gam
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-**2021.01.15:** Added _nomap_ option for manual configuration and use of _/sd/arcade.cfg_ directly for controllers, instead of auto-detection and uinput-mapper. With some great help from [@Kay-Wolfe](https://github.com/Kay-Wolfe), gamepad support is now expanded and testet ok with various combinations of:
+[**2021.01.18:**](https://github.com/Vegz78/McAirpos/commit/932740f491cf1afede31578a6077f6ab5c2994f8) Bugfixes, improvements and further testing, most notably fixed the occasional mismatch of /dev/input/eventX between uinput-mapper and launCharc in /sd/arcade.cfg, and now possible to map 1 & 2 controllers without keyboard connected. Feedback about additional working controllers and about possible reasons for occasional instability/game exit, especially on older RPi devices and RPi OS/RetroPie distros, is still appreciated.<br>
+[**2021.01.15:**](https://github.com/Vegz78/McAirpos/commit/fd8ac34ed5891ed8fa860b41d586f8fdc976a1aa) Added _nomap_ option for manual configuration and use of _/sd/arcade.cfg_ directly for controllers, instead of auto-detection and uinput-mapper. With some great help from [@Kay-Wolfe](https://github.com/Kay-Wolfe), gamepad support is now expanded and testet ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
 - [XBox One controller](https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1rfiZ?ver=03f2&q=90&m=6&h=705&w=1253&b=%23FFF0F0F0&f=jpg&o=f&p=140&aim=true),
 - [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus)(remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
@@ -31,7 +32,7 @@ Either make your own games in the MakeCode web editor, or download from various 
 
 ## Contents
 - [Tool for setting the MakeCode Arcade editor in native executable mode for downloading executables](https://vegz78.github.io/McAirpos)
-- A game launcher, _launCharc_, for:
+- A game launcher, [_launCharc_](https://github.com/Vegz78/McAirpos/tree/master/McAirpos/launCharc), for:
   - keeping the game in the foreground in RetroPie, 
   - cleaning up the terminal on exit, 
   - automatically detecting and setting up gamepad and keyboard controls
@@ -54,6 +55,11 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Prerequisites
 - Git (```sudo apt install git```)
 - Drivers for gamepads you have that don't work "out of the box"
+- Recommended:
+  - Newer hardware(RPi 4)
+  - Newer Raspberry Pi OS(Buster)
+  - Newer RetroPie(4.7+)
+  - FKMS graphics driver enabled
 
 ## Installation
 1. Clone this repo from and into _/home/pi/_:<br>
@@ -86,7 +92,7 @@ Now added a ```nomap``` for manual configuration of 1 keyboard(2 players) or 1 g
 If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+C, CTRL+D and CTRL+C_.
 
 ## Default layout for controls
-|Move|Keyb pl1|Keyb pl2|Gamepads|
+|Move|Keyb pl1|Keyb pl2|Gamepads pl1&pl2|
 |----|--------|--------|--------|
 |Up  |W       |Up arrow|DPAD/Hat/Axis UP|
 |Down|S       |Down arrow|DPAD/Hat/Axis DOWN|
@@ -98,7 +104,7 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 |Restart|F1||BTN_SELECT|
 |Menu|F2||BTN_MODE/PS|
 
-When changing button layouts, edit _/sd/arcade.cfg_ for keyboard and edit _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
+When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
