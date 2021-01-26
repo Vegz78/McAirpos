@@ -74,7 +74,6 @@ int main(int argc, char** argv) {
 
 
     // Read game file argument to execute
-    system("clear");
     char* game = "";
     char* options = "";
     if (argc == 2) {
@@ -83,12 +82,13 @@ int main(int argc, char** argv) {
 	game = argv[2];
 	options = argv[1];
     } else if ((argc > 3) || (argc < 2)) {
-        printf("usage: launchArcade [nomap / keybswap] [/path/to/arcadegame.elf]\n");
+        printf("usage: launCharc [nomap / keybswap] [/path/to/arcadegame.elf]\n");
         return 1;
     }
 
 
    // Check for nomap option
+   system("clear");
    if (!strcmp(options, "nomap")) {
 	printf("%s argument detected,\nlaunCharc starting %s with no automatic gamepad mappings...\n", options, game);
 	sleep(1);
