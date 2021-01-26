@@ -29,7 +29,7 @@ if [[ -f /etc/emulationstation/es_systems.cfg_McAirpos.bak ]]; then
    sudo rm -f /etc/emulationstation/es_systems.cfg_McAirpos.bak
 fi
 # Installation of EmulationStation system need for McAirpos
-if [[ -f /etc/emulationstation/es_systems.cfg]]; then
+if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    #Backup original es_systems.cfg file
    sudo cp /etc/emulationstation/es_systems.cfg /etc/emulationstation/es_systems.cfg_McAirpos.bak
    # Removing MakeCode Arcade system, if present
@@ -60,5 +60,6 @@ echo "McAirpos finished installing!"
 echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
 echo "Run MakeCode Arcade games from RetroPie or from the Linux console/CLI:"
 ~/McAirpos/McAirpos/launCharc/launCharc
-echo "\n For more details, please visit https://github.com/Vegz78/McAirpos"
+echo ""
+echo "For more details, please visit https://github.com/Vegz78/McAirpos"
 exit 0
