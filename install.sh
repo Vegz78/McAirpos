@@ -35,7 +35,7 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    # Removing MakeCode Arcade system, if present
    sudo sed -i '/<system>/{:a;/<\/system>/!{N;ba;}};/<name>MakeCode<\/name>/d;' /etc/emulationstation/es_systems.cfg
    # Appending updated MakeCode Arcade system from repository
-   sudo sed -i '$e cat ~/McAirpos/McAirpos/EmulationStation/es_systems.cfg_MakeCode' /etc/emulationstation/es_systems.cfg
+   sudo sed -i '$e cat /home/pi/McAirpos/McAirpos/EmulationStation/es_systems.cfg_MakeCode' /etc/emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
    sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon/
 else
