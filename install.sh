@@ -14,8 +14,11 @@ fi
 if [[ -d ./McAirpos ]]; then
    echo "McAirpos repository present, continuing..."
 else
-   sudo apt update
-   sudo apt install -y git-core
+   if [[ -f /usr/bin/git ]]; then
+   else
+      sudo apt update
+      sudo apt install -y git-core
+   fi
    git clone https://github.com/Vegz78/McAirpos.git
 fi
 
