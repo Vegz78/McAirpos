@@ -10,8 +10,6 @@ else
 exit 1
 fi
 
-exit 0
-
 # 2. 1nstall prerequesites and clone McAirpos repository
 if [[ -d ./McAirpos ]]; then
    echo "McAirpos repository present, continuing..."
@@ -41,8 +39,7 @@ if [[ -f /etc/emulationstation/es_systems.cfg]]; then
    # Add MakeCode Arcade carbon theme
    sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon/
 else
-   echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, exiting script..."
-   exit 1
+   echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
 
 # 5. Create MakeCode Arcade games folder for RetroPie, if not present
