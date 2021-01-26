@@ -59,7 +59,8 @@ cd ~
 echo "McAirpos finished installing!"
 echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
 echo "Run MakeCode Arcade games from RetroPie or from the Linux console/CLI:"
-~/McAirpos/McAirpos/launCharc/launCharc
+sudo ln -s ~/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
+launCharc
 echo ""
 echo "For more details, please visit https://github.com/Vegz78/McAirpos"
 exit 0
