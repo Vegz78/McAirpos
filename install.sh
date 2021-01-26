@@ -15,6 +15,7 @@ if [[ -d ./McAirpos ]]; then
    echo "McAirpos repository present, continuing..."
 else
    if [[ -f /usr/bin/git ]]; then
+      echo "Git already installed..."
    else
       sudo apt update
       sudo apt install -y git-core
