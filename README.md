@@ -67,16 +67,14 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 - Git (```sudo apt install git```)
 - Drivers for gamepads you have that don't work "out of the box"
 - [ALSA sound driver?](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
-- Recommended(not required):
-  - Newer hardware(RPi 4)
-  - Newer Raspberry Pi OS(Buster)
-  - Newer RetroPie(4.7+)
-  - FKMS graphics driver enabled
 
 ## Installation
 ### Quick automatic installation
 Run this command without sudo on a terminal or the CLI on most systems:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install.sh | bash -```
+
+Or clone repo like in 1st manual installation point below and run:<br>
+```~/McAirpos/install.sh```
 
 ### Manual installation
 1. Clone this repo from and into _/home/pi/_:<br>
@@ -132,6 +130,14 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
 ## Development news
+[**2021.01.28:**] Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
+-RPi4 B 4GB: RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
+-RPi4 B 4GB: RetroPie v4.7.3 on top of RPi OS(buster, kernel 4.19.97), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
+-RPi3 B+/B: RetroPie 2/3 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
+-RPi3 B+: RetroPie v4.7.3 on top of RPi OS(buster, kernel 5.4.83), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
+-RPi3 B+: RetroPie v4.6 on top of RPi OS(stretch, kernel 4.19.66), RetroPie(FKMS OFF), CLI(FKMS ON&OFF)<br>
+-RPi3 B: RetroPie 4.2.12 on top of RPi OS(jessie, kernel 4.9.35), RetroPie(FKMS OFF), CLI(FKMS ON&OFF)<br>
+-RPi4 B 4GB, RPi3 B+/B: RPi OS Lite image 2020-12-02(buster, kernel 5.4.79), CLI(FKMS ON&OFF)<br>
 [**2021.01.26:**](https://github.com/Vegz78/McAirpos#installation) Got tired of doing the manual installation procedure on all my test images and made a quick automatic installation script for everyone to use.<br>
 [**2021.01.24:**](https://github.com/Vegz78/McAirpos/commit/c1350073bc3ba21be16c098a44f46469a3658fd4) Stability improvements for game launch and exit, more accurate keyboard autodiscovery, defaults to lowest keyboard input event handler, new ```keybswap``` command line option to swap to highest.<br>
 [**2021.01.18:**](https://github.com/Vegz78/McAirpos/commit/932740f491cf1afede31578a6077f6ab5c2994f8) Bugfixes, improvements and further testing, most notably fixed the occasional mismatch of /dev/input/eventX between uinput-mapper and launCharc in /sd/arcade.cfg, and now possible to map 1 & 2 controllers without keyboard connected. Feedback about additional working controllers and about possible reasons for occasional instability/game exit, especially on older RPi devices and RPi OS/RetroPie distros, is still appreciated.<br>
