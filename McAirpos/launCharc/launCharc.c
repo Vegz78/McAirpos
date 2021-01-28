@@ -129,9 +129,9 @@ int main(int argc, char** argv) {
 	char keybCommand[300];
       	memset (keybCommand, 0, sizeof(keybCommand));
 	if (!strcmp(options, "keybswap")) {
-    	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | tail -1 | tr -d [:cntrl:]");
+    	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input1:1|usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | tail -1 | tr -d [:cntrl:]");
 	} else {
-    	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | head -1 | tr -d [:cntrl:]");
+    	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input1:1|usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | head -1 | tr -d [:cntrl:]");
 	}
     	char* keybEvent = getSystemOutput(keybCommand);
 	if (strcmp(keybEvent, "")) {
