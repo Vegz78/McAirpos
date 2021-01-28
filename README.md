@@ -4,6 +4,7 @@
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2021.01.28: Extensive testing.](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.01.26: New quick installation script.](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support testet ok with various combinations of:
@@ -66,7 +67,7 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 ## Prerequisites
 - Git (```sudo apt install git```)
 - Drivers for gamepads you have that don't work "out of the box"
-- [ALSA sound driver?](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
+- [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 
 ## Installation
 ### Quick automatic installation
@@ -130,7 +131,7 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
 ## Development news
-[**2021.01.28:**] Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
+[**2021.01.28:**](https://github.com/Vegz78/McAirpos/commit/e96e6cb0f3b8fe5f3fc011bf8522ac8cae0d9dde) Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
 -RPi4 B 4GB: RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
 -RPi4 B 4GB: RetroPie v4.7.3 on top of RPi OS(buster, kernel 4.19.97), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
 -RPi3 B+/B: RetroPie 2/3 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
@@ -154,10 +155,13 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - Follow up bugs and improve stability
 - Expand gamepad support further
 - Collect a library of well working controller configurations(Please share working _/sd/arcade.cfg_ and _arcade1&2.py_ files with the name and type of controllers in [the issues section](https://github.com/Vegz78/McAirpos/issues))
+- Support and install script for RecalBox
+- Attempt to include as scriptmodule in RetroPie-Setup?
 - More command line options;
   - Specify wanted /dev/input/eventXs manually,
   - Incorporate/allow to connect via [other mapping apps/scripts](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-760950633)
   - Try to [use some of the controller configurations already set up in RetroPie](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-761888132)<br>
+- Make more generic as a launcher for other games needing controller mapping?
 
 ## Mentions
 - [The MakeCode Newsletter](http://makecode.adafruitdaily.com/monthly/2021/01/22/play-makecode-arcade-games-on-raspberry-pi.html)
