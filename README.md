@@ -155,6 +155,7 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - Follow up bugs and improve stability
 - Expand gamepad support further
 - Collect a library of well working controller configurations(Please share working _/sd/arcade.cfg_ and _arcade1&2.py_ files with the name and type of controllers in [the issues section](https://github.com/Vegz78/McAirpos/issues))
+- Silent start, verbose option and/or log file
 - Support and install script for RecalBox
 - Attempt to include as scriptmodule in RetroPie-Setup?
 - More command line options;
