@@ -5,7 +5,7 @@ mount -o remount,rw /
 mkdir -p /home/pi
 cd /home/pi
 
-#if [[ $(pwd) = "/home/pi" ]]; then
+if [[ $(pwd) = "/home/pi" ]]; then
    echo "Working direcory ok!: $(pwd)"
 else
    echo "Something wrong with working directory, exiting script..."
