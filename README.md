@@ -42,6 +42,7 @@ Either make your own games in the MakeCode web editor, or download from various 
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - Other suggestions where to find good games?
 
+![](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Raspberry_Pi.png?raw=true)
 [![](docs/MakeCode_Arcade_Raspberry_Pi.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Raspberry_Pi.png?raw=true)
 ## Contents
 - [Tool for setting the MakeCode Arcade editor in native executable mode for downloading executables](https://vegz78.github.io/McAirpos)
