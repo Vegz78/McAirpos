@@ -27,7 +27,7 @@ Please scroll down this page or click the following links for: [Downloading game
 [@Vegz78](https://github.com/Vegz78)<br>
 (Thank you for awarding McAirpos a star if you like and use it!)<br>
 (If you're interested in retro gaming in general, please also check out the blog, [retrospill.ninja](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja))<br>
-[![](docs/MakeCode_Arcade_Recalbox.png)](https://raw.githubusercontent.com/Vegz78/McAirpos/master/docs/MakeCode_Arcade_Recalbox.png)
+[![](docs/MakeCode_Arcade_Recalbox.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)
 (In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
