@@ -1,10 +1,10 @@
 # McAirpos
-[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
+[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1-Reloaded!](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
 ![](docs/MakeCode_Arcade_RetroPie.gif)
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-[2021.01.28: Extensive testing.](https://github.com/Vegz78/McAirpos#development-news)<br>
+[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script.](https://github.com/Vegz78/McAirpos#quick-installation-for-recalbox)<br>
 [2021.01.26: New quick installation script.](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support testet ok with various combinations of:
@@ -95,6 +95,10 @@ Make sure that the _makecode_ games folder is owned by _pi_ and has the correct 
 Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically by [_umask_](https://en.wikipedia.org/wiki/Umask) when copying them to the _makecode_ games folder:<br>
 ```sudo chmod +x ~/RetroPie/roms/makecode/game_file.elf```
 
+### Quick automatic installation for Recalbox
+Run this command from the terminal(F4 + ALT+F2, root/recalboxroot) on Recalbox 7.1.1-Reloaded!:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox.sh | bash -```
+
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
 
@@ -110,6 +114,7 @@ Alternatively, if you've made changes to any of the files in this folder, simply
   - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 gamepad(1 player) using the _/sd/arcade.cfg_ file directly:<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_```<br> and similarly inside _/etc/emulationstation/es_systems.cfg_.
   - ```keybswap``` command line option for swapping from lowest(default) autodiscovered keyboard input handler to highest.
+  - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
 
 **NB: The _game\_files.elf_ and launCharc only work in RetroPie(booted directly into or started from the CLI) and in the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console). They do not work(cannot open gfx display) when run in a terminal emulator or in RetroPie started from within a desktop/gui/X environment.**
 
@@ -131,6 +136,7 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
 
 ## Development news
+[**2021.02.02:**](https://github.com/Vegz78/McAirpos/commit/e1ab57e3f52b4646d7e1ee0352b41d141badd023) Added support and quick installation script for [*Recalbox 7.1.1-Reloaded!*](https://www.recalbox.com), only tested on a RPi4 4GB. Silent game launch with logging to /tmp/McAirpos.log instead of stdout, argument option ```verbose``` for old launch with text to screen. Some small fixes and cleanup of code.<br> 
 [**2021.01.28:**](https://github.com/Vegz78/McAirpos/commit/e96e6cb0f3b8fe5f3fc011bf8522ac8cae0d9dde) Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
 -RPi4 B 4GB: RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
 -RPi4 B 4GB: RetroPie v4.7.3 on top of RPi OS(buster, kernel 4.19.97), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
