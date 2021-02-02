@@ -27,7 +27,7 @@ Please scroll down this page or click the following links for: [Downloading game
 [@Vegz78](https://github.com/Vegz78)<br>
 (Thank you for awarding McAirpos a star if you like and use it!)<br>
 (If you're interested in retro gaming in general, please also check out the blog, [retrospill.ninja](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja))<br>
-![](docs/retro2png.png)
+![](docs/retro2png_1.png)
 (In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
@@ -41,7 +41,7 @@ Either make your own games in the MakeCode web editor, or download from various 
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - Other suggestions where to find good games?
-
+![](docs/retro2png.png)
 ## Contents
 - [Tool for setting the MakeCode Arcade editor in native executable mode for downloading executables](https://vegz78.github.io/McAirpos)
 - A game launcher, [_launCharc_](https://github.com/Vegz78/McAirpos/tree/master/McAirpos/launCharc), for:
@@ -161,9 +161,9 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - Follow up bugs and improve stability
 - Expand gamepad support further
 - Collect a library of well working controller configurations(Please share working _/sd/arcade.cfg_ and _arcade1&2.py_ files with the name and type of controllers in [the issues section](https://github.com/Vegz78/McAirpos/issues))
-- Silent start, verbose option and/or log file
-- Support and install script for RecalBox
-- Attempt to include as scriptmodule in RetroPie-Setup?
+- ~~Silent start, verbose option and/or log file~~
+- ~~Support and install script for RecalBox~~
+- Attempt to include as scriptmodule in RetroPie-Setup and as an included system in Recalbox?(Going to be needing some help with this, anyone up to the task?)
 - More command line options;
   - Specify wanted /dev/input/eventXs manually,
   - Incorporate/allow to connect via [other mapping apps/scripts](https://github.com/Vegz78/McAirpos/issues/5#issuecomment-760950633)
@@ -174,3 +174,5 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [The MakeCode Newsletter](http://makecode.adafruitdaily.com/monthly/2021/01/22/play-makecode-arcade-games-on-raspberry-pi.html)
 - [MakeCode Arcade hardware pages](https://arcade.makecode.com/hardware/raspberry-pi)
 - [Adafruit tweet](https://twitter.com/anne_engineer/status/1343675578701017088)
+- [@mr_polsky tweet](https://twitter.com/mr_polsky/status/1356472105735397376)
+- [@\_RobDominguez tweet](https://twitter.com/_RobDominguez/status/1347381575282012160)
