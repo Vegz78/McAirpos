@@ -49,6 +49,10 @@
 #include <linux/keyboard.h>
 
 
+// Global variables
+FILE *fl;
+
+
 // Function which returns results from shell commands run through system()
 char* getSystemOutput(char* inputCommand) {
 
@@ -57,7 +61,7 @@ char* getSystemOutput(char* inputCommand) {
     memset (systemOutput, 0, sizeof(systemOutput));
     fp = popen(inputCommand, "r");
     if (fp == NULL) {
-        printf("Failed to run command\n");
+        fprintf(fl, "Failed to run command\n");
         exit(1);
     }
 
@@ -73,33 +77,73 @@ char* getSystemOutput(char* inputCommand) {
 int main(int argc, char** argv) {
 
 
+    // Variables for whole main function scope
+    char* path = "/dev/tty";
+    int fd;
+
+
     // Read game file argument to execute
-    char* game = "";
-    char* options = "";
+    char game[200];
+    memset (game, 0, sizeof(game));
+    char options[10];
+    memset (options, 0, sizeof(options));
     if (argc == 2) {
-        game = argv[1];
+	strcat(game, argv[1]);
     } else if (argc == 3) {
-	game = argv[2];
-	options = argv[1];
+	strcat(game, argv[2]);
+	strcat(options, argv[1]);
     } else if ((argc > 3) || (argc < 2)) {
-        printf("usage: launCharc [nomap / keybswap] [/path/to/arcadegame.elf]\n");
+        printf("usage: launCharc [nomap / keybswap / verbose] [/path/to/arcadegame.elf]\n");
         return 1;
     }
 
 
-   // Check for nomap option
-   system("clear");
-   if (!strcmp(options, "nomap")) {
-	printf("%s argument detected,\nlaunCharc starting %s with no automatic gamepad mappings...\n", options, game);
+    // Check if run on Recalbox
+    system("clear");
+    int isRecalbox = 0;
+    if (!strcmp("RECALBOX", getSystemOutput("uname -a | tr ' ' '\\n' | grep RECALBOX | tr -d [:cntrl:]"))) {
+	isRecalbox = 1;
+	// Copy game_file.elf to /tmp(.../roms folder mount exFAT and cannot execute files)
+	char copyCmd[300];
+	memset (copyCmd, 0, sizeof(copyCmd));
+	snprintf(copyCmd, 300, "cp %s /tmp/arcade.elf&&chmod +x /tmp/arcade.elf", game);
+	system(copyCmd);
+	system("/usr/bin/fbv2 /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
+    }
+
+
+    // Check for verbose option
+    if (!strcmp("verbose", options)) {
+	fl = stdout;
+    }else {
+	fl = fopen("/tmp/McAirpos.log", "w+");
+	// Switch console to graphics mode to avoid disturbing text output in borders
+	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
+	    fd = open(path, O_RDWR, 0);
+            if (fd < 0) {
+            	perror("unable to open tty");
+            	return 1;
+            }
+            if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
+            	perror("warn: ioctl KDSETMODE failed");
+            }
+	    close(fd);
+	}
+    }
+
+
+    // Check for nomap option
+    if (!strcmp(options, "nomap")) {
+	fprintf(fl, "%s argument detected,\nlaunCharc starting %s with no automatic gamepad mappings...\n", options, game);
 	sleep(1);
-   } else {
+    } else {
 	// Determine the number of connected gamepads
-	printf("launCharc starting %s with automatic gamepad mappings...\n", game);
+	fprintf(fl, "launCharc starting %s with automatic gamepad mappings...\n", game);
 	char eventPaths[100];
 	memset (eventPaths, 0, sizeof(eventPaths));
 	int numberOfPads = 0;
 	int numberOfEvents = 1 + atoi(getSystemOutput("ls /dev/input | sed 's/event//' | sort -n | tail -1 | tr -d [:cntrl:]"));
-       	printf("\nHighest found input event number: %d\n", numberOfEvents);
+       	fprintf(fl, "\nHighest found input event number: %d\n", numberOfEvents);
 	char padEvent[2][20];
 	memset (padEvent, 0, sizeof(padEvent));
 	for (int i = 0; i < numberOfEvents; i++) {
@@ -110,9 +154,9 @@ int main(int argc, char** argv) {
       	    	char* event = getSystemOutput(padCommand);
       	    	if (strcmp(event, "")) {
 		    if (numberOfPads == 0) {
-	    		printf("Gamepad search hits:\n");
+	    		fprintf(fl, "Gamepad search hits:\n");
 		    }
-         	    printf("%s, Output:%s", padCommand, getSystemOutput(padCommand));
+         	    fprintf(fl, "%s, Output:%s", padCommand, getSystemOutput(padCommand));
          	    char iString[20];
 		    memset (iString, 0, sizeof(iString));
          	    sprintf(iString, "%d", i);
@@ -135,8 +179,8 @@ int main(int argc, char** argv) {
 	}
     	char* keybEvent = getSystemOutput(keybCommand);
 	if (strcmp(keybEvent, "")) {
-	    printf("Keyboard search hit:\n");
-       	    printf("%s, Output:%s", keybCommand, getSystemOutput(keybCommand));
+	    fprintf(fl, "Keyboard search hit:\n");
+       	    fprintf(fl, "%s, Output:%s", keybCommand, getSystemOutput(keybCommand));
 	}
 
 
@@ -150,52 +194,56 @@ int main(int argc, char** argv) {
     	char defaultEvent[67];
     	memset (defaultEvent, 0, sizeof(defaultEvent));
     	strcat(defaultEvent, "SCAN_CODES=/dev/input/");
-	printf("\n");
+	fprintf(fl, "\n");
 	if ((numberOfPads == 0) && !strcmp(keybEvent, "")) {
-	    printf("\nFound no gamepads or keyboards to configure...\n");
-	    printf("\nPlease try the \"nomap\" option and configure /sd/arcade.cfg manually. If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    fprintf(fl, "\nFound no gamepads or keyboards to configure...\n");
+	    fprintf(fl, "\nPlease try the \"nomap\" option and configure /sd/arcade.cfg manually. If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
 	    sleep(1);
-	    exit(1);
+	    goto cleanup;
 	}
 	else if (numberOfPads == 2) {
-	    printf("\nFound %d gamepads to configure on:\n%s, and\n%s\n\n", numberOfPads, padEvent[0], padEvent[1]);
-	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	    fprintf(fl, "\nFound %d gamepads to configure on:\n%s, and\n%s\n\n", numberOfPads, padEvent[0], padEvent[1]);
+	    sprintf(stringNumberOfPads, "%d.py &)",numberOfPads);
 	}
 	else if ((numberOfPads == 1) && strcmp(keybEvent, "")) {
-	    printf("\nFound %d gamepad to configure on:\n%s\n", numberOfPads, padEvent[0]);
-	    printf("\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
+	    fprintf(fl, "\nFound %d gamepad to configure on:\n%s\n", numberOfPads, padEvent[0]);
+	    fprintf(fl, "\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
             strcat(strcat(eventPaths, "/dev/input/"), keybEvent);
             strcat(eventPaths, " ");
-	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	    sprintf(stringNumberOfPads, "%d.py &)",numberOfPads);
 	}
 	else if (strcmp(keybEvent, "")) {
-	    printf("\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
+	    fprintf(fl, "\nFound 1 keyboard to configure on:\n/dev/input/%s\n\n", keybEvent);
       	    strcat(defaultEvent, keybEvent);
 	    strcat(uinputMapperOrKeyboard, "keyboard");
 	}
 	else if (numberOfPads == 1) {
-	    printf("\nFound %d gamepad to configure on:\n%s\n\n", numberOfPads, padEvent[0]);
-	    sprintf(stringNumberOfPads, "%d.py)&",numberOfPads);
+	    fprintf(fl, "\nFound %d gamepad to configure on:\n%s\n\n", numberOfPads, padEvent[0]);
+	    sprintf(stringNumberOfPads, "%d.py &)",numberOfPads);
 	}
 	else {
-	    printf("\nSomething went wrong, exiting...\n");
-	    printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    fprintf(fl, "\nSomething went wrong, exiting...\n");
+	    fprintf(fl, "If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
 	    sleep(1);
-	    exit(1);
+	    goto cleanup;
 	}
 
 
 	// Launching uinput-mapper
 	if (numberOfPads > 0) {
-            strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
+	    if (isRecalbox == 1) {
+            	strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
+	    } else {
+            	strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
+	    }
       	    if (system(uiMapCommand) == 0) {
-	    	printf("Starting UInput-Mapper with command:\n%s\n", uiMapCommand);
+	    	fprintf(fl, "Starting UInput-Mapper with command:\n%s\n", uiMapCommand);
 	    	int whileCount = 0;
 	    	while (!strcmp("", getSystemOutput("cat /proc/bus/input/devices | grep -A 8 \"UInputMapper: MakeCode_Arcade\" | tr ' ' '\n' | grep event"))) {
 	    	    if (whileCount > 500) {
-	       	    	printf("\nTimed out trying to set up UInput-Mapper...\n");
-		        printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
-	       	    	exit(1);
+	       	    	fprintf(fl, "\nTimed out trying to set up UInput-Mapper...\n");
+		        fprintf(fl, "If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	       	    	goto cleanup;
 	    	    }
 	    	whileCount++;
 	    	}
@@ -203,9 +251,9 @@ int main(int argc, char** argv) {
       	    	strcat(defaultEvent, uinputEvent);
 		strcat(uinputMapperOrKeyboard, "UInputMapper");
 	    } else {
-	    	printf("\nUInput-Mapper failed to start...\n");
-	        printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
-	    	exit(1);
+	    	fprintf(fl, "\nUInput-Mapper failed to start...\n");
+	        fprintf(fl, "If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+	    	goto cleanup;
       	    }
 	    // Alternative way to launch uinput-mapper
       	    /*if (!fork()) {
@@ -219,11 +267,20 @@ int main(int argc, char** argv) {
     	char sedCommand[100];
       	memset (sedCommand, 0, sizeof(sedCommand));
     	snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
+	if (isRecalbox == 1) {
+	    system("mount -o remount,rw /");
+	}
     	if (system(sedCommand) == 0) {
-    	    printf("Setting up %s in MakeCode Arcade game's /sd/arcade.cfg with:\n%s\n\n", uinputMapperOrKeyboard, defaultEvent);
+    	    fprintf(fl, "Setting up %s in MakeCode Arcade game's /sd/arcade.cfg with:\n%s\n\n", uinputMapperOrKeyboard, defaultEvent);
 	} else {
-	    printf("Please check path or write permissions for /sd/arcade.cfg and try again.\n\n");
+	    fprintf(fl, "Please check path or write permissions for /sd/arcade.cfg and try again.\n\n");
+	    if (isRecalbox == 1) {
+	   	system("mount -o remount,ro /");
+	    }
 	    goto cleanup;
+	}
+	if (isRecalbox == 1) {
+	    system("mount -o remount,ro /");
 	}
     }
 
@@ -236,32 +293,52 @@ int main(int argc, char** argv) {
 	foundPxtFile = 1;
     }
     if (strcmp("", getSystemOutput("ps -A | grep pulse"))) {
-	system("sudo killall pulseaudio");  //Kill PulseAudio if running, can sometimes halt game looking for ALSA 
+	if (isRecalbox == 1) {
+	    system("killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running, can sometimes halt game looking for ALSA 
+	} else {
+	    system("sudo killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running, can sometimes halt game looking for ALSA 
+	}
     }
-    char* path = "/dev/tty";
-    int fd;
     fflush(stdout);
+
 
     // Fork game execution on launch, so that it is executed
     // the same way it's done in-game on reset
     if  (!fork()) {
 
-	//Switch console to graphics mode to avoid disturbing text output in borders
-	fd = open(path, O_RDWR, 0);
-        if (fd < 0) {
-            perror("unable to open tty");
-            return 1;
-        }
-        if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
-            perror("warn: ioctl KDSETMODE failed");
-        }
-	close(fd);
+	// Switch console to graphics mode to avoid disturbing text output in borders
+	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
+	    fd = open(path, O_RDWR, 0);
+            if (fd < 0) {
+            	perror("unable to open tty");
+            	return 1;
+            }
+            if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
+            	perror("warn: ioctl KDSETMODE failed");
+            }
+	    close(fd);
+	}
+
+	// Run copy of game to circumvent Recalbox' read-only file system
+	if (isRecalbox == 1) {
+	    memset (game, 0, sizeof(game));
+	    strcat(game, "/tmp/arcade.elf");
+	}
+
+	// Silence the game launch
+	char gameString[200];
+	memcpy(gameString, game, strlen(game)+1);
+	if (strcmp("verbose", options)) {
+	    fclose(fl);
+	    strcat(game, " >>/tmp/McAirpos.log 2>&1");
+	}
 
 	// Launch the game
-        if (system(game) == 36608) {
-	    printf("%s was exited by the user\n\n", game);
+	int launchInt = system(game);
+        if ((launchInt == 36608) || (launchInt == 15)) {
+	    fprintf(fl, "%s was exited by the user or reset in-game\n\n", gameString);
 	} else {
-	    printf("Please check path to and executable permissions for game_file.elf and try again.\n\n");
+	    fprintf(fl, "Please check path to and executable permissions for game_file.elf and try again.\n\n");
 	}
 	//Alternative way to launch game, but I need to spawn new process in fork, not replace fork process
         //execl(game, game, NULL);
@@ -271,7 +348,7 @@ int main(int argc, char** argv) {
 
         // Wait for fork/game to launch and get running game's process name
 	struct stat pxtFileBuffer;
-        char processID[20]; 
+        char processID[20];
       	memset (processID, 0, sizeof(processID));
         char processCommand[100];
       	memset (processCommand, 0, sizeof(processCommand));
@@ -282,15 +359,15 @@ int main(int argc, char** argv) {
 	    whileCount++;
             snprintf(processCommand, 100, "head -1 /proc/%s/comm >>/dev/null 2>&1", processID);
     	    if (whileCount > maxCount) {
-       	    	printf("\nTimed out trying to find game's process ID...\n");
-	        printf("If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
+       	    	fprintf(fl, "\nTimed out trying to find game's process ID...\n");
+	        fprintf(fl, "If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
        	    	goto cleanup;
     	    }
 	    // Check until found if /tmp/pxt-pid file exists without opening it, time out otherwise
             if (0 == foundPxtFile) {
         	if (0 != stat("/tmp/pxt-pid", &pxtFileBuffer)) {
 		    if (whileCount > maxCount -1) {
-			printf("\nDid not find the file /tmp/pxt-pid...\n");
+			fprintf(fl, "\nDid not find the file /tmp/pxt-pid...\n");
 		    }
 		    continue;
 		} else {
@@ -309,7 +386,7 @@ int main(int argc, char** argv) {
         char processName[50];
 	memset (processName, 0, sizeof(processName));
 	snprintf(processName, 50, "%s", getSystemOutput(processCommand));
-	printf("\nFound running game process \"%s\" on PID=%s\n\n", processName, processID);
+	fprintf(fl, "\nFound running game process \"%s\" on PID=%s\n\n", processName, processID);
 
 
         // Check every 2 secounds if a game process is still active
@@ -322,14 +399,14 @@ int main(int argc, char** argv) {
 	memset (newProcessID, 0, sizeof(newProcessID));
 besure:
 	while (strcmp(processID, "")) {
-            //printf("%s@PID=%s is keeping launCharc alive...\n", processName, processID);
+            //fprintf(fl, "%s@PID=%s is keeping launCharc alive...\n", processName, processID);
             sleep(2);
 	    snprintf(newProcessID, 20, getSystemOutput(processCheckCmd));
 	    if (strcmp(processID, newProcessID)) {
 		if (strcmp(newProcessID, "")) {
-		    printf("\"%s\" restarted on PID=%s\n", processName, newProcessID);
+		    fprintf(fl, "\"%s\" restarted on PID=%s\n", processName, newProcessID);
 		} else {
-		    printf("PID not found for \"%s\", trying again...\n", processName);
+		    fprintf(fl, "PID not found for \"%s\", trying again...\n", processName);
 		}
 		snprintf(processID, 20, "%s", newProcessID);
 	    }
@@ -339,43 +416,65 @@ besure:
         sleep(3);
 	snprintf(processID, 20, getSystemOutput(processCheckCmd));
         if (strcmp(processID, "")) {goto besure;}
-	else {printf("PID still not found for \"%s\", game exited?\nTerminating launCharc...\n", processName);}
+	else {fprintf(fl, "PID still not found for \"%s\", game exited?\nTerminating launCharc...\n", processName);}
 
 
         // Kill any remaining/orphaned game processes before exit
         char killAllCmd[100];
       	memset (killAllCmd, 0, sizeof(killAllCmd));
-        snprintf(killAllCmd, 100, "killall %s 2>&1", processName);
-        system(killAllCmd);
+	if (strcmp("verbose", options)) {
+	    snprintf(killAllCmd, 100, "killall -q %s >>/tmp/McAirpos.log 2>&1", processName);
+	}else{
+	    snprintf(killAllCmd, 100, "killall %s 2>&1", processName);
+	}
+	system(killAllCmd);
 cleanup:
-        system("sudo killall input-create 2>&1 & sudo killall input-read 2>&1");
+	if (strcmp("verbose", options)) {
+	    if (isRecalbox == 1) {
+            	system("killall -q input-create >>/tmp/McAirpos.log 2>&1 && killall -q input-read >>/tmp/McAirpos.log 2>&1");
+	    }else {
+            	system("sudo killall -q input-create >>/tmp/McAirpos.log 2>&1 && sudo killall -q input-read >>/tmp/McAirpos.log 2>&1");
+	    }
+	}else {
+	    if (isRecalbox == 1) {
+            	system("killall input-create 2>&1 && killall input-read 2>&1");
+	    }else {
+            	system("sudo killall input-create 2>&1 && sudo killall input-read 2>&1");
+	    }
+	}
 
 
         // The following code is borrowed from https://github.com/hobbitalistair/termfix:
         // Terminal Fixer's cleanup part, which returns control of the
         // framebuffer and input mode to calling process after game's exit
-        fd = open(path, O_RDWR, 0);
-        if (fd < 0) {
-            perror("unable to open tty");
-            return 1;
-        }
+	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
+            fd = open(path, O_RDWR, 0);
+            if (fd < 0) {
+            	perror("unable to open tty");
+            	return 1;
+            }
 
-        // This one fails without sudo, but doesn't seem needed for
-        // MakeCode Arcade games(comment out or leave as and option?).
-        if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
-            //perror("warn: ioctl VT_UNLOCKSWITCH failed");
-        }
+            // This one fails without sudo, but doesn't seem needed for
+            // MakeCode Arcade games(comment out or leave as and option?).
+            if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
+            	//perror("warn: ioctl VT_UNLOCKSWITCH failed");
+            }
 
-        if (ioctl(fd, KDSETMODE, KD_TEXT) < 0) {
-            perror("warn: ioctl KDSETMODE failed");
-        }
+            if (ioctl(fd, KDSETMODE, KD_TEXT) < 0) {
+            	perror("warn: ioctl KDSETMODE failed");
+            }
 
-        if (ioctl(fd, KDSKBMODE, K_XLATE) < 0) {
-            perror("warn: ioctl KBSKBMODE failed");
-        }
-
+            if (ioctl(fd, KDSKBMODE, K_XLATE) < 0) {
+            	perror("warn: ioctl KBSKBMODE failed");
+            }
+	}else if (isRecalbox == 1) {
+	    system("/usr/bin/fbv2 /recalbox/system/resources/splash/logo-version.png >>/dev/null 2>&1");
+	}
         system("stty sane");
-        //system("clear");
+	fclose(fl);
+	if (strcmp("verbose", options)) {
+            system("clear");
+	}
     }
 
     return 0;

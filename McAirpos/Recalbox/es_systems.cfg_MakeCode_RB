@@ -1,0 +1,17 @@
+  <system>
+    <fullname>MakeCode Arcade</fullname>
+    <name>MakeCode</name>
+    <path>/recalbox/share/roms/makecode</path>
+    <extension>.elf .ELF</extension>
+    <command>/usr/bin/launCharc %ROM%</command>
+    <platform>makecode</platform>
+    <theme>makecode</theme>
+    <emulators>
+      <emulator name="launCharc">
+        <cores>
+          <core priority="1">launCharc</core>
+        </cores>
+      </emulator>
+    </emulators>
+  </system>
+</systemList>
