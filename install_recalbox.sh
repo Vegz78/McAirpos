@@ -16,7 +16,7 @@ fi
 if [[ -d ./McAirpos ]]; then
    echo "McAirpos repository present, countinuing without downloading..."
 else
-   if [[ -f /usr/bin/wget ] && [ -f /usr/bin/tar ]]; then
+   if [[ -f /usr/bin/wget ]] && [[ -f /bin/tar ]]; then
       echo "Fetching McAirpos..."
       wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz
       tar -zxf ./master.tar.gz -C /home/pi
@@ -44,8 +44,9 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    # Removing MakeCode Arcade system, if present
    sed -i '/<system>/{:a;/<\/system>/!{N;ba;}};/<name>MakeCode<\/name>/d;' /etc/emulationstation/es_systems.cfg
    # Appending updated MakeCode Arcade system from repository
-   set -i '$d' /etc/emulationstation/es_systems.cfg
+   sed -i '$d' /etc/emulationstation/es_systems.cfg
    cat /home/pi/McAirpos/McAirpos/Recalbox/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
+   cp /etc/emulationstation/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
    cp -r /home/pi/McAirpos/McAirpos/Recalbox/makecode /etc/emulationstation/themes/recalbox-next/
 else
