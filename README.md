@@ -1,6 +1,6 @@
 # McAirpos
 [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1-Reloaded!](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
-![](docs/MakeCode_Arcade_RetroPie.gif)
+![](https://raw.githubusercontent.com/Vegz78/McAirpos/master/docs/MakeCode_Arcade_RetroPie.gif)
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
@@ -27,7 +27,7 @@ Please scroll down this page or click the following links for: [Downloading game
 [@Vegz78](https://github.com/Vegz78)<br>
 (Thank you for awarding McAirpos a star if you like and use it!)<br>
 (If you're interested in retro gaming in general, please also check out the blog, [retrospill.ninja](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja))<br>
-![](docs/retro2png_1.png)
+![](https://raw.githubusercontent.com/Vegz78/McAirpos/master/docs/MakeCode_Arcade_Recalbox.png)
 (In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
@@ -42,7 +42,7 @@ Either make your own games in the MakeCode web editor, or download from various 
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - Other suggestions where to find good games?
 
-![](docs/retro2png.png)
+![](https://raw.githubusercontent.com/Vegz78/McAirpos/master/docs/MakeCode_Arcade_Raspberry_Pi.png)
 ## Contents
 - [Tool for setting the MakeCode Arcade editor in native executable mode for downloading executables](https://vegz78.github.io/McAirpos)
 - A game launcher, [_launCharc_](https://github.com/Vegz78/McAirpos/tree/master/McAirpos/launCharc), for:
