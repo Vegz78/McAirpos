@@ -4,7 +4,7 @@
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script.](https://github.com/Vegz78/McAirpos#quick-installation-for-recalbox)<br>
+[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script.](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
 [2021.01.26: New quick installation script.](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support testet ok with various combinations of:
