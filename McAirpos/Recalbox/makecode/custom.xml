@@ -28,10 +28,10 @@
 			<text>or JavaScript to build your program ..."</text>
 		</text>
 		<text name="info9" extra="true">
-			<text>Video: "... 160x120 screen showing 16 colors ..."</text>
+			<text>Video : "... 160x120 screen showing 16 colors ..."</text>
 		</text>
 		<text name="info10" extra="true">
-			<text>Sound: "... 4-channel retro-appropriate sound system ..."</text>
+			<text>Sound : "... 4-channel retro-appropriate sound system ..."</text>
 		</text>
 		
 	</view>
