@@ -5,7 +5,7 @@
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
 [2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script.](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
-[2021.01.26: New quick installation script.](https://github.com/Vegz78/McAirpos#installation)
+[2021.01.26: New quick installation script for RetroPie/RPi OS.](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support testet ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
@@ -71,14 +71,14 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 - [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 
 ## Installation
-### Quick automatic installation
+### Quick automatic installation for RetroPie/RPi OS
 Run this command without sudo on a terminal or the CLI on most systems:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install.sh | bash -```
 
 Or clone repo like in 1st manual installation point below and run:<br>
 ```~/McAirpos/install.sh```
 
-### Manual installation
+### Manual installation for RetroPie/RPi OS
 1. Clone this repo from and into _/home/pi/_:<br>
 ```git clone https://github.com/Vegz78/McAirpos.git```<br>
 _(Paths are currently hardcoded and will only work with the repo directly under /home/pi/)_
