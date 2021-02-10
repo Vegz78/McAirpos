@@ -71,8 +71,8 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 - [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 
 ## Installation
-### Quick automatic installation for RetroPie/RPi OS
-Run this command without sudo on a terminal or the CLI on most systems:<br>
+### Quick automatic installation
+Run this command without sudo on a terminal or the CLI on RetroPie/RPi OS:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install.sh | bash -```
 
 Or clone repo like in 1st manual installation point below and run:<br>
