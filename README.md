@@ -15,6 +15,7 @@ Controller support testet ok with various combinations of:
 - [8BitDo N30 Pro 2 controller](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2020/08/8bitdo-n30-pro-2/),
 - [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK/ref=sr_1_3_sspa?crid=3CYVOCWDR2NVJ&dchild=1&keywords=easyget+arcade+buttons&qid=1610902599&sprefix=easyget+a%2Caps%2C225&sr=8-3-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzMDYxSVFKRDUyMTdEJmVuY3J5cHRlZElkPUEwOTcxNjk4MUZJWlBFUTVEMUpTMiZlbmNyeXB0ZWRBZElkPUEwMzE4NDA1MlhTVlEwV1k2NFZGVSZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!), and
 - [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/)(thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
+- [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!)
 
 It should also work with other controllers with little or no modification of the [_arcadeX.py_ files](https://github.com/Vegz78/McAirpos#default-layout-for-controls). 
 
