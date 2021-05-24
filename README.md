@@ -13,15 +13,16 @@ Controller support testet ok with various combinations of:
 - [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus)(remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
 - [retro-bit controller](https://translate.google.com/translate?sl=no&tl=en&u=https://cdon.no/spill/retro-bit-nes-usb-controller-41757027)
 - [8BitDo N30 Pro 2 controller](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2020/08/8bitdo-n30-pro-2/),
-- [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK/ref=sr_1_3_sspa?crid=3CYVOCWDR2NVJ&dchild=1&keywords=easyget+arcade+buttons&qid=1610902599&sprefix=easyget+a%2Caps%2C225&sr=8-3-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEzMDYxSVFKRDUyMTdEJmVuY3J5cHRlZElkPUEwOTcxNjk4MUZJWlBFUTVEMUpTMiZlbmNyeXB0ZWRBZElkPUEwMzE4NDA1MlhTVlEwV1k2NFZGVSZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!), and
+- [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!)
 - [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/)(thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
-- [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!)
+- [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!), and
+- [SJ@JX Arcade DIY USB](https://www.amazon.ca/gp/product/B07FZ3YT1G)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/10#issuecomment-846587751) and [proposed solution to USB sound problems](https://github.com/Vegz78/McAirpos/issues/11), [@QuadDam](https://github.com/QuadDam)!)
 
-It should also work with other controllers with little or no modification of the [_arcadeX.py_ files](https://github.com/Vegz78/McAirpos#default-layout-for-controls). 
+It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
-Feedback is valueable, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) for other controllers that work or if something doesn't work for you.
+Feedback is valueable, so please don't hesitate to [open an issue here](https://github.com/Vegz78/McAirpos/issues) for sharing with the community about other controllers that work, or if [something doesn't work for you](https://github.com/Vegz78/McAirpos#issues).
 
-Please scroll down this page or click the following links for: [Downloading game files](https://vegz78.github.io/McAirpos), [Contents](https://github.com/Vegz78/McAirpos#contents), [Features](https://github.com/Vegz78/McAirpos#features), [Why McAirpos?](https://github.com/Vegz78/McAirpos#why-the-need-for-mcairpos), [Prerequisites](https://github.com/Vegz78/McAirpos#prerequisites), [Installation](https://github.com/Vegz78/McAirpos#Installation), [Updates](https://github.com/Vegz78/McAirpos#Updating), [Usage](https://github.com/Vegz78/McAirpos#Usage), [Controller layout](https://github.com/Vegz78/McAirpos#default-layout-for-controls), [Developement news](https://github.com/Vegz78/McAirpos#development-news), [Issues](https://github.com/Vegz78/McAirpos#issues), [Todo list](https://github.com/Vegz78/McAirpos#todo), [Mentions](https://github.com/Vegz78/McAirpos#Mentions) and [Retro gaming](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja).
+Please scroll down this page or click the following links for: [Downloading game files](https://vegz78.github.io/McAirpos), [Contents](https://github.com/Vegz78/McAirpos#contents), [Features](https://github.com/Vegz78/McAirpos#features), [Why McAirpos?](https://github.com/Vegz78/McAirpos#why-the-need-for-mcairpos), [Prerequisites](https://github.com/Vegz78/McAirpos#prerequisites), [Installation](https://github.com/Vegz78/McAirpos#Installation), [Updates](https://github.com/Vegz78/McAirpos#Updating), [Usage](https://github.com/Vegz78/McAirpos#Usage), [Controller layout and configuration](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls), [Developement news](https://github.com/Vegz78/McAirpos#development-news), [Issues](https://github.com/Vegz78/McAirpos#issues), [Todo list](https://github.com/Vegz78/McAirpos#todo), [Mentions](https://github.com/Vegz78/McAirpos#Mentions) and [Retro gaming](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja).
 <br>
 
 **Happy retro gaming and retro game making!!!**<br><br>
@@ -61,7 +62,7 @@ Either make your own games in the MakeCode web editor, or download from various 
 The current MakeCode Arcade natively executable game files compiled with the Raspberry Pi as target have 2 problems preventing a nice experience from within RetroPie:
 - The parent game process ID shifts during game play, which makes RetroPie think the game has exited and then puts it still running in the background. On exit, the game files do not release and clean up the framebuffer and key inputs, giving the impression that the system has frozen/halted.<br>
 https://github.com/microsoft/pxt-arcade/issues/2435
-- The game files only supports 1 game controller and 1 input event, but multiple game players.<br>
+- The game files natively do not support most newer [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) or multiple game controllers, but only 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad or 1 keyboard input event, even though multiple players are supported in the games.<br>
 https://github.com/microsoft/pxt-arcade/issues/2245
 
 McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
@@ -72,11 +73,11 @@ McAirpos works around both these issues, making MakeCode Arcade games play like 
 - [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 
 ## Installation
-### Quick automatic installation
-Run this command without sudo on a terminal or the CLI on RetroPie/RPi OS:<br>
+### Quick automatic installation for RetroPie/RPi OS
+Run this command without sudo in a terminal or the CLI on RetroPie/RPi OS:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install.sh | bash -```
 
-Or clone repo like in 1st manual installation point below and run:<br>
+Or clone the repository like in the 1st manual installation point below and run:<br>
 ```~/McAirpos/install.sh```
 
 ### Manual installation for RetroPie/RPi OS
@@ -94,8 +95,8 @@ From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd``
 6. Create a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).<br>
 Make sure that the _makecode_ games folder is owned by _pi_ and has the correct permissions. From inside this folder:<br>
 ```sudo chown -R pi .&&sudo chgrp -R pi .&&sudo chmod -R 755 .```<br>
-Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically by [_umask_](https://en.wikipedia.org/wiki/Umask) when copying them to the _makecode_ games folder:<br>
-```sudo chmod +x ~/RetroPie/roms/makecode/game_file.elf```
+Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically when copying them to the _makecode_ games folder:<br>
+```sudo chmod +x ~/RetroPie/roms/makecode/*.elf```
 
 ### Quick automatic installation for Recalbox
 Run this command from the terminal(F4 + ALT+F2, root/recalboxroot) on Recalbox 7.1.1-Reloaded!:<br>
@@ -113,7 +114,7 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
-  - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 gamepad(1 player) using the _/sd/arcade.cfg_ file directly:<br>
+  - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly:<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_```<br> and similarly inside _/etc/emulationstation/es_systems.cfg_.
   - ```keybswap``` command line option for swapping from lowest(default) autodiscovered keyboard input handler to highest.
   - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
@@ -122,20 +123,35 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 
 If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+\\, CTRL+C, CTRL+D and CTRL+C_.
 
-## Default layout for controls
+## Default and modifying the layout for controls
 |Move|Keyb pl1|Keyb pl2|Gamepads pl1&pl2|
 |----|--------|--------|--------|
 |Up  |W       |Up arrow|DPAD/Hat/Axis UP|
 |Down|S       |Down arrow|DPAD/Hat/Axis DOWN|
 |Left|A       |Left arrow|DPAD/Hat/Axis LEFT|
 |Right|D      |Right arrow|DPAD/Hat/Axis RIGHT|
-|Fire|Left Ctrl|Right ALT|BTN_SOUTH/A|
-|Fire2|Left Shift|Space bar|BTN_EAST/B|
+|Fire|Left Ctrl|Right ALT|BTN_SOUTH/BTN_A|
+|Fire2|Left Shift|Space bar|BTN_EAST/BTN_B|
 |Exit|Esc||BTN_START|
 |Restart|F1||BTN_SELECT|
-|Menu|F2||BTN_MODE/PS|
+|Menu|F2||BTN_MODE/BTN_PS|
 
-When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 gamepads. When using gamepads, always remember to edit the corresponding gamepad to keyboard key mappings in both the _arcade1&2.py_ files with changes made in _/sd/arcade.cfg_.
+To change button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 1-2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads. When using EV_ABS type gamepads with uinput-mapper, always remember to edit the corresponding gamepad-to-keyboard mappings in both the _arcade1&2.py_ files for any changes you might have made to _/sd/arcade.cfg_, as the former is closely dependent on the latter.
+
+<a id="evtest-readout"></a>For many gamepads, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ before attempting to modify the config files:
+1. Find your gamepad's _input eventX number_: ```more /proc/bus/input/devices```
+2. Read out all the gamepad's registered button names and types, and test to which button name each physical button is mapped by running: ```evtest /dev/input/eventX```, where X is the input number found in the first point. Exit _evtest_ with CTRL+C.
+
+In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. Even though it has been reported to run allright even on a Raspberry Pi Zero, if you experience an occasional hang in either direction(before max stroke in all directions is read) or you are technically inclined to optimize, you can [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the readout above for your gamepad and [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. Personally, I don't bother, and just do a quick 360 degrees stick movement every time I start a new game...
+
+## Issues
+Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements. But please first:
+1. Check the physical wiring of DIY Arcade controllers and whether [your issue might already have been solved](https://github.com/Vegz78/McAirpos/issues?q=is%3Aissue+is%3Aclosed), and
+2. Provide an [_evtest_ readout of your controller](https://github.com/Vegz78/McAirpos#evtest-readout) with indications about which button functions you intend for which listed input events<br>
+
+I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
+
+I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
 [**2021.02.02:**](https://github.com/Vegz78/McAirpos/commit/e1ab57e3f52b4646d7e1ee0352b41d141badd023) Added support and quick installation script for [*Recalbox 7.1.1-Reloaded!*](https://www.recalbox.com), only tested on a RPi4 4GB. Silent game launch with logging to /tmp/McAirpos.log instead of stdout, argument option ```verbose``` for old launch with text to screen. Some small fixes and cleanup of code.<br> 
@@ -151,12 +167,6 @@ When changing button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 gamepad) a
 [**2021.01.24:**](https://github.com/Vegz78/McAirpos/commit/c1350073bc3ba21be16c098a44f46469a3658fd4) Stability improvements for game launch and exit, more accurate keyboard autodiscovery, defaults to lowest keyboard input event handler, new ```keybswap``` command line option to swap to highest.<br>
 [**2021.01.18:**](https://github.com/Vegz78/McAirpos/commit/932740f491cf1afede31578a6077f6ab5c2994f8) Bugfixes, improvements and further testing, most notably fixed the occasional mismatch of /dev/input/eventX between uinput-mapper and launCharc in /sd/arcade.cfg, and now possible to map 1 & 2 controllers without keyboard connected. Feedback about additional working controllers and about possible reasons for occasional instability/game exit, especially on older RPi devices and RPi OS/RetroPie distros, is still appreciated.<br>
 [**2021.01.15:**](https://github.com/Vegz78/McAirpos/commit/fd8ac34ed5891ed8fa860b41d586f8fdc976a1aa) Added ```nomap``` option for manual configuration and use of _/sd/arcade.cfg_ directly for controllers, instead of auto-detection and uinput-mapper. With some great help from [@Kay-Wolfe](https://github.com/Kay-Wolfe), gamepad support is now expanded.
-
-## Issues
-Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements.<br>
-I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
-
-I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Todo
 Some thoughts and ideas I might start grappling with in the near or distant future. Don't hesitate to post good ideas in the issues section. If it's to big or difficult for me, maybe you want to contribute directly with a pull request?
