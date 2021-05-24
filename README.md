@@ -114,9 +114,9 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
-  - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly:<br>
+  - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly without running uinput-mapper:<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_```<br> and similarly inside _/etc/emulationstation/es_systems.cfg_.
-  - ```keybswap``` command line option for swapping from lowest(default) autodiscovered keyboard input handler to highest.
+  - ```keybswap``` command line option for swapping from the lowest(default) autodiscovered keyboard input handler to the highest, if your keyboard is not detected correctly.
   - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
 
 **NB: The _game\_files.elf_ and launCharc only work in RetroPie(booted directly into or started from the CLI) and in the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console). They do not work(cannot open gfx display) when run in a terminal emulator or in RetroPie started from within a desktop/gui/X environment.**
@@ -138,8 +138,8 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 
 To change button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 1-2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads. When using EV_ABS type gamepads with uinput-mapper, always remember to edit the corresponding gamepad-to-keyboard mappings in both the _arcade1&2.py_ files for any changes you might have made to _/sd/arcade.cfg_, as the former is closely dependent on the latter.
 
-<a id="evtest-readout"></a>For many gamepads, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ before attempting to modify the config files:
-1. Find your gamepad's _input eventX number_: ```more /proc/bus/input/devices```
+For many gamepads, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ before attempting to modify the config files:
+1. <a id="evtest-readout"></a>Find your gamepad's _input eventX number_: ```more /proc/bus/input/devices```
 2. Read out all the gamepad's registered button names and types, and test to which button name each physical button is mapped by running: ```evtest /dev/input/eventX```, where X is the input number found in the first point. Exit _evtest_ with CTRL+C.
 
 In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. Even though it has been reported to run allright even on a Raspberry Pi Zero, if you experience an occasional hang in either direction(before max stroke in all directions is read) or you are technically inclined to optimize, you can [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the readout above for your gamepad and [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. Personally, I don't bother, and just do a quick 360 degrees stick movement every time I start a new game...
