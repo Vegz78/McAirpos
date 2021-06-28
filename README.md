@@ -114,7 +114,7 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
-  - ```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly without running uinput-mapper:<br>
+  - <a id="nomap-option"></a>```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly without running uinput-mapper:<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_```<br> and similarly inside _/etc/emulationstation/es_systems.cfg_.
   - ```keybswap``` command line option for swapping from the lowest(default) autodiscovered keyboard input handler to the highest, if your keyboard is not detected correctly.
   - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
@@ -149,11 +149,17 @@ For many gamepads and controllers, there should be no or little need for modific
 - Edit the uinput mapping files _arcade1.py_ for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
 (where most commonly only the joystick has EV_ABS *values* that vary typically somewhere between -256 and 256 along each axis).
 
-When using EV_ABS type gamepads/controllers(most common case) with uinput-mapper, please:
+<br>When using EV_ABS type gamepads/controllers(most common case for USB/BT interfaces) with uinput-mapper, please:
 1. Leave */sd/arcade.cfg* alone/as-is
 2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for eache button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible.
 4. If not possible to rewire or the controller does not output any of those codes, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* in _/sd/arcade.cfg_, for its intended function**.
+
+<br>When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, plese:
+1. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring, and
+2. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option)
+
+The first point is explained much better and in detail [here](https://arcade.makecode.com/hardware/raspberry-pi/cardboard-control-panel/assemble) and [here](https://learn.adafruit.com/makecode-arcade-with-raspberry-pi-zero/firmware#custom-inputs-3015722-7).<br><br>
 
 ### Finding your controller's input eventX number and the EV *codes* and *values* that its buttons and joystick outputs:
 1. <a id="evtest-readout"></a>Find your gamepad's _/dev/input/eventX number_: ```more /proc/bus/input/devices```
