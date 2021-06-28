@@ -124,25 +124,53 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+\\, CTRL+C, CTRL+D and CTRL+C_.
 
 ## Default and modifying the layout for controls
-|Move|Keyb pl1|Keyb pl2|Gamepads pl1&pl2|
+### Default button mappings with corresponding EV_ABS and (EV_KEY) _codes*_:
+|Move|Keyboard PL1|Keyboard PL2|Gamepads/Controllers PL1&PL2|
 |----|--------|--------|--------|
-|Up  |W       |Up arrow|DPAD/Hat/Axis UP|
-|Down|S       |Down arrow|DPAD/Hat/Axis DOWN|
-|Left|A       |Left arrow|DPAD/Hat/Axis LEFT|
-|Right|D      |Right arrow|DPAD/Hat/Axis RIGHT|
-|Fire|Left Ctrl|Right ALT|BTN_SOUTH/BTN_A|
-|Fire2|Left Shift|Space bar|BTN_EAST/BTN_B|
-|Exit|Esc||BTN_START|
-|Restart|F1||BTN_SELECT|
-|Menu|F2||BTN_MODE/BTN_PS|
+|Up  |W (17)  |Up arrow (103)|BTN_DPAD_UP /-ABS_HAT0Y /ABS_Y (17/103)|
+|Down|S (31)  |Down arrow (108)|BTN_DPAD_DOWN /ABS_HAT0Y /-ABS_Y (31/108)|
+|Left|A (30)  |Left arrow (105)|BTN_DPAD_LEFT /-ABS_HAT0X /ABS_X (30/105)|
+|Right|D (32) |Right arrow (106)|BTN_DPAD_RIGHT /ABS_HAT0X /-ABS_X (32/106)|
+|Fire/A|Left Ctrl (29)|Right ALT (100)|BTN_SOUTH(/BTN_A) /BTN_THUMB (29/100)|
+|Fire2/B|Left Shift (42)|Space bar (57)|BTN_EAST(/BTN_B) /BTN_THUMB2 (42/57)|
+|Exit|Esc (1)||BTN_START /BTN_BASE4 /ABS_Z (1)|
+|Restart|F1 (59)||BTN_SELECT /BTN_BASE3 /ABS_RZ (59)|
+|Menu|F2 (60)||BTN_MODE(/BTN_PS) /KEY_HOMEPAGE (60)|
+|||||
+|*Code* type:|(EV_KEY)|(EV_KEY)|EV_ABS, and some EV_KEY(BTN_s) (EV_KEY1/E_VKEY2)|
+|Mapping:|(Game-native)|(Game-native)|uinput-mapper to (game-native)|
+|In files:|arcade.cfg|arcade.cfg|arcade1&2.py|
+||||* (EV_KEY) *codes* in arcade.cfg and in the 'code' fields<br> in arcade1&2.py must always correspond.|
 
-To change button layouts, edit _/sd/arcade.cfg_ for keyboard(or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad) and edit the uinput mapping files _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 1-2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads. When using EV_ABS type gamepads with uinput-mapper, always remember to edit the corresponding gamepad-to-keyboard mappings in both the _arcade1&2.py_ files for any changes you might have made to _/sd/arcade.cfg_, as the former is closely dependent on the latter.
+For many gamepads and controllers, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ as a first step and before attempting to modify the config files.
 
-For many gamepads, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ before attempting to modify the config files:
-1. <a id="evtest-readout"></a>Find your gamepad's _input eventX number_: ```more /proc/bus/input/devices```
+### Changing button layouts: 
+- Edit _/sd/arcade.cfg_ for keyboard(or [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads, where all *values* are either 0 or 1), or
+- Edit the uinput mapping files _arcade1.py_ for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
+(where most commonly only the joystick has EV_ABS *values* that vary typically somewhere between -256 and 256 along each axis).
+
+When using EV_ABS type gamepads/controllers(most common case) with uinput-mapper, please:
+1. Leave */sd/arcade.cfg* alone/as-is
+2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for eache button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
+3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible.
+4. If not possible to rewire or the controller does not output any of those codes, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* in _/sd/arcade.cfg_, for its intended function**.
+
+### Finding your controller's input eventX number and the EV *codes* and *values* that its buttons and joystick outputs:
+1. <a id="evtest-readout"></a>Find your gamepad's _/dev/input/eventX number_: ```more /proc/bus/input/devices```
 2. Read out all the gamepad's registered button names and types, and test to which button name each physical button is mapped by running: ```evtest /dev/input/eventX```, where X is the input number found in the first point. Exit _evtest_ with CTRL+C.
 
-In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. Even though it has been reported to run allright even on a Raspberry Pi Zero, if you experience an occasional hang in either direction(before max stroke in all directions is read) or you are technically inclined to optimize, you can [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the readout above for your gamepad and [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. Personally, I don't bother, and just do a quick 360 degrees stick movement every time I start a new game...
+### Optimizig controller performance
+In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. 
+
+Even though it has been reported to run all right even on a Raspberry Pi Zero, if you experience an occasional choppiness during gameplay or hangs in either direction(before max stroke in all directions is read), and if you are technically inclined to optimize, you can:
+- [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the evtest readout above for your gamepad, and 
+- [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. 
+
+Personally, I don't bother, and just do a quick full 360 degrees stick movement every time I start a new game...<br><br>
+
+(*Theoretically, it should be possible with [up to *4* players/controllers on the RPi](https://github.com/microsoft/pxt-arcade/pull/1139), but this is most feasible with 4 EV_KEY controls game-natively on the same input event(GPIO/Keyboard?) in *arcade.cfg*. Setting up this automatically with uinput-mapper for 4 EV_ABS controllers, proved hard du do(4 *arcade.py with **lots** of mappings etc.), and all the cross-mappings in uinput-mapper would probably put to much strain on the RPi, unless all redundant mappings are removed and the auto calibration routine is hard-coded with the correct EV_ABS *value* ranges instead. Then, maybe it would be possible with a fixed setup, where all controllers are always on and on the same input event.)
+
+(**If you have any great working and optimized uinput-mapper _arcade1&2.py_ controller configurations, please share them for others' to use, by uploading the file to an issue for the same controller type in the issues section!)
 
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements. But please first:
