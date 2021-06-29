@@ -165,7 +165,7 @@ The first point is explained much better and in detail [here](https://arcade.mak
 1. <a id="evtest-readout"></a>Find your gamepad's _/dev/input/eventX number_: ```more /proc/bus/input/devices```
 2. Read out all the gamepad's registered button names and types, and test to which button name each physical button is mapped by running: ```evtest /dev/input/eventX```, where X is the input number found in the first point. Exit _evtest_ with CTRL+C.
 
-### Optimizig controller performance
+### Optimizing controller performance
 In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. 
 
 Even though it has been reported to run all right even on a Raspberry Pi Zero, if you experience an occasional choppiness during gameplay or hangs in either direction(before max stroke in all directions is read), and if you are technically inclined to optimize, you can:
