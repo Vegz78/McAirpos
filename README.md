@@ -149,13 +149,13 @@ For many gamepads and controllers, there should be no or little need for modific
 - Edit the uinput mapping files _arcade1.py_ for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
 (where most commonly only the joystick has EV_ABS *values* that vary typically somewhere between -256 and 256 along each axis).
 
-<br>When using EV_ABS type gamepads/controllers(most common case for USB/BT interfaces) with uinput-mapper, please:
+<br><a id="ev_abs-controller">When using EV_ABS type gamepads/controllers(most common case for USB/BT interfaces) with uinput-mapper, please:
 1. Leave */sd/arcade.cfg* alone/as-is
 2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for eache button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible.
 4. If not possible to rewire or the controller does not output any of those codes, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* in _/sd/arcade.cfg_, for its intended function**.
 
-<br>When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, plese:
+<br><a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, plese:
 1. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring, and
 2. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option)
 
