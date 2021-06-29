@@ -144,6 +144,8 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 
 For many gamepads and controllers, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ as a first step and before attempting to modify the config files.
 
+Buttons in MakeCode Arcade games operate with raw input events on the lowest level - the Linux Input Subsystem. It's therefore often best to get your controllers to work correctly inside McAirpos first, and according to the most logic physical button function/location for every input event EV *code* name the controller outputs(The physical button intended for the 'fire' function, should typically output the EV *codes* BTN_SOUTH(/BTN_A) or BTN_THUMB, and not output BTN_SELECT etc.). When the buttons are correctly wired and set up in McAirpos, they can then easily be reconfigured accordingly inside RetroPie and other programs working with controllers on a higher level.
+
 ### Changing button layouts: 
 - Edit _/sd/arcade.cfg_ for keyboard(or [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads, where all *values* are either 0 or 1), or
 - Edit the uinput mapping files _arcade1.py_ for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
@@ -151,13 +153,14 @@ For many gamepads and controllers, there should be no or little need for modific
 
 <br><a id="ev_abs-controller">When using EV_ABS type gamepads/controllers(most common case for USB/BT interfaces) with uinput-mapper, please:
 1. Leave */sd/arcade.cfg* alone/as-is
-2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for eache button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
-3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible.
-4. If not possible to rewire or the controller does not output any of those codes, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* in _/sd/arcade.cfg_, for its intended function**.
+2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
+3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible
+4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**
 
 <br><a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, plese:
-1. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring, and
-2. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option)
+1. Check and take note of **all** the EV_KEY *codes* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
+2. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring, and
+3. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option) argument
 
 The first point is explained much better and in detail [here](https://arcade.makecode.com/hardware/raspberry-pi/cardboard-control-panel/assemble) and [here](https://learn.adafruit.com/makecode-arcade-with-raspberry-pi-zero/firmware#custom-inputs-3015722-7).<br><br>
 
