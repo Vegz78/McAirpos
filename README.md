@@ -107,7 +107,7 @@ Bugfixes, changes and additions are released sporadically as updates to the main
 
 Updates to included files located outside the _~/home/pi/McAirpos_ are seldomly expected, so to update, from inside this folder, simply type: ```git pull```
 
-Alternatively, if you've made changes to any of the files in this folder, simply back up those files, and then remove the folder an clone again, from _/home/pi_: ```rm -rf ./McAirpos&&git clone https://github.com/Vegz78/McAirpos.git```
+Alternatively, if you've made changes to any of the files in this folder, simply back up those files, and then remove the folder and clone again, from _/home/pi_: ```rm -rf ./McAirpos&&git clone https://github.com/Vegz78/McAirpos.git```
 
 ## Usage
 - Fire up EmulationStation and navigate to your MakeCode Arcade games menu and select the game to play, or
@@ -147,8 +147,8 @@ For many gamepads and controllers, there should be no or little need for modific
 Buttons in MakeCode Arcade games operate with raw input events on the lowest level - the Linux Input Subsystem. It's therefore often best to get your controllers to work correctly inside McAirpos first, and according to the most logic physical button function/location for every input event EV *code* name the controller outputs(The physical button intended for the 'fire' function, should typically output the EV *codes* BTN_SOUTH(/BTN_A) or BTN_THUMB, and not output BTN_SELECT etc.). When the buttons are correctly wired and set up in McAirpos, they can then easily be reconfigured accordingly inside RetroPie and other programs working with controllers on a higher level.
 
 ### Changing button layouts: 
-- Edit _/sd/arcade.cfg_ for keyboard(or [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads, where all *values* are either 0 or 1), or
-- Edit the uinput mapping files _arcade1.py_ for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
+- Edit [_/sd/arcade.cfg_](https://github.com/Vegz78/McAirpos/blob/master/McAirpos/MakeCode/sd/arcade.cfg) for keyboard(or [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads, where all *values* are either 0 or 1), or
+- Edit the uinput mapping files [_arcade1.py_](https://github.com/Vegz78/McAirpos/tree/master/McAirpos/uinput-mapper/configs) for only 1 controller, and both _arcade1.py_ and _arcade2.py_ under _~/McAirpos/McAirpos/uinput-mapper/configs/_ for 2 [EV_ABS type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepads/controllers*<br>
 (where most commonly only the joystick has EV_ABS *values* that vary typically somewhere between -256 and 256 along each axis).
 
 <br><a id="ev_abs-controller">When using EV_ABS type gamepads/controllers(most common case for USB/BT interfaces) with uinput-mapper, please:
@@ -175,7 +175,7 @@ Even though it has been reported to run all right even on a Raspberry Pi Zero, i
 - [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the evtest readout above for your gamepad, and 
 - [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. 
 
-Personally, I don't bother, and just do a quick full 360 degrees stick movement every time I start a new game...<br><br>
+Personally, I don't bother, and just do a quick full 360 degrees stick movement, to calibrate, every time I start a new game...<br><br>
 
 (*Theoretically, it should be possible with [up to *4* players/controllers on the RPi](https://github.com/microsoft/pxt-arcade/pull/1139), but this is most feasible with 4 EV_KEY controls game-natively on the same input event(GPIO/Keyboard?) in *arcade.cfg*. Setting up this automatically with uinput-mapper for 4 EV_ABS controllers, proved hard du do(4 *arcade.py with **lots** of mappings etc.), and all the cross-mappings in uinput-mapper would probably put to much strain on the RPi, unless all redundant mappings are removed and the auto calibration routine is hard-coded with the correct EV_ABS *value* ranges instead. Then, maybe it would be possible with a fixed setup, where all controllers are always on and on the same input event.)
 
