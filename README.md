@@ -155,13 +155,14 @@ Buttons in MakeCode Arcade games operate with raw input events on the lowest lev
 1. Leave */sd/arcade.cfg* alone/as-is
 2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible
-4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/123800483-a3156500-d8e9-11eb-97d5-87f7a31d4904.png)<br><br>
+4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/123807742-6b5deb80-d8f0-11eb-9d99-c6275e65f239.png)<br><br>
 
-<br><a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, please:
+<a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, please:
 1. Check and take note of **all** the EV_KEY *codes* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 2. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring  
   (This is explained much better and in detail [here](https://arcade.makecode.com/hardware/raspberry-pi/cardboard-control-panel/assemble) and [here](https://learn.adafruit.com/makecode-arcade-with-raspberry-pi-zero/firmware#custom-inputs-3015722-7))
-3. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option) argument  ![image](https://user-images.githubusercontent.com/49032025/123800639-ca6c3200-d8e9-11eb-87a7-d548f187cc0b.png)<br><br>
+3. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option) argument  ![image](https://user-images.githubusercontent.com/49032025/123808221-d6a7bd80-d8f0-11eb-92fc-cdb3ed28668f.png)<br><br>
+
 
 ### Finding your controller's input eventX number and the EV *codes* and *values* that its buttons and joystick outputs:
 1. <a id="evtest-readout"></a>Find your gamepad's _/dev/input/eventX number_: ```more /proc/bus/input/devices```
