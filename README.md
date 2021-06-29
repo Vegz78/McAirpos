@@ -4,8 +4,9 @@
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
-[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script.](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
-[2021.01.26: New quick installation script for RetroPie/RPi OS.](https://github.com/Vegz78/McAirpos#installation)
+[2021.06.29: Updated controller configuration section in README.md](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls)<br>
+[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
+[2021.01.26: New quick installation script for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support testet ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
@@ -155,13 +156,13 @@ Buttons in MakeCode Arcade games operate with raw input events on the lowest lev
 1. Leave */sd/arcade.cfg* alone/as-is
 2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible
-4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/123807742-6b5deb80-d8f0-11eb-9d99-c6275e65f239.png)<br><br>
+4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/123840736-ffd74680-d90e-11eb-97af-ea1f0f8ad810.png)<br><br>
 
 <a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, please:
 1. Check and take note of **all** the EV_KEY *codes* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 2. Edit only */sd/arcade.cfg* with the correct _/dev/input/eventX_ number and (EV_KEY) _code_ mappings corresponding to the physical wiring  
   (This is explained much better and in detail [here](https://arcade.makecode.com/hardware/raspberry-pi/cardboard-control-panel/assemble) and [here](https://learn.adafruit.com/makecode-arcade-with-raspberry-pi-zero/firmware#custom-inputs-3015722-7))
-3. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option) argument  ![image](https://user-images.githubusercontent.com/49032025/123808221-d6a7bd80-d8f0-11eb-92fc-cdb3ed28668f.png)<br><br>
+3. Run `launCharc` with the [`nomap`](https://github.com/Vegz78/McAirpos#nomap-option) argument  ![image](https://user-images.githubusercontent.com/49032025/123840843-25fce680-d90f-11eb-82c8-db03069f9392.png)<br><br>
 
 
 ### Finding your controller's input eventX number and the EV *codes* and *values* that its buttons and joystick outputs:
@@ -191,6 +192,7 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
+[**2021.06.29:**](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls) Updated controller configuration section in README.md.
 [**2021.02.02:**](https://github.com/Vegz78/McAirpos/commit/e1ab57e3f52b4646d7e1ee0352b41d141badd023) Added support and quick installation script for [*Recalbox 7.1.1-Reloaded!*](https://www.recalbox.com), only tested on a RPi4 4GB. Silent game launch with logging to /tmp/McAirpos.log instead of stdout, argument option ```verbose``` for old launch with text to screen. Some small fixes and cleanup of code.<br> 
 [**2021.01.28:**](https://github.com/Vegz78/McAirpos/commit/e96e6cb0f3b8fe5f3fc011bf8522ac8cae0d9dde) Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
 -RPi4 B 4GB: RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
