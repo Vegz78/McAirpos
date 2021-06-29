@@ -114,7 +114,7 @@ Alternatively, if you've made changes to any of the files in this folder, simply
 - Run from the text console(games do not run within X):<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc ~/RetroPie/roms/makecode/_gamefile.elf_```
 
-  - <a id="nomap-option"></a>```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad(1 player) using the _/sd/arcade.cfg_ file directly without running uinput-mapper:<br>
+  - <a id="nomap-option"></a>```nomap``` command line option for manual configuration of 1 keyboard(2 players) or 1 [EV_KEY type](https://www.kernel.org/doc/Documentation/input/event-codes.txt) gamepad interface(e.g. GPIO with 1 or more controllers/players) using the _/sd/arcade.cfg_ file directly without running uinput-mapper:<br>
 ```~/McAirpos/McAirpos/launCharc/launCharc nomap ~/RetroPie/roms/makecode/_gamefile.elf_```<br> and similarly inside _/etc/emulationstation/es_systems.cfg_.
   - ```keybswap``` command line option for swapping from the lowest(default) autodiscovered keyboard input handler to the highest, if your keyboard is not detected correctly.
   - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
