@@ -1,481 +1,523 @@
 from uinputmapper.cinput import *
 
-
 """
 Configuration for many EV_ABS(axis) and EV_KEY(digital buttons) directional controllers
 ... as EV_KEY MakeCode Arcade keyboard device
+
+To optimize for speed on slower devices like the RPi Zero, please:
+    1. Remove redundant mappings which do no apply to your controller
+    2. Set min and max variables for your controller's axes manually below
 """
 
 # Global variables
-autoconf = 1	#Determines min and max for EV_ABS events automatically if 1, min and max must be set manually below if 0
-deadzone = 0.25	#Deadzone in percentage before EV_ABS events react, used to dampen reactions to axis movements
+# Attempts to dettermine  min and max for EV_ABS events more quickly and automatically if True.
+# If False, a full stroke in both direction of one axis it required to determine min and max.
+# Min and max values below can be set manually according to evtest to skip auto-calibration altogether.
+autoCalibrateOn = True
+# Deadzone in percentage before uinput-mapper reacts to EV_ABS events.
+# Used to dampen reactions to axis movements around center values
+deadzoneFactor = 0.25
 
 
 # Variables for EV_ABS controller no. 1
-invertUp = 0	#For inverting Y axis if 1, e.g. Nimbus SteelSeries controller
-invertLeft = 0	#For inverting X axis if 1
-max = 1		#Seed value = 1 for autoconf, if manual find properties using ./input-read -v -p /dev/input/eventX
-min = 0		#Seed value = 0 for autoconf
-mid = (min + max)/2
-
-# Directional functions for EV_ABS controller no. 1
-def digitizeUp(x):
-    global min, mid, max, deadzone
-    if x < min:
-	min = x
-	mid = (min + max)/2
-
-    if invertUp:
-	if x > (mid + (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x < (mid - (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeDown(x):
-    global min, mid, max, deadzone
-    if x > max:
-	max = x
-	mid = (min + max)/2
-
-    if invertUp:
-	if x < (mid - (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x > (mid + (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeLeft(x):
-    global min, mid, max, deadzone
-    if x < min:
-	min = x
-	mid = (min + max)/2
-
-    if invertLeft:
-	if x > (mid + (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x < (mid - (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeRight(x):
-    global min, mid, max, deadzone
-    if x > max:
-	max = x
-	mid = (min + max)/2
-
-    if invertLeft:
-	if x < (mid - (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x > (mid + (max - mid) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
+invertYUP1 = False  # For inverting Y axis if True, e.g. Nimbus SteelSeries controller
+invertXLEFT1 = False  # For inverting X axis if True
+min1 = 0  # Seed value = 0 for auto-calibration. If set manual, find min and max using evtest or ../input-read -v -p /dev/input/eventX
+max1 = 0  # Seed value = 0 for auto-calibration
+mid1 = (min1 + max1)/2
+deadzonePos1 = mid1 + (max1 - mid1)*deadzoneFactor
+deadzoneNeg1 = mid1 - (mid1 - min1)*deadzoneFactor
+# Variables for EV_ABS HAT controller no. 1
+hmin1 = 0
+hmax1 = 0
+hmid1 = (hmin1 + hmax1)/2
 
 # Variables for EV_ABS controller no. 2
-invertUp2 = 0	#For inverting Y axis if 1, e.g. Nimbus SteelSeries controller
-invertLeft2 = 0	#For inverting X axis if 1
-max2 = 1	#Seed value = 1 for autoconf, if manual find properties using ./input-read -v -p /dev/input/eventX
-min2 = 0	#Seed value = 0 for autoconf
-mid2 = (min + max)/2
-
-# Directional functions for EV_ABS controller no. 2
-def digitizeUp2(x):
-    global min2, mid2, max2, deadzone
-    if x < min2:
-	min2 = x
-	mid2 = (min2 + max2)/2
-
-    if invertUp2:
-	if x > (mid2 + (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x < (mid2 - (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeDown2(x):
-    global min2, mid2, max2, deadzone
-    if x > max2:
-	max2 = x
-	mid2 = (min2 + max2)/2
-
-    if invertUp2:
-	if x < (mid2 - (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x > (mid2 + (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeLeft2(x):
-    global min2, mid2, max2, deadzone
-    if x < min2:
-	min2 = x
-	mid2 = (min2 + max2)/2
-
-    if invertLeft2:
-	if x > (mid2 + (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x < (mid2 - (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
-
-def digitizeRight2(x):
-    global min2, mid2, max2, deadzone
-    if x > max2:
-	max2 = x
-	mid2 = (min2 + max2)/2
-
-    if invertLeft2:
-	if x < (mid2 - (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-    else:
-	if x > (mid2 + (max2 - mid2) * deadzone):
-	    x = 1
-	else:
-	    x = 0
-
-    return int(x)
+invertYUP2 = False  # For inverting Y axis if True, e.g. Nimbus SteelSeries controller
+invertXLEFT2 = False  # For inverting X axis if True
+min2 = 0  # Seed value = 0 for auto-calibration. If set manual, find min and max using evtest or ../input-read -v -p /dev/input/eventX
+max2 = 0  # Seed value = 0 for auto-calibration
+mid2 = (min2 + max2)/2
+deadzonePos2 = mid2 + (max2 - mid2)*deadzoneFactor
+deadzoneNeg2 = mid2 - (mid2 - min2)*deadzoneFactor
+# Variables for EV_ABS HAT controller no. 2
+hmin2 = 0
+hmax2 = 0
+hmid2 = (hmin2 + hmax2)/2
 
 
-# Variables for EV_ABS HAT controllers
-hmin = -1
-hmax = 1
-hmid = 0
+# Auto-calibration function
+# Determines min, mid and max value intervals and calculates deadzones
+def AutoCalibrate(z, min, mid, max, deadzonePos, deadzoneNeg):
+    global autoCalibrateOn
+    if autoCalibrateOn:
+        # Finds most EV_ABS value intervals in 2^x increments in the int16 range from -32767 to 32768
+        for i in range(1, 17):
+            if abs(z) > (pow(2, i) - 1) - pow(2, i-2):
+                continue
+            else:
+                if i <= 2:
+                    min = -1
+                    max = 1
+                elif min >= 0:
+                    min = 0
+                    max = pow(2, i) - 1
+                elif max <= 0:
+                    min = -pow(2, i) + 1
+                    max = 0
+                else:
+                    min = -pow(2, i-1) + 1
+                    max = pow(2, i-1) - 1
+                break
 
-# Directional functions for EV_ABS HAT controllers
-def hat0Pos(x):
-    global hmin, hmid, hmax
+    mid = (min + max)/2
+    deadzonePos = mid + (max - mid)*deadzoneFactor
+    deadzoneNeg = mid - (mid - min)*deadzoneFactor
 
-    if x > hmid:
-	x = 1
-    else:
-	x = 0
+    return min, mid, max, deadzonePos, deadzoneNeg
 
-    return int(x)
 
-def hat0Neg(x):
-    global hmin, hmid, hmax
+# Directional EV_ABS to EV_KEY conversion functions for controller no. 1
+# For EV_ABS values less than center
+def digitizeNeg1(n):
+    global min1, mid1, max1, deadzonePos1, deadzoneNeg1
 
-    if x < hmid:
-	x = 1
-    else:
-	x = 0
+    # Calls calibration function until value interval is found
+    if n < min1:
+        min1 = n
+        min1, mid1, max1, deadzonePos1, deadzoneNeg1 = AutoCalibrate(\
+            n, min1, mid1, max1, deadzonePos1, deadzoneNeg1)
 
-    return int(x)
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS range
+    if n < deadzoneNeg1:
+        return 1
+
+    return 0
+
+# For EV_ABS values greater than center
+def digitizePos1(p):
+    global min1, mid1, max1, deadzonePos1, deadzoneNeg1
+
+    # Calls calibration function until value interval is found
+    if p > max1:
+        max1 = p
+        min1, mid1, max1, deadzonePos1, deadzoneNeg1 = AutoCalibrate(\
+            p, min1, mid1, max1, deadzonePos1, deadzoneNeg1)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS range
+    if p > deadzonePos1:
+        return 1
+
+    return 0
+
+
+# Directional EV_ABS HAT to EV_KEY conversion functions for controller no. 1
+# For EV_ABS HAT values less than center
+def hat0Neg1(n):
+    global hmin1, hmid1, hmax1
+
+    # Calls calibration function until value interval is found
+    if n > hmax1:
+        hmax1 = n
+        dummy = 0
+        hmin1, hmid1, hmax1, dummy, dummy = AutoCalibrate(\
+            n, hmin1, hmid1, hmax1, dummy, dummy)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if n < hmid1:
+        return 1
+
+    return 0
+
+# For EV_ABS HAT values greater than center
+def hat0Pos1(p):
+    global hmin1, hmid1, hmax1
+
+    # Calls calibration function until value interval is found
+    if p < hmin1:
+        hmin1 = p
+        dummy = 0
+        hmin1, hmid1, hmax1, dummy, dummy = AutoCalibrate(\
+            p, hmin1, hmid1, hmax1, dummy, dummy)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if p > hmid1:
+        return 1
+
+    return 0
+
+
+# Directional EV_ABS to EV_KEY conversion functions for controller no. 2
+# For EV_ABS values less than center
+def digitizeNeg2(n):
+    global min2, mid2, max2, deadzonePos2, deadzoneNeg2
+
+    # Calls calibration function until value interval is found
+    if n < min2:
+        min2 = n
+        min2, mid2, max2, deadzonePos2, deadzoneNeg2 = AutoCalibrate(\
+            n, min2, mid2, max2, deadzonePos2, deadzoneNeg2)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS range
+    if n < deadzoneNeg2:
+        return 1
+
+    return 0
+
+# For EV_ABS values greater than center
+def digitizePos2(p):
+    global min2, mid2, max2, deadzonePos2, deadzoneNeg2
+
+    # Calls calibration function until value interval is found
+    if p > max2:
+        max2 = p
+        min2, mid2, max2, deadzonePos2, deadzoneNeg2 = AutoCalibrate(\
+            p, min2, mid2, max2, deadzonePos2, deadzoneNeg2)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS range
+    if p > deadzonePos2:
+        return 1
+
+    return 0
+
+
+# Directional EV_ABS HAT to EV_KEY conversion functions for controller no. 2
+# For EV_ABS HAT values less than center
+def hat0Neg2(n):
+    global hmin2, hmid2, hmax2
+
+    # Calls calibration function until value interval is found
+    if n > hmax2:
+        hmax2 = n
+        dummy = 0
+        hmin2, hmid2, hmax2, dummy, dummy = AutoCalibrate(\
+            n, hmin2, hmid2, hmax2, dummy, dummy)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if n < hmid2:
+        return 1
+
+    return 0
+
+# For EV_ABS HAT values greater than center
+def hat0Pos2(p):
+    global hmin2, hmid2, hmax2
+
+    # Calls calibration function until value interval is found
+    if p < hmin2:
+        hmin2 = p
+        dummy = 0
+        hmin2, hmid2, hmax2, dummy, dummy = AutoCalibrate(\
+            p, hmin2, hmid2, hmax2, dummy, dummy)
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if p > hmid2:
+        return 1
+
+    return 0
 
 
 # Button mapping config
+# Uses two inputs per controller, to map and convert from EV_ABS to EV_KEY in both directions
 config = {
-	# Controller no. 1
-        (0, EV_KEY): {
-	    BTN_DPAD_UP: {
-		'type' : (0, EV_KEY),
-		'code' : 17,
-		'value' : None
-	    },
-	    BTN_DPAD_DOWN: {
-		'type' : (0, EV_KEY),
-		'code' : 31,
-		'value' : None
-	    },
-	    BTN_DPAD_LEFT: {
-		'type' : (0, EV_KEY),
-		'code' : 30,
-		'value' : None
-	    },
-	    BTN_DPAD_RIGHT: {
-		'type' : (0, EV_KEY),
-		'code' : 32,
-		'value' : None
-	    },
-	    BTN_SOUTH: {
-		'type' : (0, EV_KEY),
-		'code' : 29,
-		'value' : None
-	    },
-	    BTN_B: {
-		'type' : (0, EV_KEY),
-		'code' : 42,
-		'value' : None
-	    },
-	    BTN_START: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : None
-	    },
-	    BTN_SELECT: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : None
-	    },
-	    BTN_MODE: {
-		'type' : (0, EV_KEY),
-		'code' : 60,
-		'value' : None
-	    },
+    # EV_ABS to EV_KEY mappings for 1st direction of controller 1
+    (0, EV_ABS): {
+        # X-axis initially towards less than/negative of center(normally left)
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 30,  # Output key 'a'
+            'value': lambda x: digitizeNeg1(x) if not invertXLEFT1 else digitizePos1(x)
+            # lambda calls function with joystick value dependent on if axis is inverted or not
         },
-	(0, EV_ABS): {
-	    ABS_X: {
-		'type' : (0, EV_KEY),
-		'code' : 30,
-		'value' : digitizeLeft
-	    },
-	    ABS_Y: {
-		'type' : (0, EV_KEY),
-		'code' : 17,
-		'value' : digitizeUp
-	    },
-	    ABS_HAT0X: {
-		'type' : (0, EV_KEY),
-		'code' : 32,
-		'value' : hat0Pos
-	    },
-	    ABS_HAT0Y: {
-		'type' : (0, EV_KEY),
-		'code' : 31,
-		'value' : hat0Pos
-	    }
-	},
-        (1, EV_KEY): {
-	    BTN_THUMB: {
-		'type' : (0, EV_KEY),
-		'code' : 29,
-		'value' : None
-	    },
-	    BTN_THUMB2: {
-		'type' : (0, EV_KEY),
-		'code' : 42,
-		'value' : None
-	    },
-	    BTN_BASE4: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : None
-	    },
-	    BTN_BASE3: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : None
-	    },
-	    KEY_HOMEPAGE: {
-		'type' : (0, EV_KEY),
-		'code' : 60,
-		'value' : None
-	    }
+        # Y-axis initially towards less than/negative of center(normally up)
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 17,  # Output key 'w'
+            'value': lambda y: digitizeNeg1(y) if not invertYUP1 else digitizePos1(y)
+            # lambda calls function with joystick value dependent on if axis is inverted or not
         },
-	(1, EV_ABS): {
-	    ABS_X: {
-		'type' : (0, EV_KEY),
-		'code' : 32,
-		'value' : digitizeRight
-	    },
-	    ABS_Y: {
-		'type' : (0, EV_KEY),
-		'code' : 31,
-		'value' : digitizeDown
-	    },
-	    ABS_Z: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : hat0Pos
-	    },
-	    ABS_RZ: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : hat0Pos
-	    },
-	    ABS_HAT0X: {
-		'type' : (0, EV_KEY),
-		'code' : 30,
-		'value' : hat0Neg
-	    },
-	    ABS_HAT0Y: {
-		'type' : (0, EV_KEY),
-		'code' : 17,
-		'value' : hat0Neg
-	    }
-	},
-	# Controller no. 2
-        (2, EV_KEY): {
-	    BTN_DPAD_UP: {
-		'type' : (0, EV_KEY),
-		'code' : 103,
-		'value' : None
-	    },
-	    BTN_DPAD_DOWN: {
-		'type' : (0, EV_KEY),
-		'code' : 108,
-		'value' : None
-	    },
-	    BTN_DPAD_LEFT: {
-		'type' : (0, EV_KEY),
-		'code' : 105,
-		'value' : None
-	    },
-	    BTN_DPAD_RIGHT: {
-		'type' : (0, EV_KEY),
-		'code' : 106,
-		'value' : None
-	    },
-	    BTN_SOUTH: {
-		'type' : (0, EV_KEY),
-		'code' : 100,
-		'value' : None
-	    },
-	    BTN_B: {
-		'type' : (0, EV_KEY),
-		'code' : 57,
-		'value' : None
-	    },
-	    BTN_START: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : None
-	    },
-	    BTN_SELECT: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : None
-	    },
-	    BTN_MODE: {
-		'type' : (0, EV_KEY),
-		'code' : 60,
-		'value' : None
-	    },
+        ABS_HAT0X: {
+            # HAT0X-axis initially towards greater than/positive of center(normally right)
+            'type': (0, EV_KEY),
+            'code': 32,  # etc.
+            'value': hat0Pos1  # Joystick value variable x is implied for function hat0Pos
         },
-	(2, EV_ABS): {
-	    ABS_X: {
-		'type' : (0, EV_KEY),
-		'code' : 105,
-		'value' : digitizeLeft2
-	    },
-	    ABS_Y: {
-		'type' : (0, EV_KEY),
-		'code' : 103,
-		'value' : digitizeUp2
-	    },
-	    ABS_HAT0X: {
-		'type' : (0, EV_KEY),
-		'code' : 106,
-		'value' : hat0Pos
-	    },
-	    ABS_HAT0Y: {
-		'type' : (0, EV_KEY),
-		'code' : 108,
-		'value' : hat0Pos
-	    }
-	},
-        (3, EV_KEY): {
-	    BTN_THUMB: {
-		'type' : (0, EV_KEY),
-		'code' : 100,
-		'value' : None
-	    },
-	    BTN_THUMB2: {
-		'type' : (0, EV_KEY),
-		'code' : 57,
-		'value' : None
-	    },
-	    BTN_BASE4: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : None
-	    },
-	    BTN_BASE3: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : None
-	    },
-	    KEY_HOMEPAGE: {
-		'type' : (0, EV_KEY),
-		'code' : 60,
-		'value' : None
-	    }
-        },
-	(3, EV_ABS): {
-	    ABS_X: {
-		'type' : (0, EV_KEY),
-		'code' : 106,
-		'value' : digitizeRight2
-	    },
-	    ABS_Y: {
-		'type' : (0, EV_KEY),
-		'code' : 108,
-		'value' : digitizeDown2
-	    },
-	    ABS_Z: {
-		'type' : (0, EV_KEY),
-		'code' : 1,
-		'value' : hat0Pos
-	    },
-	    ABS_RZ: {
-		'type' : (0, EV_KEY),
-		'code' : 59,
-		'value' : hat0Pos
-	    },
-	    ABS_HAT0X: {
-		'type' : (0, EV_KEY),
-		'code' : 105,
-		'value' : hat0Neg
-	    },
-	    ABS_HAT0Y: {
-		'type' : (0, EV_KEY),
-		'code' : 103,
-		'value' : hat0Neg
-	    }
+        # HAT0Y-axis initially towards greater than/positive of center(normally down)
+        ABS_HAT0Y: {
+            'type': (0, EV_KEY),
+            'code': 31,
+            'value': hat0Pos1
         }
+    },
+    # EV_ABS to EV_KEY mappings for 2nd direction of controller 1
+    (1, EV_ABS): {
+        # X-axis initially towards greater than/positive of center(normally right)
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 32,
+            'value': lambda x: digitizePos1(x) if not invertXLEFT1 else digitizeNeg1(x)
+
+        },
+        # Y-axis initially towards greater than/positive of center(normally down)
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 31,
+            'value': lambda y: digitizePos1(y) if not invertYUP1 else digitizeNeg1(y)
+        },
+        # HAT0X-axis initially towards less than/negative of center(normally left)
+        ABS_HAT0X: {
+            'type': (0, EV_KEY),
+            'code': 30,
+            'value': hat0Neg1
+        },
+        # HAT0Y-axis initially towards less than/negative of center(normally up)
+        ABS_HAT0Y: {
+            'type': (0, EV_KEY),
+            'code': 17,
+            'value': hat0Neg1
+        },
+        # Start button conversion for some controllers without start button
+        ABS_Z: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': hat0Pos1
+        },
+        # Select button conversion for some controllers without select button
+        ABS_RZ: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': hat0Pos1
+        }
+    },
+    # First EV_KEY to EV_KEY mappings for controller 1
+    (0, EV_KEY): {
+        BTN_DPAD_UP: {
+            'type': (0, EV_KEY),
+            'code': 17,
+            'value': None
+        },
+        BTN_DPAD_DOWN: {
+            'type': (0, EV_KEY),
+            'code': 31,
+            'value': None
+        },
+        BTN_DPAD_LEFT: {
+            'type': (0, EV_KEY),
+            'code': 30,
+            'value': None
+        },
+        BTN_DPAD_RIGHT: {
+            'type': (0, EV_KEY),
+            'code': 32,
+            'value': None
+        },
+        BTN_SOUTH: {  # (BTN_A synonym)
+            'type': (0, EV_KEY),
+            'code': 29,
+            'value': None
+        },
+        BTN_B: {
+            'type': (0, EV_KEY),
+            'code': 42,
+            'value': None
+        },
+        BTN_START: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': None
+        },
+        BTN_SELECT: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': None
+        },
+        BTN_MODE: {
+            'type': (0, EV_KEY),
+            'code': 60,
+            'value': None
+        }
+    },
+    # Second EV_KEY to EV_KEY mappings for controller 1
+    (1, EV_KEY): {
+        BTN_THUMB: {
+            'type': (0, EV_KEY),
+            'code': 29,
+            'value': None
+        },
+        BTN_THUMB2: {
+            'type': (0, EV_KEY),
+            'code': 42,
+            'value': None
+        },
+        BTN_BASE4: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': None
+        },
+        BTN_BASE3: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': None
+        },
+        KEY_HOMEPAGE: {
+            'type': (0, EV_KEY),
+            'code': 60,
+            'value': None
+        }
+    },
+	# EV_ABS to EV_KEY mappings for 1st direction of controller 2
+    (2, EV_ABS): {
+		# X-axis initially towards less than/negative of center(normally left)
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 105,
+            'value': lambda x: digitizeNeg2(x) if not invertXLEFT2 else digitizePos2(x)
+        },
+		# Y-axis initially towards less than/negative of center(normally up)
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 103,
+            'value': lambda y: digitizeNeg2(y) if not invertYUP2 else digitizePos2(y)
+        },
+        ABS_HAT0X: {
+			# HAT0X-axis initially towards greater than/positive of center(normally right)
+            'type': (0, EV_KEY),
+            'code': 106,
+            'value': hat0Pos2
+        },
+		# HAT0Y-axis initially towards greater than/positive of center(normally down)
+        ABS_HAT0Y: {
+            'type': (0, EV_KEY),
+            'code': 108,
+            'value': hat0Pos2
+        }
+    },
+	# EV_ABS to EV_KEY mappings for 2nd direction of controller 2
+	(3, EV_ABS): {
+		# X-axis initially towards greater than/positive of center(normally right)
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 106,
+            'value': lambda x: digitizePos2(x) if not invertXLEFT2 else digitizeNeg2(x)
+        },
+		# Y-axis initially towards greater than/positive of center(normally down)
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 108,
+            'value': lambda y: digitizePos2(y) if not invertYUP2 else digitizeNeg2(y)
+        },
+		# HAT0X-axis initially towards less than/negative of center(normally left)
+        ABS_HAT0X: {
+            'type': (0, EV_KEY),
+            'code': 105,
+            'value': hat0Neg2
+        },
+		# HAT0Y-axis initially towards less than/negative of center(normally up)
+        ABS_HAT0Y: {
+            'type': (0, EV_KEY),
+            'code': 103,
+            'value': hat0Neg2
+        },
+		# Start button conversion for some controllers without start button
+        ABS_Z: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': hat0Pos2
+        },
+		# Select button conversion for some controllers without select button
+        ABS_RZ: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': hat0Pos2
+        }
+    },
+    # First EV_KEY to EV_KEY mappings for controller 2
+    (2, EV_KEY): {
+        BTN_DPAD_UP: {
+            'type': (0, EV_KEY),
+            'code': 103,
+            'value': None
+        },
+        BTN_DPAD_DOWN: {
+            'type': (0, EV_KEY),
+            'code': 108,
+            'value': None
+        },
+        BTN_DPAD_LEFT: {
+            'type': (0, EV_KEY),
+            'code': 105,
+            'value': None
+        },
+        BTN_DPAD_RIGHT: {
+            'type': (0, EV_KEY),
+            'code': 106,
+            'value': None
+        },
+        BTN_SOUTH: {
+            'type': (0, EV_KEY),
+            'code': 100,
+            'value': None
+        },
+        BTN_B: {
+            'type': (0, EV_KEY),
+            'code': 57,
+            'value': None
+        },
+        BTN_START: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': None
+        },
+        BTN_SELECT: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': None
+        },
+        BTN_MODE: {
+            'type': (0, EV_KEY),
+            'code': 60,
+            'value': None
+        },
+    },
+	# Second EV_KEY to EV_KEY mappings for controller 2
+	(3, EV_KEY): {
+        BTN_THUMB: {
+            'type': (0, EV_KEY),
+            'code': 100,
+            'value': None
+        },
+        BTN_THUMB2: {
+            'type': (0, EV_KEY),
+            'code': 57,
+            'value': None
+        },
+        BTN_BASE4: {
+            'type': (0, EV_KEY),
+            'code': 1,
+            'value': None
+        },
+        BTN_BASE3: {
+            'type': (0, EV_KEY),
+            'code': 59,
+            'value': None
+        },
+        KEY_HOMEPAGE: {
+            'type': (0, EV_KEY),
+            'code': 60,
+            'value': None
+        }
+    }
 }
 
+
+# Name for created output /dev/input/eventX
 names = {
-    0 : 'MakeCode_Arcade'
-
+    0: 'MakeCode_Arcade'
 }
 
+
+# Start uinput-mapper on configuration and with the output event name above
 def config_merge(c, n):
-    c.clear()
-    c.update(config)
-    n.update(names)
+    c.clear()		# Clear all initial incoming controller mappings
+    c.update(config)    # Replace with above mapping configuration
+    n.update(names)  # Update output event with the above name
