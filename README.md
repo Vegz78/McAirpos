@@ -4,11 +4,12 @@
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2021.07.06: Major revision of the _arcade1&2.py_ controller configuration files](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.06.29: Updated controller configuration section in README.md](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls)<br>
 [2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
 [2021.01.26: New quick installation script for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#installation)
 
-Controller support testet ok with various combinations of:
+Controller support out-of-the-box testet ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
 - [XBox One controller](https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1rfiZ?ver=03f2&q=90&m=6&h=705&w=1253&b=%23FFF0F0F0&f=jpg&o=f&p=140&aim=true),
 - [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus)(remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
@@ -18,6 +19,7 @@ Controller support testet ok with various combinations of:
 - [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/)(thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
 - [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!), and
 - [SJ@JX Arcade DIY USB](https://www.amazon.ca/gp/product/B07FZ3YT1G)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/10#issuecomment-846587751) and [proposed solution to USB sound problems](https://github.com/Vegz78/McAirpos/issues/11), [@QuadDam](https://github.com/QuadDam)!)
+- [Zero Delay Encoder DIY USB](https://www.electrokit.com/uploads/productfile/41017/SBC-ZDE-Datasheet.pdf)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/15#issuecomment-872328078), [@sofiania](https://github.com/sofiania)!)
 
 It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
@@ -127,11 +129,11 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 ## Default and modifying the layout for controls
 ### Default button mappings with corresponding EV_ABS and (EV_KEY) _codes*_:
 |Move|Keyboard PL1|Keyboard PL2|Gamepads/Controllers PL1&PL2|
-|----|--------|--------|--------|
-|Up  |W (17)  |Up arrow (103)|BTN_DPAD_UP /-ABS_HAT0Y /ABS_Y (17/103)|
-|Down|S (31)  |Down arrow (108)|BTN_DPAD_DOWN /ABS_HAT0Y /-ABS_Y (31/108)|
-|Left|A (30)  |Left arrow (105)|BTN_DPAD_LEFT /-ABS_HAT0X /ABS_X (30/105)|
-|Right|D (32) |Right arrow (106)|BTN_DPAD_RIGHT /ABS_HAT0X /-ABS_X (32/106)|
+|:---|:-------|:--------|:--------|
+|Up  |W (17)  |Up arrow (103)|BTN_DPAD_UP /-ABS_HAT0Y /-ABS_Y** (17/103)|
+|Down|S (31)  |Down arrow (108)|BTN_DPAD_DOWN /ABS_HAT0Y /ABS_Y (31/108)|
+|Left|A (30)  |Left arrow (105)|BTN_DPAD_LEFT /-ABS_HAT0X /-ABS_X (30/105)|
+|Right|D (32) |Right arrow (106)|BTN_DPAD_RIGHT /ABS_HAT0X /ABS_X (32/106)|
 |Fire/A|Left Ctrl (29)|Right ALT (100)|BTN_SOUTH(/BTN_A) /BTN_THUMB (29/100)|
 |Fire2/B|Left Shift (42)|Space bar (57)|BTN_EAST(/BTN_B) /BTN_THUMB2 (42/57)|
 |Exit|Esc (1)||BTN_START /BTN_BASE4 /ABS_Z (1)|
@@ -141,7 +143,7 @@ If something goes wrong and the screen/keyboard freezes inside the game, it shou
 |*Code* type:|(EV_KEY)|(EV_KEY)|EV_ABS, and some EV_KEY(BTN_s) (EV_KEY1/E_VKEY2)|
 |Mapping:|(Game-native)|(Game-native)|uinput-mapper to (game-native)|
 |In files:|arcade.cfg|arcade.cfg|arcade1&2.py|
-||||* (EV_KEY) *codes* in arcade.cfg and in the 'code' fields<br> in arcade1&2.py must always correspond.|
+||||* (EV_KEY) *codes* in arcade.cfg and in the 'code' fields<br> in arcade1&2.py must always correspond.<br>** Negative EV_ABS values are values less than the <br>center value, positive are greater than center|
 
 For many gamepads and controllers, there should be no or little need for modification of the config files. For [DIY Arcade controllers](https://www.google.com/search?q=diy+arcade+controllers&source=lmns&tbm=shop&bih=792&biw=1508), you might save some time and complexity by __*please checking that the physical wirings are correct*__ as a first step and before attempting to modify the config files.
 
@@ -156,7 +158,7 @@ Buttons in MakeCode Arcade games operate with raw input events on the lowest lev
 1. Leave */sd/arcade.cfg* alone/as-is
 2. Check and take note of **all** the EV *codes* and *values* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
 3. *Physically (re-)wire* the real button with its intended function(e.g. *Exit*) so that `evtest` outputs one of the *codes* in the rightmost column of the same row as this function in the table above, if possible
-4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/123840736-ffd74680-d90e-11eb-97af-ea1f0f8ad810.png)<br><br>
+4. If not possible to rewire or the controller does not output all of those codes accordingly or uniquely, edit _arcade1&2.py_ so that each button's or joystick direction's EV_KEY or EV_ABS *code* is included and corresponds/is mapped to the same (EV_KEY) *code* as in _/sd/arcade.cfg_, for its intended function**  ![image](https://user-images.githubusercontent.com/49032025/124525673-5b6a6e00-de00-11eb-98ff-3d29157cd500.png)<br><br>
 
 <a id="ev_key-controllers">When using EV_KEY type key gamepads/controllers(most common case for keyboards and GPIO interfaces) with only **one** _/dev/input/eventX_ and without the need for uinput-mapper, please:
 1. Check and take note of **all** the EV_KEY *codes* that your controller outputs for each button and joystick direction with [`evtest`](https://github.com/Vegz78/McAirpos#evtest-readout)
@@ -173,10 +175,9 @@ Buttons in MakeCode Arcade games operate with raw input events on the lowest lev
 In an attempt to maximize the number of game controllers supported, McAirpos runs a self-calibrating routine on every launch of a game and has a few redundant uinput mappings. 
 
 Even though it has been reported to run all right even on a Raspberry Pi Zero, if you experience an occasional choppiness during gameplay or hangs in either direction(before max stroke in all directions is read), and if you are technically inclined to optimize, you can:
-- [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L16) according the evtest readout above for your gamepad, and 
-- [remove the mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/e47f0ba63c466bc92f7bb016eeb09f0db19e7eb0/McAirpos/uinput-mapper/configs/arcade1.py#L126) in _arcade1&2.py_. 
+- [remove the button and directional mappings that are redundant](https://github.com/Vegz78/McAirpos/blob/03a88f802ca0939b253b196eb65b931301887831/McAirpos/uinput-mapper/configs/arcade1.py#L197) for your controllers in _arcade1&2.py_, and
+- [hardcode the _min_ and _max_ values](https://github.com/Vegz78/McAirpos/blob/03a88f802ca0939b253b196eb65b931301887831/McAirpos/uinput-mapper/configs/arcade1.py#L25) according the evtest readout above for your gamepad.<br><br>
 
-Personally, I don't bother, and just do a quick full 360 degrees stick movement, to calibrate, every time I start a new game...<br><br>
 
 (*Theoretically, it should be possible with [up to *4* players/controllers on the RPi](https://github.com/microsoft/pxt-arcade/pull/1139), but this is most feasible with 4 EV_KEY controls game-natively on the same input event(GPIO/Keyboard?) in *arcade.cfg*. Setting up this automatically with uinput-mapper for 4 EV_ABS controllers, proved hard du do(4 *arcade.py with **lots** of mappings etc.), and all the cross-mappings in uinput-mapper would probably put to much strain on the RPi, unless all redundant mappings are removed and the auto calibration routine is hard-coded with the correct EV_ABS *value* ranges instead. Then, maybe it would be possible with a fixed setup, where all controllers are always on and on the same input event.)
 
@@ -192,7 +193,8 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
-[**2021.06.29:**](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls) Updated controller configuration section in README.md.
+[**2021.07.06:**](https://github.com/Vegz78/McAirpos/commit/03a88f802ca0939b253b196eb65b931301887831) Major revision of the _arcade1&2.py_ controller configuration files.<br>
+[**2021.06.29:**](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls) Updated controller configuration section in README.md.<br>
 [**2021.02.02:**](https://github.com/Vegz78/McAirpos/commit/e1ab57e3f52b4646d7e1ee0352b41d141badd023) Added support and quick installation script for [*Recalbox 7.1.1-Reloaded!*](https://www.recalbox.com), only tested on a RPi4 4GB. Silent game launch with logging to /tmp/McAirpos.log instead of stdout, argument option ```verbose``` for old launch with text to screen. Some small fixes and cleanup of code.<br> 
 [**2021.01.28:**](https://github.com/Vegz78/McAirpos/commit/e96e6cb0f3b8fe5f3fc011bf8522ac8cae0d9dde) Tested McAirpos running ok with keyboard and gamepad controllers on the following systems:<br>
 -RPi4 B 4GB: RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72), RetroPie(FKMS ON), CLI(FKMS ON&OFF)<br>
