@@ -96,10 +96,10 @@ From _/_: ```sudo chown -R pi /sd&&sudo chgrp -R pi /sd&&sudo chmod -R 755 /sd``
 5. Copy the folder _./McAirpos/EmulationStation/makecode_ with all its contens into _/etc/emulationstation/themes/carbon/_.<br>
 ```sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon```
 6. Create a _makecode_ games folder under _/home/pi/RetroPie/roms/_ and [fill it up with native MakeCode Arcade games](https://vegz78.github.io/McAirpos).<br>
-Make sure that the _makecode_ games folder is owned by _pi_ and has the correct permissions. From inside this folder:<br>
-```sudo chown -R pi .&&sudo chgrp -R pi .&&sudo chmod -R 755 .```<br>
-Also, make sure that every _game\_file.elf_ has executable permissions if they aren't set automatically when copying them to the _makecode_ games folder:<br>
-```sudo chmod +x ~/RetroPie/roms/makecode/*.elf```
+Make sure that the _makecode_ games folder is owned by _pi_ and has the correct permissions:<br>
+```sudo chown -R pi:pi ~/RetroPie/roms/makecode&&sudo chmod -R 755 ~/RetroPie/roms/makecode```<br>
+Also, **make sure that every _game\_file.elf_ has executable permissions** if they aren't set automatically when copying them to the _makecode_ games folder:<br>
+```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
 ### Quick automatic installation for Recalbox
 Run this command from the terminal(F4 + ALT+F2, root/recalboxroot) on Recalbox 7.1.1-Reloaded!:<br>
@@ -123,6 +123,10 @@ Alternatively, if you've made changes to any of the files in this folder, simply
   - ```verbose``` command line option for verbose logging to stdout instead of _/tmp/McAirpos.log_.
 
 **NB: The _game\_files.elf_ and launCharc only work in RetroPie(booted directly into or started from the CLI) and in the [Linux console/CLI](https://en.wikipedia.org/wiki/Linux_console). They do not work(cannot open gfx display) when run in a terminal emulator or in RetroPie started from within a desktop/gui/X environment.**
+
+**NB2: [The _game\_files.elf_ must be executable and the _~/RetroPie/roms/makecode_ folder must be writable:](https://github.com/Vegz78/McAirpos/issues/13#issuecomment-866690857)**<br>
+```sudo chmod -R 755 ~/RetroPie/roms/makecode```<br>
+Typical symptoms when this is not the case, are games not launching with only a black screen and _/tmp/McAirpos.log_ showing "Did not find the file /tmp/pxt-pid..." and/or "Timed out trying to find game's process ID..." after having tried to launch a game.
 
 If something goes wrong and the screen/keyboard freezes inside the game, it should be possible to regain control of the console/RetroPie by a combination of _CTRL+\\, CTRL+C, CTRL+D and CTRL+C_.
 
@@ -193,6 +197,7 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
+[**2021.07.13:**](https://github.com/Vegz78/McAirpos/issues/17#issuecomment-879092813) Tested McAirpos running ok with keyboard and gamepad controllers on fresh RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72).<br>
 [**2021.07.06:**](https://github.com/Vegz78/McAirpos/commit/03a88f802ca0939b253b196eb65b931301887831) Major revision of the _arcade1&2.py_ controller configuration files.<br>
 [**2021.06.29:**](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls) Updated controller configuration section in README.md.<br>
 [**2021.02.02:**](https://github.com/Vegz78/McAirpos/commit/e1ab57e3f52b4646d7e1ee0352b41d141badd023) Added support and quick installation script for [*Recalbox 7.1.1-Reloaded!*](https://www.recalbox.com), only tested on a RPi4 4GB. Silent game launch with logging to /tmp/McAirpos.log instead of stdout, argument option ```verbose``` for old launch with text to screen. Some small fixes and cleanup of code.<br> 
