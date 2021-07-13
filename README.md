@@ -46,7 +46,7 @@ Either make your own games and extensions in the MakeCode web editor, or downloa
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - [@Jacob](https://github.com/jacobcarpenter)['s games gallery](https://games-gallery.jacobcarpenter.com)
-- [@UnsignedArduino](https://github.com/UnsignedArduino)['s Awsome-Arcade-Extensions](https://github.com/UnsignedArduino/Awesome-Arcade-Extensions)
+- [@UnsignedArduino](https://github.com/UnsignedArduino)['s Awesome-Arcade-Extensions](https://github.com/UnsignedArduino/Awesome-Arcade-Extensions)
 - Other suggestions where to find good MakeCode Arcade games and resources?
 
 [![](docs/MakeCode_Arcade_Raspberry_Pi.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Raspberry_Pi.png?raw=true)
@@ -191,8 +191,12 @@ Even though it has been reported to run all right even on a Raspberry Pi Zero, i
 
 ## Issues
 Don't hesitate to [open an issue](https://github.com/Vegz78/McAirpos/issues) if it doesn't work as expected or you have suggestions for improvements. But please first:
-1. Check the physical wiring of DIY Arcade controllers and whether [your issue might already have been solved](https://github.com/Vegz78/McAirpos/issues?q=is%3Aissue+is%3Aclosed), and
-2. Provide an [_evtest_ readout of your controller](https://github.com/Vegz78/McAirpos#evtest-readout) with indications about which button functions you intend for which listed input events<br>
+1. Read the [usage section](https://github.com/Vegz78/McAirpos#Usage) *thoroughly*, and
+2. **Check and double-check** that your [*game_files.elf* are **executable** and that your games folder is **writable**](https://github.com/Vegz78/McAirpos/issues/13#issuecomment-866690857):<br>
+```sudo chmod -R 755 ~/RetroPie/roms/makecode```, and
+3. Check the physical wiring of DIY Arcade controllers and whether [your issue might already have been solved](https://github.com/Vegz78/McAirpos/issues?q=is%3Aissue+is%3Aclosed), and
+4. *If your game is still not launching*, provide a copy of */tmp/McAirpos.log*, or
+5. *If your controller is still not working*, provide an [_evtest_ readout of your controller](https://github.com/Vegz78/McAirpos#evtest-readout) with indications about which button functions you intend for which listed input events<br>
 
 I'm still just learning to code and I don't mind a little [spaghetti code](https://en.wikipedia.org/wiki/Spaghetti_code) as long as it just works.. ;-)<br>
 
