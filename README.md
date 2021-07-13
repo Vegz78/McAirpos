@@ -46,7 +46,7 @@ Either make your own games and extensions in the MakeCode web editor, or downloa
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - [@Jacob](https://github.com/jacobcarpenter)['s games gallery](https://games-gallery.jacobcarpenter.com)
-- [@](https://github.com/UnsignedArduino)['s Awsome-Arcade-Extensions](https://github.com/UnsignedArduino/Awesome-Arcade-Extensions)
+- [@UnsignedArduino](https://github.com/UnsignedArduino)['s Awsome-Arcade-Extensions](https://github.com/UnsignedArduino/Awesome-Arcade-Extensions)
 - Other suggestions where to find good MakeCode Arcade games and resources?
 
 [![](docs/MakeCode_Arcade_Raspberry_Pi.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Raspberry_Pi.png?raw=true)
