@@ -39,13 +39,15 @@ Please scroll down this page or click the following links for: [Downloading game
 I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) ready for downloading native executables of games here:<br>
 https://vegz78.github.io/McAirpos
 
-Either make your own games in the MakeCode web editor, or download from various places, like:
+Either make your own games and extensions in the MakeCode web editor, or download from various places, like:
 
 - [MakeCode Arcade home (https://arcade.makecode.com)](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF)
 - [MakCode's official forum](https://forum.makecode.com/c/Share-your-Arcade-projects-here/show-tell/)
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
-- Other suggestions where to find good games?
+- [@Jacob](https://github.com/jacobcarpenter)['s games gallery](https://games-gallery.jacobcarpenter.com)
+- [@](https://github.com/UnsignedArduino)['s Awsome-Arcade-Extensions](https://github.com/UnsignedArduino/Awesome-Arcade-Extensions)
+- Other suggestions where to find good MakeCode Arcade games and resources?
 
 [![](docs/MakeCode_Arcade_Raspberry_Pi.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Raspberry_Pi.png?raw=true)
 ## Contents
