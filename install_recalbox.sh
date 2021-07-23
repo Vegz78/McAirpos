@@ -58,9 +58,8 @@ if [[ -d ./RetroPie/roms/makecode ]]; then
    echo "MakeCode Arcade games folder already present, continuing..."
 else
    mkdir -p /recalbox/share/roms/makecode
-   chmod -R 777 /recalbox/share/roms/makecode
 fi
-
+chmod -R 777 /recalbox/share/roms/makecode
 # 6. Initialize uinput-mapper
 #cd /home/pi/McAirpos/McAirpos/uinput-mapper
 #make
