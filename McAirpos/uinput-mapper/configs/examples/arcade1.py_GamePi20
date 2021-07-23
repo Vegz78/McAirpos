@@ -1,0 +1,114 @@
+from uinputmapper.cinput import *
+
+"""
+Configuration for many EV_ABS(axis) and EV_KEY(digital buttons) directional controllers
+... as EV_KEY MakeCode Arcade keyboard device
+
+To optimize for speed on slower devices like the RPi Zero, please:
+    1. Remove redundant mappings which do no apply to your controller
+    2. Set min and max variables for your controller's axes manually below
+"""
+
+
+# Variables for EV_ABS HAT controller no. 1
+hmin1 = -1
+hmax1 = 1
+hmid1 = 0
+
+
+# Directional EV_ABS HAT to EV_KEY conversion functions for controller no. 1
+# For EV_ABS HAT values less than center
+def hat0Neg1(n):
+    global hmin1, hmid1, hmax1
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if n < hmid1:
+        return 1
+
+    return 0
+
+# For EV_ABS HAT values greater than center
+def hat0Pos1(p):
+    global hmin1, hmid1, hmax1
+
+    # Triggers corresponding EV_Key 'code' in config below for wanted EV_ABS HAT range
+    if p > hmid1:
+        return 1
+
+    return 0
+
+
+# Button mapping config
+# Uses two inputs per controller, to map and convert from EV_ABS to EV_KEY in both directions
+config = {
+    # EV_ABS to EV_KEY mappings for 1st direction of controller 1
+    (0, EV_ABS): {
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 32,  # Output key 'd'
+            'value': hat0Pos1
+        },
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 1,  # Output key 'esc'
+            'value': hat0Pos1
+        }
+    },
+    # EV_ABS to EV_KEY mappings for 2nd direction of controller 1
+    (1, EV_ABS): {
+        ABS_X: {
+            'type': (0, EV_KEY),
+            'code': 17,  # Output key 'w'
+            'value': hat0Neg1
+        },
+        ABS_Y: {
+            'type': (0, EV_KEY),
+            'code': 59,  # Output key 'f1'
+            'value': hat0Neg1
+        }
+    },
+    # First EV_KEY to EV_KEY mappings for controller 1
+    (0, EV_KEY): {
+        BTN_B: {
+            'type': (0, EV_KEY),
+            'code': 42,
+            'value': None
+        },
+        BTN_START: {
+            'type': (0, EV_KEY),
+            'code': 31,
+            'value': None
+        },
+        BTN_SELECT: {
+            'type': (0, EV_KEY),
+            'code': 30,
+            'value': None
+        }
+    },
+    # Second EV_KEY to EV_KEY mappings for controller 1
+    (1, EV_KEY): {
+        BTN_TR: {
+            'type': (0, EV_KEY),
+            'code': 29,
+            'value': None
+        },
+        BTN_NORTH: {
+            'type': (0, EV_KEY),
+            'code': 60,
+            'value': None
+        }
+    }
+}
+
+
+# Name for created output /dev/input/eventX
+names = {
+    0: 'MakeCode_Arcade'
+}
+
+
+# Start uinput-mapper on configuration and with the output event name above
+def config_merge(c, n):
+    c.clear()		# Clear all initial incoming controller mappings
+    c.update(config)    # Replace with above mapping configuration
+    n.update(names)  # Update output event with the above name
