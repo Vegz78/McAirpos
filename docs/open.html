@@ -39,6 +39,7 @@ SOFTWARE.
 				var URLSuffix2 = "#editor";
 				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
 				var regex2 = new RegExp("[_][a-zA-Z0-9]{12}");
+				var regex3 = new RegExp("\/$");
 				var waitTime = 1000;
 				if (regex1.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
@@ -53,7 +54,12 @@ SOFTWARE.
 					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
 				}
 				else if (url.includes("https://github.com")) {
-					targetURL = targetURL + URLSuffix + "#pub:" + url;
+					if (regex3.test(url)) {
+						targetURL = targetURL + URLSuffix + "#pub:" + url;
+					}
+					else {
+						targetURL = targetURL + URLSuffix + "#pub:" + url +"/";
+					}
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
 					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
