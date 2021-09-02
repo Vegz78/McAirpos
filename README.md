@@ -104,6 +104,47 @@ Make sure that the _makecode_ games folder is owned by _pi_ and has the correct 
 Also, **make sure that every _game\_file.elf_ has executable permissions** if they aren't set automatically when copying them to the _makecode_ games folder:<br>
 ```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
+#### Button mapping for Picade
+
+The standard setup for Picade is RetroPie.
+So, if you follow the setup for RetroPie on your Picade, you will be able to launch the makecode games.
+To also play them, you still have to fix the button mapping:
+
+copy the following content to your `/sd/arcade.cfg`
+
+```
+SCAN_CODES=/dev/input/event0
+BTN_LEFT=105
+BTN_RIGHT=106
+BTN_UP=103
+BTN_DOWN=108
+BTN_A=29
+BTN_B=56
+BTN_RESET=28
+BTN_EXIT=1
+BTN_MENU=23
+```
+
+This should work fine as long as no other keyboard is attached to the system. 
+If an additional keyboard is attached, `/dev/input/event0/` might change to another `/dev/input/eventX`.
+
+To activate this config, we have to tell the launcher not to use the uiinput-mapper and fall back to this config instead.
+Open `/etc/emulationstation/es_systems.cfg` and replace the line
+
+```
+    <command>/home/pi/McAirpos/McAirpos/launCharc/launCharc %ROM%</command>
+```
+
+with
+
+```
+    <command>/home/pi/McAirpos/McAirpos/launCharc/launCharc nomap %ROM%</command>
+```
+
+You are now able to run and play makecode games with McAirpos on your Retropie.
+
+Hint: for some reasons, the first keyboard event will not be processed. 
+
 ### Quick automatic installation for Recalbox
 Run this command from the terminal(F4 + ALT+F2, root/recalboxroot) on Recalbox 7.1.1-Reloaded!:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox.sh | bash -```
