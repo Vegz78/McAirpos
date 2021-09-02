@@ -21,6 +21,7 @@ Controller support out-of-the-box, tested ok with various combinations of:
 - [SJ@JX Arcade DIY USB](https://www.amazon.ca/gp/product/B07FZ3YT1G)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/10#issuecomment-846587751) and [proposed solution to USB sound problems](https://github.com/Vegz78/McAirpos/issues/11), [@QuadDam](https://github.com/QuadDam)!)
 - [Zero Delay Encoder DIY USB](https://www.electrokit.com/uploads/productfile/41017/SBC-ZDE-Datasheet.pdf)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/15#issuecomment-872328078), [@sofiania](https://github.com/sofiania)!)
 - [GamePi20 handheld](https://www.waveshare.com/gamepi20.htm)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/18#issuecomment-889184610), [@marjian88](https://github.com/marjian88)!)
+- [Picade DIY Arcade](https://shop.pimoroni.com/products/picade)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/22#issuecomment-911939494), [@rdmueller](https://github.com/rdmueller)!)
 
 It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
