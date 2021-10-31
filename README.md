@@ -240,5 +240,6 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [The MakeCode Newsletter](http://makecode.adafruitdaily.com/monthly/2021/01/22/play-makecode-arcade-games-on-raspberry-pi.html)
 - [MakeCode Arcade hardware pages](https://arcade.makecode.com/hardware/raspberry-pi)
 - [Adafruit tweet](https://twitter.com/anne_engineer/status/1343675578701017088)
+- [Nippon Online Homelab](https://inippon.com/makecode-arcade-retropie/)
 - [@mr_polsky tweet](https://twitter.com/mr_polsky/status/1356472105735397376)
 - [@\_RobDominguez tweet](https://twitter.com/_RobDominguez/status/1347381575282012160)
