@@ -1,5 +1,5 @@
-from linux_input import *
-from linux_uinput import *
+from uinputmapper.linux_input import *
+from uinputmapper.linux_uinput import *
 
 import array, struct, fcntl, os, sys
 
@@ -16,9 +16,15 @@ def get_input_name(f, l=256):
     """
     Returns the name of a specified fd of a device
     """
-    buf = array.array('c', ' ' * l)
+#    buf = array.array('c', ' ' * l)
+    buf = array.array('B', [0] * l)
     r = fcntl.ioctl(f, EVIOCGNAME(l), buf)
-    return ''.join(buf.tolist()[:r])
+    buflist = buf.tolist()
+    buflistchar = []
+    for i in range(0, r):
+        buflistchar.append(chr(buflist[i]))
+#    return ''.join(buf.tolist()[:r])
+    return ''.join(buflistchar)
 
 def read_abs_values(f, abs_ev):
     buf = array.array('i', [0] * 6)
@@ -30,17 +36,19 @@ def read_abs_values(f, abs_ev):
 _bpl = struct.calcsize('@L') * 8
 _nbits = lambda x: ((x-1) / _bpl) + 1
 _ll = _nbits(KEY_MAX)
-test_bit = lambda j, v: (v[j / _bpl] >> (j % _bpl)) & 1
+#test_bit = lambda j, v: (v[j / _bpl] >> (j % _bpl)) & 1
+test_bit = lambda j, v: (v[int(j / _bpl)] >> (j % _bpl)) & 1
 
 def get_keys(f, ev):
     """
     Get keys of type *f* from a specific input device *f*.
     """
-    buf = array.array('L', [0L] * _ll)
+#    buf = array.array('L', [0L] * _ll)
+    buf = array.array('L', [0] * int(_ll))
     try:
         fcntl.ioctl(f, EVIOCGBIT(ev, KEY_MAX), buf)
     except IOError:
-        #print >>sys.stderr, 'Whoops!', rev_events[ev]
+        #print >>sys.stderr, 'Whoopso!', rev_events[ev]
         return None
 
     v = struct.unpack('@%dL' % _ll, buf)
@@ -89,7 +97,8 @@ class InputDevice(object):
         Returns all the keys exposed by this input device.
         """
         d = dict()
-        for k, v in events.iteritems():
+#        for k, v in events.iteritems():
+        for k, v in events.items():
             l = get_keys(self._f, v)
             if l:
                 d[k] = []
@@ -142,7 +151,7 @@ def open_uinput():
         try:
             f = os.open('/dev/input/uinput', os.O_WRONLY | os.O_NONBLOCK)
         except OSError:
-            print 'FAIL MUCH?'
+            print ('FAIL MUCH?')
             return None
     return f
 
@@ -157,13 +166,17 @@ def write_uinput_device_info(uidev, f, name):
     # Allocate other info
 
     # TODO: Get from specs
-    uidev.name = name
+#    uidev.name = name
+    uidev.name = name.encode()
     uidev._id.bustype = 0x03 # BUS_USB (TODO)
     uidev._id.vendor = 0x42
     uidev._id.product = 0xbebe
     uidev._id.version = 1
 
-    buf = buffer(uidev)[:]
+    if sys.version_info.major == 3:
+        buf = bytes(memoryview(uidev))[:]
+    else:
+        buf = buffer(uidev)[:]
 
     # Write dev info
     os.write(f, buf)
@@ -185,7 +198,7 @@ class UInputDevice(object):
     def __init__(self):
         self._f = open_uinput()
         if not self._f:
-            print 'Failed to open uinput'
+            print ('Failed to open uinput')
             raise OSError
         self.uidev = uinput_user_dev()
 
@@ -218,7 +231,10 @@ class UInputDevice(object):
         """
         Fire a new input event.
         """
-        os.write(self._f, buffer(ev)[:])
+        if sys.version_info.major == 3:
+            os.write(self._f, bytes(memoryview(ev))[:])
+        else:
+            os.write(self._f, buffer(ev)[:])
 
     def __del__(self):
         if hasattr(self, '_f'):

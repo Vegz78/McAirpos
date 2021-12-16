@@ -2,19 +2,27 @@ import ctypes
 
 import struct
 
-from uinput_gen import input_constants_dict as icd
+from uinputmapper.uinput_gen import input_constants_dict as icd
 
-for k, v in icd.iteritems():
-    locals()[k] = v
 
-rdict = lambda x: dict(map(lambda (k, v): (v, k), x.iteritems()))
+#for k, v in icd.iteritems():
+#	locals()[k] = v
+for k, v in icd.items():
+	locals()[k] = v
 
-events = dict(filter(lambda (k, v): k in ["EV_SYN", "EV_KEY", "EV_REL",
+#rdict = lambda x: dict(map(lambda (k, v): (v, k), x.iteritems()))
+rdict = lambda x: dict(map(lambda kv: (kv[1], kv[0]), x.items()))
+
+#events = dict(filter(lambda (k, v): k in ["EV_SYN", "EV_KEY", "EV_REL",
+#    "EV_ABS", "EV_MSC", "EV_SW", "EV_LED", "EV_SND", "EV_REP",
+#    "EV_FF", "EV_PWR", "EV_FF_STATUS"], icd.iteritems()))
+events = dict(filter(lambda kv: kv[0] in ["EV_SYN", "EV_KEY", "EV_REL",
     "EV_ABS", "EV_MSC", "EV_SW", "EV_LED", "EV_SND", "EV_REP",
-    "EV_FF", "EV_PWR", "EV_FF_STATUS"], icd.iteritems()))
+    "EV_FF", "EV_PWR", "EV_FF_STATUS"], icd.items()))
 rev_events = rdict(events)
 
-filter_event = lambda c: dict(filter(lambda (k, v): c(k), icd.iteritems()))
+#filter_event = lambda c: dict(filter(lambda (k, v): c(k), icd.iteritems()))
+filter_event = lambda c: dict(filter(lambda kv: c(kv[0]), icd.items()))
 
 keys = filter_event(lambda x: x.startswith("KEY_") or x.startswith("BTN_"))
 rev_keys = rdict(keys)
@@ -108,7 +116,7 @@ class input_absinfo(ctypes.Structure):
     ]
 
 
-from ioctlhelp import IOR, IOW, IOC, IO, _IOC_READ
+from uinputmapper.ioctlhelp import IOR, IOW, IOC, IO, _IOC_READ
 
 # Get driver version
 EVIOCGVERSION = IOR(ord('E'), 0x01, '@i')

@@ -80,9 +80,14 @@ int main(int argc, char** argv) {
     // Variables for whole main function scope
     char* path = "/dev/tty";
     int fd;
+    char basename[200];
+    memset (basename, 0, sizeof(basename));
+    char copyCmd[300];
+    memset (copyCmd, 0, sizeof(copyCmd));
 
 
     // Read game file argument to execute
+    // Note: Should be updated to allow for combinations of more than one argument, e.g. "nomap verbose" and future additions
     char game[200];
     memset (game, 0, sizeof(game));
     char options[10];
@@ -98,15 +103,22 @@ int main(int argc, char** argv) {
     }
 
 
-    // Check if run on Recalbox
+    // Find rom's basename
+    snprintf(copyCmd, 300, "basename %s", game);
+    strcat(basename, getSystemOutput(copyCmd));
+
+
+    // Clear Linux console screen
     system("clear");
+
+
+    // Check if run on Recalbox
     int isRecalbox = 0;
     if (!strcmp("RECALBOX", getSystemOutput("uname -a | tr ' ' '\\n' | grep RECALBOX | tr -d [:cntrl:]"))) {
 	isRecalbox = 1;
 	// Copy game_file.elf to /tmp(.../roms folder mount exFAT and cannot execute files)
-	char copyCmd[300];
 	memset (copyCmd, 0, sizeof(copyCmd));
-	snprintf(copyCmd, 300, "cp %s /tmp/arcade.elf&&chmod +x /tmp/arcade.elf", game);
+	snprintf(copyCmd, 300, "rsync %s /recalbox/share/bootvideos/makecode/&&chmod +x /recalbox/share/bootvideos/makecode/%s", game, basename);
 	system(copyCmd);
 	system("/usr/bin/fbv2 /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
     }
@@ -150,7 +162,11 @@ int main(int argc, char** argv) {
       	    if (numberOfPads < 2) {
       	    	char padCommand[150];
 		memset (padCommand, 0, sizeof(padCommand));
-      	    	snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
+		if (isRecalbox == 1) {
+      	    	    snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
+		}else {
+      	    	    snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
+		}
       	    	char* event = getSystemOutput(padCommand);
       	    	if (strcmp(event, "")) {
 		    if (numberOfPads == 0) {
@@ -294,9 +310,12 @@ int main(int argc, char** argv) {
     }
     if (strcmp("", getSystemOutput("ps -A | grep pulse"))) {
 	if (isRecalbox == 1) {
-	    system("killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running, can sometimes halt game looking for ALSA 
+	        if (strcmp("RECALBOX 5", getSystemOutput("uname -a | tr ' ' '\\n' | grep RECALBOX | tr -d [:cntrl:]"))) {
+		    system("killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running below kernel 5, can sometimes halt game looking for ALSA 
+		}
 	} else {
-	    system("sudo killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running, can sometimes halt game looking for ALSA 
+	    system("sudo killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running on RPi OS/RetroPie, can sometimes halt game looking for ALSA 
+	    // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
 	}
     }
     fflush(stdout);
@@ -319,13 +338,13 @@ int main(int argc, char** argv) {
 	    close(fd);
 	}
 
-	// Run copy of game to circumvent Recalbox' read-only file system
+	// Run copy of game to circumvent Recalbox' read-only(/) and/or non-executablel(.../share/roms exFAT) file systems
 	if (isRecalbox == 1) {
 	    memset (game, 0, sizeof(game));
-	    strcat(game, "/tmp/arcade.elf");
+	    snprintf(game, 200, "/recalbox/share/bootvideos/makecode/%s", basename);  //New location instead of /tmp allows for saving game states in settings and DB extensions etc.
 	}
 
-	// Silence the game launch
+	// Silence the game launch information to Linux console if verbose option is not given
 	char gameString[200];
 	memcpy(gameString, game, strlen(game)+1);
 	if (strcmp("verbose", options)) {

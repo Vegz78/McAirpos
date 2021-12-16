@@ -25,7 +25,8 @@ _IOC_READ = 2
 
 
 def IOC(_dir, _type, nr, size):
-    if type(size) in (str, unicode):
+#    if type(size) in (str, unicode):
+    if type(size) in (str, u''.__class__):
         size = struct.calcsize(size)
     return _dir << _IOC_DIRSHIFT | _type << _IOC_TYPESHIFT | \
             nr << _IOC_NRSHIFT | size << _IOC_SIZESHIFT

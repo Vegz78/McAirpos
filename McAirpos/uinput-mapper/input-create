@@ -13,7 +13,8 @@ try:
 except ImportError:
     import pickle
 
-import imp
+#import imp  #Deprecated
+#import importlib.machinery as imp  #Deprecated and not backwards compatible with 2.7
 import optparse
 
 _usage = 'python create.py /path/to/config1 ... /path/to/configN'
@@ -31,7 +32,12 @@ parser.add_option('-v', '--verbose', action='store_true',
 args, cfg = parser.parse_args()
 
 # Unpickle from stdin ; currently this is the default and only way
-in_f = pickle.Unpickler(sys.stdin)
+# Python 3 changed os.write() to require to specify bytes vs strings,
+# since strings=bytes in Python 2.7...
+if sys.version_info.major == 3:
+    in_f = pickle.Unpickler(sys.stdin.buffer)
+else:
+    in_f = pickle.Unpickler(sys.stdin)
 
 # Read input device count
 nifd = in_f.load()
@@ -47,7 +53,15 @@ if args.verbose:
 
 # Allow configurations to change our current configuration
 for path in cfg:
-    config_merge = imp.load_source('', path).config_merge
+#    config_merge = imp.load_source('', path).config_merge  #Deprecated
+#    config_merge = imp.SourceFileLoader('', path).load_module()  #Deprecated in 3.5, not backwards compatible to 2.7
+
+    #Should work to dynamically load modules in 2.7-3.x
+    config_file = path
+    with open(config_file) as f:
+        code = compile(f.read(), config_file, 'exec')
+        exec(code, globals(), locals())
+
     config_merge(conf, names)
 
 if args.verbose:
@@ -60,7 +74,8 @@ nofd = get_exported_device_count(conf)
 
 # Create and expose uinput devices
 ofs = []
-for f in xrange(nofd):
+#for f in xrange(nofd):
+for f in range(nofd):
     name = names[f]
     d = UInputDevice()
     m.expose(d, f)
