@@ -108,12 +108,12 @@ Also, **make sure that every _game\_file.elf_ has executable permissions** if th
 
 ### Quick automatic installation for Recalbox
 Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroot):<br>
-Recalbox 8:
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```
-Recalbox 8 with HDMI audio:
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0_HDMI-Audio-Fix.sh | bash -```
-Recalbox 7.1.1-Reloaded!:
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```
+Recalbox 8:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```<br>
+Recalbox 8 with HDMI audio:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0_HDMI-Audio-Fix.sh | bash -```<br>
+Recalbox 7.1.1-Reloaded!:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```<br>
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
