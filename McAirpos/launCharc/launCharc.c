@@ -37,6 +37,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -51,6 +52,8 @@
 
 // Global variables
 FILE *fl;
+int fd;
+int kbdg;
 
 
 // Function which returns results from shell commands run through system()
@@ -61,7 +64,7 @@ char* getSystemOutput(char* inputCommand) {
     memset (systemOutput, 0, sizeof(systemOutput));
     fp = popen(inputCommand, "r");
     if (fp == NULL) {
-        fprintf(fl, "Failed to run command\n");
+        fprintf(fl, "Failed to run system() command\n");
         exit(1);
     }
 
@@ -73,84 +76,191 @@ char* getSystemOutput(char* inputCommand) {
 }
 
 
+// The code in this function is borrowed from https://github.com/hobbitalistair/termfix:
+// Terminal Fixer's cleanup part, which returns control of the
+// framebuffer and input mode to calling process after game's exit
+int setConsoleGraphicsMode(char *path, int noOfArguments, ...) {
+
+    // Open the tty for ioctl
+    if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
+	fd = open(path, O_RDWR, 0);
+        if (fd < 0) {
+            fprintf(fl, "Unable to open s% for ioctl...\n", path);
+	    return 1;
+	}
+    // Declaring pointer to the argument list
+    va_list ptr;
+    // Initializing argument to the list pointer
+    va_start(ptr, noOfArguments);
+    for (int i = 1; i < (noOfArguments + 1); i++) {
+        // Accessing current variable and pointing to next one in switch
+	switch(va_arg(ptr, int)) {
+	    case 1:
+		// Sets the Linux console to graphics mode
+		if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
+		    fprintf(fl, "Warn: ioctl KDSETMODE failed...\n");
+		    fprintf(fl, "Are you on a terminal emulator(X-Windows) instead of the Linux console?\n");
+		}
+		break;
+	    case 2:
+		// Sets the Linux console back to text mode
+		if (ioctl(fd, KDSETMODE, KD_TEXT) < 0) {
+		    fprintf(fl, "Warn: ioctl KDSETMODE failed...\n");
+		    fprintf(fl, "Are you on a terminal emulator(X-Windows) instead of the Linux console?\n");
+		}
+		break;
+	    case 3:
+		// Get the current keyboard mode
+		if (ioctl(fd, KDGKBMODE, &kbdg) < 0) {
+		    fprintf(fl, "Warn: ioctl KBSKBMODE failed...\n");
+		    fprintf(fl, "Unable to get your keyboard mode.\n");
+		}
+		break;
+	    case 4:
+		// Set the current keyboard mode
+		if (ioctl(fd, KDSKBMODE, K_XLATE) < 0) {
+		    fprintf(fl, "Warn: ioctl KBSKBMODE failed...\n");
+		    fprintf(fl, "Unable to set your keyboard mode.\n");
+		}
+		break;
+	    case 5:
+		// Unlocks switching between virtual terminals with CTRL+ALT+FX 
+ 		// This one fails without sudo, but doesn't seem needed for
+		// MakeCode Arcade games(comment out or leave as and option?).
+ 		if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
+ 		    fprintf(fl, "Warn: ioctl VT_UNLOCKSWITCH failed...\n");
+		    fprintf(fl, "Are you not a super-user?\n");
+ 		}
+		break;
+	    default:
+		fprintf(fl, "Not a valid choice for setConsoleGraphicsMode()\n");
+		return 1;
+	}
+    }
+    // Ending argument list traversal
+    va_end(ptr);
+    close(fd);
+    }
+
+    return 0;
+}
+
+
 // Main function
 int main(int argc, char** argv) {
 
 
     // Variables for whole main function scope
     char* path = "/dev/tty";
-    int fd;
-    char basename[200];
-    memset (basename, 0, sizeof(basename));
-    char copyCmd[300];
-    memset (copyCmd, 0, sizeof(copyCmd));
+    char logfile[20];
+    memset (logfile, 0, sizeof(logfile));
+    strcat(logfile, "/tmp/McAirpos.log");
+    char sudoer[6];
+    memset (sudoer, 0, sizeof(sudoer));
+    strcat(sudoer, "sudo ");
+    char gameString[200];
 
 
-    // Read game file argument to execute
-    // Note: Should be updated to allow for combinations of more than one argument, e.g. "nomap verbose" and future additions
+    // Read game file arguments to execute
     char game[200];
     memset (game, 0, sizeof(game));
-    char options[10];
-    memset (options, 0, sizeof(options));
-    if (argc == 2) {
-	strcat(game, argv[1]);
-    } else if (argc == 3) {
-	strcat(game, argv[2]);
-	strcat(options, argv[1]);
-    } else if ((argc > 3) || (argc < 2)) {
+    int nomap = 0, keybswap = 0, verbose = 0;
+    struct stat gameFileBuffer;
+    if ((argc < 2) || !(strstr(argv[argc - 1], ".elf") != NULL)) {
         printf("usage: launCharc [nomap / keybswap / verbose] [/path/to/arcadegame.elf]\n");
         return 1;
     }
+    for (int i = 1; i < argc; i++) {
+	if (!strcmp("nomap", argv[i])) nomap = 1;
+	if (!strcmp("keybswap", argv[i])) keybswap = 1;
+	if (!strcmp("verbose", argv[i])) verbose = 1;
+	if ((argv[i] == argv[argc - 1]) && (strstr(argv[i], ".elf") != NULL)) strcat(game, argv[argc - 1]);
+    }
 
 
-    // Find rom's basename
-    snprintf(copyCmd, 300, "basename %s", game);
-    strcat(basename, getSystemOutput(copyCmd));
+    // Ready game files and terminal
+    // Check if game file exists, exit error message otherwise
+    if (0 != stat(game, &gameFileBuffer)) {
+	system("clear");
+	snprintf(gameString, sizeof(gameString), "The game file %s was not found...\n\n", game);
+	fprintf(stderr, gameString);
+	snprintf(game, sizeof(game), "echo \"%s\" >%s 2<&1", gameString, logfile);
+	system(game);
+	sleep(1);
+	return 1;
+    }
+    // Check presence of and clear old pid from /tmp/pxt if present
+    int foundPxtFile = 0;
+    if (0 == system("head -1 /tmp/pxt-pid >>/dev/null 2>&1")) {
+	system("sed -i \"1s&.*&\"\"&\" /tmp/pxt-pid");
+	foundPxtFile = 1;
+    }
+    //Disable pause(CTRL+S), suspend(CTRL+Z), eof(CTRL+D) and interrupt(CTRL+C) in terminal
+    system("stty -ixon -isig -icanon -iexten intr undef susp undef eof undef stop undef&&set -o ignoreeof");
+    //Kill PulseAudio if running and kernel < 5, Pulseaudio can sometimes halt game looking for ALSA
+    if ((atoi(getSystemOutput("uname -r | grep -o -e '^[0-9]*' | tr -d [:cntrl:]")) < 5) && (strcmp("", getSystemOutput("ps -A | grep pulseaudio")))) {
+	    system("sudo killall pulseaudio >>/dev/null 2>&1");
+	    // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
+    }
 
 
-    // Clear Linux console screen
-    system("clear");
-
-
-    // Check if run on Recalbox
+    // Check if and cater for running on Recalbox
+    // Run copy of game to circumvent Recalbox' read-only(/) and/or non-executablel(.../share/roms exFAT) file systems
     int isRecalbox = 0;
-    if (!strcmp("RECALBOX", getSystemOutput("uname -a | tr ' ' '\\n' | grep RECALBOX | tr -d [:cntrl:]"))) {
+    char copyCmd[300];
+    memset (copyCmd, 0, sizeof(copyCmd));
+    char basename[200];
+    memset (basename, 0, sizeof(basename));
+    snprintf(copyCmd, sizeof(copyCmd), "basename %s", game);
+    strcat(basename, getSystemOutput(copyCmd));
+    if (strstr(getSystemOutput("uname -n | tr -d [:cntrl:]"), "RECALBOX") != NULL) {
 	isRecalbox = 1;
+	memset (sudoer, 0, sizeof(sudoer));
 	// Copy game_file.elf to /tmp(.../roms folder mount exFAT and cannot execute files)
 	memset (copyCmd, 0, sizeof(copyCmd));
-	snprintf(copyCmd, 300, "rsync %s /recalbox/share/bootvideos/makecode/&&chmod +x /recalbox/share/bootvideos/makecode/%s", game, basename);
+	snprintf(copyCmd, sizeof(copyCmd), "rsync %s /recalbox/share/bootvideos/makecode/&&chmod +x /recalbox/share/bootvideos/makecode/%s", game, basename);
 	system(copyCmd);
+	// Change game's execution path accordingly
+	memset (game, 0, sizeof(game));
+	snprintf(game, sizeof(game), "/recalbox/share/bootvideos/makecode/%s", basename);  //New location instead of /tmp allows for saving game states in settings and DB extensions etc.
+	// Show MakeCode Arcade splash screen on game loading
 	system("/usr/bin/fbv2 /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
     }
 
 
-    // Check for verbose option
-    if (!strcmp("verbose", options)) {
+    // Check and cater for verbose option
+    // Silence the game launch information to Linux console if verbose option is not given
+    memcpy(gameString, game, strlen(game)+1);
+    system("clear");
+    if (verbose) {
 	fl = stdout;
     }else {
-	fl = fopen("/tmp/McAirpos.log", "w+");
-	// Switch console to graphics mode to avoid disturbing text output in borders
-	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
-	    fd = open(path, O_RDWR, 0);
-            if (fd < 0) {
-            	perror("unable to open tty");
-            	return 1;
-            }
-            if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
-            	perror("warn: ioctl KDSETMODE failed");
-            }
-	    close(fd);
+	// Create new or truncate existing file
+	fl = fopen(logfile, "w+");
+	if (fl < 0) {
+	    fprintf(fl, "Unable to open %s\n", logfile);
+	}else {fclose(fl);}
+	// Reopen log file in append mode to allow for writing across fork
+	fl = fopen(logfile, "a");
+	if (fl < 0) {
+	    fprintf(fl, "Unable to open %s\n", logfile);
 	}
+	// Switch console to graphics mode to avoid disturbing text output in borders
+	setConsoleGraphicsMode(path, 1, 1);
+	// Change game's execution path accordingly
+	memset (game, 0, sizeof(game));
+	snprintf(game, sizeof(game), "%s >>%s 2>&1", gameString, logfile);
     }
 
 
-    // Check for nomap option
-    if (!strcmp(options, "nomap")) {
-	fprintf(fl, "%s argument detected,\nlaunCharc starting %s with no automatic gamepad mappings...\n", options, game);
+    // Check and cater for nomap option
+    // Run with gamepad settings in /sd/arcade.cfg or find and configure gamepads automatically
+    if (nomap) {
+	fprintf(fl, "nomap argument detected,\nlaunCharc starting %s with no automatic gamepad mappings...\n", gameString);
 	sleep(1);
     } else {
 	// Determine the number of connected gamepads
-	fprintf(fl, "launCharc starting %s with automatic gamepad mappings...\n", game);
+	fprintf(fl, "launCharc starting %s with automatic gamepad mappings...\n", gameString);
 	char eventPaths[100];
 	memset (eventPaths, 0, sizeof(eventPaths));
 	int numberOfPads = 0;
@@ -162,11 +272,7 @@ int main(int argc, char** argv) {
       	    if (numberOfPads < 2) {
       	    	char padCommand[150];
 		memset (padCommand, 0, sizeof(padCommand));
-		if (isRecalbox == 1) {
-      	    	    snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
-		}else {
-      	    	    snprintf(padCommand, 150, "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
-		}
+      	    	snprintf(padCommand, sizeof(padCommand), "/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -vp /dev/input/event%d 2>&1 | grep -e BTN_START -e BTN_SOUTH -e BTN_PINKIE", i);
       	    	char* event = getSystemOutput(padCommand);
       	    	if (strcmp(event, "")) {
 		    if (numberOfPads == 0) {
@@ -188,7 +294,9 @@ int main(int argc, char** argv) {
 	// Determine if keyboard is connected
 	char keybCommand[300];
       	memset (keybCommand, 0, sizeof(keybCommand));
-	if (!strcmp(options, "keybswap")) {
+	// Check and cater for keybswap option
+	// Chooses last keyboard found, first found otherwise
+	if (keybswap) {
     	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input1:1|usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | tail -1 | tr -d [:cntrl:]");
 	} else {
     	    strcat(keybCommand, "cat /proc/bus/input/devices | grep -B 5 -A 5 Handlers=sysrq | grep -B 7 -A 3 -e EV=12001 -e EV=10001 | grep -B 2 -A 8 -E 'Phys=(usb\\S+\\/input1:1|usb\\S+\\/input0|[a-zA-Z0-9]{2}(:[a-zA-Z0-9]{2}){5}.*)' | tr ' ' '\\n' | grep event | head -1 | tr -d [:cntrl:]");
@@ -200,11 +308,9 @@ int main(int argc, char** argv) {
 	}
 
 
-    	// Automatically set up uinput-mapper with keyboard, 1 or 2 gamepads
+    	// Automatically set up uinput-mapper with keyboard and/or 1 or 2 gamepads
     	char stringNumberOfPads[20];
       	memset (stringNumberOfPads, 0, sizeof(stringNumberOfPads));
-      	char uiMapCommand[400];
-      	memset (uiMapCommand, 0, sizeof(uiMapCommand));
 	char uinputMapperOrKeyboard[20];
     	memset (uinputMapperOrKeyboard, 0, sizeof(uinputMapperOrKeyboard));
     	char defaultEvent[67];
@@ -246,12 +352,10 @@ int main(int argc, char** argv) {
 
 
 	// Launching uinput-mapper
+      	char uiMapCommand[400];
+      	memset (uiMapCommand, 0, sizeof(uiMapCommand));
 	if (numberOfPads > 0) {
-	    if (isRecalbox == 1) {
-            	strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
-	    } else {
-            	strcat(strcat(strcat(strcat(uiMapCommand, "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D "), eventPaths), "| sudo /home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade"), stringNumberOfPads);
-	    }
+            snprintf(uiMapCommand, sizeof(uiMapCommand), "(/home/pi/McAirpos/McAirpos/uinput-mapper/input-read -C -D %s| %s/home/pi/McAirpos/McAirpos/uinput-mapper/input-create -C -S /home/pi/McAirpos/McAirpos/uinput-mapper/configs/arcade%s", eventPaths, sudoer, stringNumberOfPads);
       	    if (system(uiMapCommand) == 0) {
 	    	fprintf(fl, "Starting UInput-Mapper with command:\n%s\n", uiMapCommand);
 	    	int whileCount = 0;
@@ -279,77 +383,38 @@ int main(int argc, char** argv) {
 	}
 
 
-	// Set default input event for MakeCode Arcade elf game file
+	// Set default input event for MakeCode Arcade elf game file in /sd/arcade.cfg
     	char sedCommand[100];
       	memset (sedCommand, 0, sizeof(sedCommand));
-    	snprintf(sedCommand, 100, "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
-	if (isRecalbox == 1) {
-	    system("mount -o remount,rw /");
-	}
+    	snprintf(sedCommand, sizeof(sedCommand), "sed -i \"1s&.*&\"%s\"&\" /sd/arcade.cfg", defaultEvent);
+	if (isRecalbox) system("mount -o remount,rw /");
     	if (system(sedCommand) == 0) {
     	    fprintf(fl, "Setting up %s in MakeCode Arcade game's /sd/arcade.cfg with:\n%s\n\n", uinputMapperOrKeyboard, defaultEvent);
+	    if (isRecalbox) system("mount -o remount,ro /");
 	} else {
 	    fprintf(fl, "Please check path or write permissions for /sd/arcade.cfg and try again.\n\n");
-	    if (isRecalbox == 1) {
-	   	system("mount -o remount,ro /");
-	    }
 	    goto cleanup;
 	}
-	if (isRecalbox == 1) {
-	    system("mount -o remount,ro /");
-	}
     }
 
 
-    // Ready terminal and game files
-    int foundPxtFile = 0;
-    system("stty -ixon intr undef susp undef");  //Disable pause(CTRL+S), suspend(CTRL+Z) and interrupt(CTRL+C) in terminal
-    if (0 == system("head -1 /tmp/pxt-pid >>/dev/null 2>&1")) {
-	system("sed -i \"1s&.*&\"\"&\" /tmp/pxt-pid");  //Clear old pid from /tmp/pxt if present
-	foundPxtFile = 1;
-    }
-    if (strcmp("", getSystemOutput("ps -A | grep pulse"))) {
-	if (isRecalbox == 1) {
-	        if (strcmp("RECALBOX 5", getSystemOutput("uname -a | tr ' ' '\\n' | grep RECALBOX | tr -d [:cntrl:]"))) {
-		    system("killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running below kernel 5, can sometimes halt game looking for ALSA 
-		}
-	} else {
-	    system("sudo killall pulseaudio >>/dev/null 2>&1");  //Kill PulseAudio if running on RPi OS/RetroPie, can sometimes halt game looking for ALSA 
-	    // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
-	}
-    }
+    // Flush buffers before fork
     fflush(stdout);
+    fflush(fl);
 
 
     // Fork game execution on launch, so that it is executed
     // the same way it's done in-game on reset
     if  (!fork()) {
 
-	// Switch console to graphics mode to avoid disturbing text output in borders
-	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
-	    fd = open(path, O_RDWR, 0);
-            if (fd < 0) {
-            	perror("unable to open tty");
-            	return 1;
-            }
-            if (ioctl(fd, KDSETMODE, KD_GRAPHICS) < 0) {
-            	perror("warn: ioctl KDSETMODE failed");
-            }
-	    close(fd);
-	}
+	// Switch console to graphics mode to avoid disturbing text output in borders and save original keyboard mode
+	setConsoleGraphicsMode(path, 2, 1, 3);
 
-	// Run copy of game to circumvent Recalbox' read-only(/) and/or non-executablel(.../share/roms exFAT) file systems
-	if (isRecalbox == 1) {
-	    memset (game, 0, sizeof(game));
-	    snprintf(game, 200, "/recalbox/share/bootvideos/makecode/%s", basename);  //New location instead of /tmp allows for saving game states in settings and DB extensions etc.
-	}
-
-	// Silence the game launch information to Linux console if verbose option is not given
-	char gameString[200];
-	memcpy(gameString, game, strlen(game)+1);
-	if (strcmp("verbose", options)) {
-	    fclose(fl);
-	    strcat(game, " >>/tmp/McAirpos.log 2>&1");
+	// Close and reopen FILE fl inside fork to disconnect from pre fork state
+	if (fl != NULL) fclose(fl);
+	fl = fopen(logfile, "a");
+	if (fl < 0) {
+	    fprintf(fl, "Unable to open %s\n", logfile);
 	}
 
 	// Launch the game
@@ -357,10 +422,16 @@ int main(int argc, char** argv) {
         if ((launchInt == 36608) || (launchInt == 15)) {
 	    fprintf(fl, "%s was exited by the user or reset in-game\n\n", gameString);
 	} else {
-	    fprintf(fl, "Please check path to and executable permissions for game_file.elf and try again.\n\n");
+	    fprintf(fl, "Please check path to and executable permissions for %s and try again.\n\n", gameString);
 	}
 	//Alternative way to launch game, but I need to spawn new process in fork, not replace fork process
         //execl(game, game, NULL);
+
+	// Flush buffers and close FILE fl before child process ends
+	fflush(stdout);
+	fflush(fl);
+	if (fl != NULL) fclose(fl);
+
 
     // Main thread continues
     }else {
@@ -373,10 +444,11 @@ int main(int argc, char** argv) {
       	memset (processCommand, 0, sizeof(processCommand));
     	int whileCount = 0;
 	int maxCount = 500;
+
 	do {
-	    sleep(0.1);
+	    sleep(0); //Sleep OS arbitrary short time and yield open for other threads
 	    whileCount++;
-            snprintf(processCommand, 100, "head -1 /proc/%s/comm >>/dev/null 2>&1", processID);
+            snprintf(processCommand, sizeof(processCommand), "head -1 /proc/%s/comm >>/dev/null 2>&1", processID);
     	    if (whileCount > maxCount) {
        	    	fprintf(fl, "\nTimed out trying to find game's process ID...\n");
 	        fprintf(fl, "If stuck, please read or open a related issue at https://github.com/Vegz78/McAirpos.\n");
@@ -385,7 +457,7 @@ int main(int argc, char** argv) {
 	    // Check until found if /tmp/pxt-pid file exists without opening it, time out otherwise
             if (0 == foundPxtFile) {
         	if (0 != stat("/tmp/pxt-pid", &pxtFileBuffer)) {
-		    if (whileCount > maxCount -1) {
+		    if (whileCount > (maxCount - 1)) {
 			fprintf(fl, "\nDid not find the file /tmp/pxt-pid...\n");
 		    }
 		    continue;
@@ -395,16 +467,16 @@ int main(int argc, char** argv) {
 		}
 	    }
 	    // Set new game's processID from file /tmp/pxt-pid
-	    snprintf(processID, 20, "%s", getSystemOutput("head -1 /tmp/pxt-pid | tr -d [:cntrl:]"));
+	    snprintf(processID, sizeof(processID), "%s", getSystemOutput("head -1 /tmp/pxt-pid | tr -d [:cntrl:]"));
 	}
 	// Check whether processID from /tmp/pxt-pid is running/registered on system, time out otherwise
         while (0 != system(processCommand));
 
 	// Get name of game process
-        snprintf(processCommand, 100, "head -1 /proc/%s/comm 2>&1 | tr -d [:cntrl:]", processID);
+        snprintf(processCommand, sizeof(processCommand), "head -1 /proc/%s/comm 2>&1 | tr -d [:cntrl:]", processID);
         char processName[50];
 	memset (processName, 0, sizeof(processName));
-	snprintf(processName, 50, "%s", getSystemOutput(processCommand));
+	snprintf(processName, sizeof(processName), "%s", getSystemOutput(processCommand));
 	fprintf(fl, "\nFound running game process \"%s\" on PID=%s\n\n", processName, processID);
 
 
@@ -413,87 +485,69 @@ int main(int argc, char** argv) {
         // Why does this not work without the printf?!?
 	char processCheckCmd[100];
 	memset (processCheckCmd, 0, sizeof(processCheckCmd));
-	snprintf(processCheckCmd, 100, "pgrep -n %s 2>&1 | tr -d [:cntrl:]", processName);
+	snprintf(processCheckCmd, sizeof(processCheckCmd), "pgrep -n %s 2>&1 | tr -d [:cntrl:]", processName);
 	char newProcessID[20];
 	memset (newProcessID, 0, sizeof(newProcessID));
 besure:
 	while (strcmp(processID, "")) {
             //fprintf(fl, "%s@PID=%s is keeping launCharc alive...\n", processName, processID);
             sleep(2);
-	    snprintf(newProcessID, 20, getSystemOutput(processCheckCmd));
+	    snprintf(newProcessID, sizeof(newProcessID), getSystemOutput(processCheckCmd));
 	    if (strcmp(processID, newProcessID)) {
 		if (strcmp(newProcessID, "")) {
 		    fprintf(fl, "\"%s\" restarted on PID=%s\n", processName, newProcessID);
 		} else {
 		    fprintf(fl, "PID not found for \"%s\", trying again...\n", processName);
 		}
-		snprintf(processID, 20, "%s", newProcessID);
+		snprintf(processID, sizeof(processID), "%s", newProcessID);
 	    }
         }
 
         // Doublecheck that the game really has exited
         sleep(3);
-	snprintf(processID, 20, getSystemOutput(processCheckCmd));
+	snprintf(processID, sizeof(processID), getSystemOutput(processCheckCmd));
         if (strcmp(processID, "")) {goto besure;}
 	else {fprintf(fl, "PID still not found for \"%s\", game exited?\nTerminating launCharc...\n", processName);}
 
 
         // Kill any remaining/orphaned game processes before exit
-        char killAllCmd[100];
+        char killAllCmd[200];
       	memset (killAllCmd, 0, sizeof(killAllCmd));
-	if (strcmp("verbose", options)) {
-	    snprintf(killAllCmd, 100, "killall -q %s >>/tmp/McAirpos.log 2>&1", processName);
+	if (!verbose) {
+	    snprintf(killAllCmd, sizeof(killAllCmd), "killall -q %s >>%s 2>&1", processName, logfile);
 	}else{
-	    snprintf(killAllCmd, 100, "killall %s 2>&1", processName);
+	    snprintf(killAllCmd, sizeof(killAllCmd), "killall %s 2>&1", processName);
 	}
 	system(killAllCmd);
+
 cleanup:
-	if (strcmp("verbose", options)) {
-	    if (isRecalbox == 1) {
-            	system("killall -q input-create >>/tmp/McAirpos.log 2>&1 && killall -q input-read >>/tmp/McAirpos.log 2>&1");
-	    }else {
-            	system("sudo killall -q input-create >>/tmp/McAirpos.log 2>&1 && sudo killall -q input-read >>/tmp/McAirpos.log 2>&1");
-	    }
+	;// Kill uinput-mapper processes
+        char killUInputCmd[200];
+      	memset (killUInputCmd, 0, sizeof(killUInputCmd));
+	if (verbose) {
+            	snprintf(killUInputCmd, sizeof(killUInputCmd), "%skillall input-create 2>&1 && %skillall input-read 2>&1", sudoer, sudoer);
 	}else {
-	    if (isRecalbox == 1) {
-            	system("killall input-create 2>&1 && killall input-read 2>&1");
-	    }else {
-            	system("sudo killall input-create 2>&1 && sudo killall input-read 2>&1");
-	    }
+            	snprintf(killUInputCmd, sizeof(killUInputCmd), "%skillall -q input-create >>%s 2>&1 && %skillall -q input-read >>%s 2>&1", sudoer, logfile, sudoer, logfile);
 	}
+	system(killUInputCmd);
 
 
-        // The following code is borrowed from https://github.com/hobbitalistair/termfix:
-        // Terminal Fixer's cleanup part, which returns control of the
-        // framebuffer and input mode to calling process after game's exit
-	if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
-            fd = open(path, O_RDWR, 0);
-            if (fd < 0) {
-            	perror("unable to open tty");
-            	return 1;
-            }
-
-            // This one fails without sudo, but doesn't seem needed for
-            // MakeCode Arcade games(comment out or leave as and option?).
-            if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
-            	//perror("warn: ioctl VT_UNLOCKSWITCH failed");
-            }
-
-            if (ioctl(fd, KDSETMODE, KD_TEXT) < 0) {
-            	perror("warn: ioctl KDSETMODE failed");
-            }
-
-            if (ioctl(fd, KDSKBMODE, K_XLATE) < 0) {
-            	perror("warn: ioctl KBSKBMODE failed");
-            }
-	}else if (isRecalbox == 1) {
+	// Flush buffers, clean up and restore terminal to original state before exit
+	if (isRecalbox) {
+	    system("mount -o remount,ro /");
+	    // Show Recalbox loading screen while returning to EmulationStation
 	    system("/usr/bin/fbv2 /recalbox/system/resources/splash/logo-version.png >>/dev/null 2>&1");
+	    // Set terminal to text mode, keyboard to original mode and allow switching virtual terminals
+	    setConsoleGraphicsMode(path, 3, 2, 4, 5);
+	}else {
+	    // Set terminal to text mode and keyboard to original mode
+	    setConsoleGraphicsMode(path, 2, 2, 4);
 	}
-        system("stty sane");
-	fclose(fl);
-	if (strcmp("verbose", options)) {
-            system("clear");
-	}
+	system("stty sane&&unset ignoreeof");
+	fflush(stdout);
+	fflush(fl);
+	if (fl != NULL) fclose(fl);
+	if (!verbose) system("clear");
     }
 
     return 0;
