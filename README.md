@@ -1,27 +1,28 @@
 # McAirpos
-[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1-Reloaded!](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
+[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1/8](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
 [![](docs/MakeCode_Arcade_RetroPie.gif)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.gif?raw=true)
 
-Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
+Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan), and lately [@rdmueller](https://github.com/rdmueller), for all their help and support, and to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2021.12.18: Recalbox 8 support and installation scripts](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox) and [Python 3.x support for uinput-mapper and major revision of launCharc](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.07.06: Major revision of the _arcade1&2.py_ controller configuration files](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.06.29: Updated controller configuration section in README.md](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls)<br>
-[2021.02.02: *Recalbox 7.1.1-Reloaded!* support](https://github.com/Vegz78/McAirpos#development-news) and [quick installation script](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)<br>
 [2021.01.26: New quick installation script for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#installation)
 
 Controller support out-of-the-box, tested ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif),
 - [XBox One controller](https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1rfiZ?ver=03f2&q=90&m=6&h=705&w=1253&b=%23FFF0F0F0&f=jpg&o=f&p=140&aim=true),
-- [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus)(remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
+- [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus) (remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis),
 - [retro-bit controller](https://translate.google.com/translate?sl=no&tl=en&u=https://cdon.no/spill/retro-bit-nes-usb-controller-41757027)
 - [8BitDo N30 Pro 2 controller](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2020/08/8bitdo-n30-pro-2/),
-- [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!)
-- [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/)(thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
-- [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!), and
-- [SJ@JX Arcade DIY USB](https://www.amazon.ca/gp/product/B07FZ3YT1G)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/10#issuecomment-846587751) and [proposed solution to USB sound problems](https://github.com/Vegz78/McAirpos/issues/11), [@QuadDam](https://github.com/QuadDam)!)
-- [Zero Delay Encoder DIY USB](https://www.electrokit.com/uploads/productfile/41017/SBC-ZDE-Datasheet.pdf)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/15#issuecomment-872328078), [@sofiania](https://github.com/sofiania)!)
-- [GamePi20 handheld](https://www.waveshare.com/gamepi20.htm)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/18#issuecomment-889184610), [@marjian88](https://github.com/marjian88)!)
-- [Picade DIY Arcade](https://shop.pimoroni.com/products/picade)(thanks for [testing](https://github.com/Vegz78/McAirpos/issues/22#issuecomment-911939494), [@rdmueller](https://github.com/rdmueller)!)
+- [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!)
+- [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/) (thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
+- [Juyao 2 DIY USB](https://es.dhgate.com/product/for-4-8-connector-juyao-2-players-pc-ps-3/387652783.html) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/9), [@claricerogue](https://github.com/claricerogue)!)
+- [SJ@JX Arcade DIY USB](https://www.amazon.ca/gp/product/B07FZ3YT1G) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/10#issuecomment-846587751) and [proposed solution to USB sound problems](https://github.com/Vegz78/McAirpos/issues/11), [@QuadDam](https://github.com/QuadDam)!)
+- [Zero Delay Encoder DIY USB](https://www.electrokit.com/uploads/productfile/41017/SBC-ZDE-Datasheet.pdf) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/15#issuecomment-872328078), [@sofiania](https://github.com/sofiania)!)
+- [GamePi20 handheld](https://www.waveshare.com/gamepi20.htm) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/18#issuecomment-889184610), [@marjian88](https://github.com/marjian88)!)
+- [Picade DIY Arcade](https://shop.pimoroni.com/products/picade) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/22#issuecomment-911939494), [@rdmueller](https://github.com/rdmueller)!), and
+- [Retroflag GPi handheld](https://www.retroflag.com/GPi-CASE.html) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/28), [@rdmueller](https://github.com/rdmueller)!)
 
 It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
@@ -75,7 +76,7 @@ https://github.com/microsoft/pxt-arcade/issues/2245
 McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
 
 ## Prerequisites
-- Git (```sudo apt install git```)
+- Git (```sudo apt install git```) or wget
 - Drivers for gamepads you have that don't work "out of the box"
 - [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
 
@@ -106,8 +107,13 @@ Also, **make sure that every _game\_file.elf_ has executable permissions** if th
 ```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
 ### Quick automatic installation for Recalbox
-Run this command from the terminal(F4 + ALT+F2, root/recalboxroot) on Recalbox 7.1.1-Reloaded!:<br>
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox.sh | bash -```
+Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroot):<br>
+Recalbox 8:
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```
+Recalbox 8 with HDMI audio:
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0_HDMI-Audio-Fix.sh | bash -```
+Recalbox 7.1.1-Reloaded!:
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
@@ -205,6 +211,8 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
+[**2021.12.18:**](https://github.com/Vegz78/McAirpos/commit/6e44f74b150ef48080533103e9bbebcb17321e8f) New automatic installation scripts for McAirpos on Recalbox 8 - one for analog/jack audio and one for HDMI audio. [Larger refactoring and bug fixes of the launCharc launcher](https://github.com/Vegz78/McAirpos/commit/22ec726494376ea68551cbc0dc4b8eac1692ad39) and some more bugfixes.<br>
+[**2021.12.16:**](https://github.com/Vegz78/McAirpos/commit/b3caca09a71e2c5f4e131a6593a5c7fa232f0ccc) Added McAirpos support for Recalbox 8, including Python 3.x support in addition to 2.7 for uinput-mapper, fix for broken HDMI alsa audio in MCA games and testing and verifying support for the Retroflag GPi case controller. Thank you very much, [@rdmueller](https://github.com/rdmueller), for testing changes and the GPi controller, and contributing to solutions!<br>
 [**2021.07.13:**](https://github.com/Vegz78/McAirpos/issues/17#issuecomment-879092813) Tested McAirpos running ok with keyboard and gamepad controllers on fresh RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72).<br>
 [**2021.07.06:**](https://github.com/Vegz78/McAirpos/commit/03a88f802ca0939b253b196eb65b931301887831) Major revision of the _arcade1&2.py_ controller configuration files.<br>
 [**2021.06.29:**](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls) Updated controller configuration section in README.md.<br>
