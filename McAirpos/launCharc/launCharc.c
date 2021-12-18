@@ -54,7 +54,7 @@
 FILE *fl;
 int fd;
 int kbdg;
-
+int pulseaudioStatus = 0;
 
 // Function which returns results from shell commands run through system()
 char* getSystemOutput(char* inputCommand) {
@@ -129,7 +129,7 @@ int setConsoleGraphicsMode(char *path, int noOfArguments, ...) {
 		// MakeCode Arcade games(comment out or leave as and option?).
  		if (ioctl(fd, VT_UNLOCKSWITCH, 1) < 0) {
  		    fprintf(fl, "Warn: ioctl VT_UNLOCKSWITCH failed...\n");
-		    fprintf(fl, "Are you not a super-user?\n");
+		    fprintf(fl, "Are you not a super-user? (This should normally not affect game launch...)\n");
  		}
 		break;
 	    default:
@@ -159,9 +159,10 @@ int main(int argc, char** argv) {
     memset (sudoer, 0, sizeof(sudoer));
     strcat(sudoer, "sudo ");
     char gameString[200];
+    memset(gameString, 0, sizeof(gameString));
 
 
-    // Read game file arguments to execute
+    // Read and handle game file arguments to execute
     char game[200];
     memset (game, 0, sizeof(game));
     int nomap = 0, keybswap = 0, verbose = 0;
@@ -176,9 +177,6 @@ int main(int argc, char** argv) {
 	if (!strcmp("verbose", argv[i])) verbose = 1;
 	if ((argv[i] == argv[argc - 1]) && (strstr(argv[i], ".elf") != NULL)) strcat(game, argv[argc - 1]);
     }
-
-
-    // Ready game files and terminal
     // Check if game file exists, exit error message otherwise
     if (0 != stat(game, &gameFileBuffer)) {
 	system("clear");
@@ -189,19 +187,6 @@ int main(int argc, char** argv) {
 	sleep(1);
 	return 1;
     }
-    // Check presence of and clear old pid from /tmp/pxt if present
-    int foundPxtFile = 0;
-    if (0 == system("head -1 /tmp/pxt-pid >>/dev/null 2>&1")) {
-	system("sed -i \"1s&.*&\"\"&\" /tmp/pxt-pid");
-	foundPxtFile = 1;
-    }
-    //Disable pause(CTRL+S), suspend(CTRL+Z), eof(CTRL+D) and interrupt(CTRL+C) in terminal
-    system("stty -ixon -isig -icanon -iexten intr undef susp undef eof undef stop undef&&set -o ignoreeof");
-    //Kill PulseAudio if running and kernel < 5, Pulseaudio can sometimes halt game looking for ALSA
-    if ((atoi(getSystemOutput("uname -r | grep -o -e '^[0-9]*' | tr -d [:cntrl:]")) < 5) && (strcmp("", getSystemOutput("ps -A | grep pulseaudio")))) {
-	    system("sudo killall pulseaudio >>/dev/null 2>&1");
-	    // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
-    }
 
 
     // Check if and cater for running on Recalbox
@@ -211,7 +196,7 @@ int main(int argc, char** argv) {
     memset (copyCmd, 0, sizeof(copyCmd));
     char basename[200];
     memset (basename, 0, sizeof(basename));
-    snprintf(copyCmd, sizeof(copyCmd), "basename %s", game);
+    snprintf(copyCmd, sizeof(copyCmd), "basename %s | tr -d [:cntrl:]", game);
     strcat(basename, getSystemOutput(copyCmd));
     if (strstr(getSystemOutput("uname -n | tr -d [:cntrl:]"), "RECALBOX") != NULL) {
 	isRecalbox = 1;
@@ -228,9 +213,31 @@ int main(int argc, char** argv) {
     }
 
 
+    // Ready game files and terminal
+    // Check presence of and clear old pid from /tmp/pxt if present
+    int foundPxtFile = 0;
+    if (0 == system("head -1 /tmp/pxt-pid >>/dev/null 2>&1")) {
+	system("sed -i \"1s&.*&\"\"&\" /tmp/pxt-pid");
+	foundPxtFile = 1;
+    }
+    //Disable pause(CTRL+S), suspend(CTRL+Z), eof(CTRL+D) and interrupt(CTRL+C) in terminal
+    system("stty -ixon -isig -icanon -iexten intr undef susp undef eof undef stop undef&&set -o ignoreeof");
+    //Kill PulseAudio if running and kernel < 5, Pulseaudio can sometimes halt game looking for ALSA
+    // if ((atoi(getSystemOutput("uname -r | grep -o -e '^[0-9]*' | tr -d [:cntrl:]")) < 5) && (strcmp("", getSystemOutput("ps -A | grep pulseaudio")))) {
+    // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
+    //Kill PulseAudio if running, Pulseaudio can sometimes halt game looking for and getting access to ALSA
+    if (strcmp("", getSystemOutput("ps -A | grep pulseaudio"))) {
+	pulseaudioStatus = 1;
+	memset (copyCmd, 0, sizeof(copyCmd));
+	snprintf(copyCmd, sizeof(copyCmd), "%skillall pulseaudio >>/dev/null 2>&1", sudoer);
+	system(copyCmd);
+    }
+
+
     // Check and cater for verbose option
     // Silence the game launch information to Linux console if verbose option is not given
-    memcpy(gameString, game, strlen(game)+1);
+//    memcpy(gameString, game, strlen(game)+1);
+    strcat(gameString, game);
     system("clear");
     if (verbose) {
 	fl = stdout;
@@ -419,13 +426,18 @@ int main(int argc, char** argv) {
 
 	// Launch the game
 	int launchInt = system(game);
+	// Check for known return codes from the MCA games, indicating that it - at least - was executed by system()
+	// Due to strange zombie process behaviour, system will return values from the first and parent ended MCA game
+	// process, even though spawned child processes and the game itself might actually still be running...
         if ((launchInt == 36608) || (launchInt == 15)) {
-	    fprintf(fl, "%s was exited by the user or reset in-game\n\n", gameString);
+	    fprintf(fl, "\n%s was executed successfully \nand the parent process was exited by the user or reset in-game.\nThe game might still be running in a child process...\n\n", gameString);
 	} else {
-	    fprintf(fl, "Please check path to and executable permissions for %s and try again.\n\n", gameString);
+	    fprintf(fl, "\nERROR: Please first check path to and executable permissions for %s and try again.\nThere might also be other problems with the game file, the runtime or the shell availability...\n\n", gameString);
 	}
 	//Alternative way to launch game, but I need to spawn new process in fork, not replace fork process
         //execl(game, game, NULL);
+
+	fprintf(fl, "DEBUG: \nLaunch path: %s, \nSystem() return value: %d\n\n\n", game, launchInt);
 
 	// Flush buffers and close FILE fl before child process ends
 	fflush(stdout);
@@ -477,7 +489,8 @@ int main(int argc, char** argv) {
         char processName[50];
 	memset (processName, 0, sizeof(processName));
 	snprintf(processName, sizeof(processName), "%s", getSystemOutput(processCommand));
-	fprintf(fl, "\nFound running game process \"%s\" on PID=%s\n\n", processName, processID);
+	fprintf(fl, "\nlaunCharc: Found running game process \"%s\" on PID=%s\n\n", processName, processID);
+	fflush(fl);
 
 
         // Check every 2 secounds if a game process is still active
@@ -495,10 +508,11 @@ besure:
 	    snprintf(newProcessID, sizeof(newProcessID), getSystemOutput(processCheckCmd));
 	    if (strcmp(processID, newProcessID)) {
 		if (strcmp(newProcessID, "")) {
-		    fprintf(fl, "\"%s\" restarted on PID=%s\n", processName, newProcessID);
+		    fprintf(fl, "launCharc: \"%s\" restarted on PID=%s\n", processName, newProcessID);
 		} else {
 		    fprintf(fl, "PID not found for \"%s\", trying again...\n", processName);
 		}
+		fflush(fl);
 		snprintf(processID, sizeof(processID), "%s", newProcessID);
 	    }
         }
@@ -507,7 +521,7 @@ besure:
         sleep(3);
 	snprintf(processID, sizeof(processID), getSystemOutput(processCheckCmd));
         if (strcmp(processID, "")) {goto besure;}
-	else {fprintf(fl, "PID still not found for \"%s\", game exited?\nTerminating launCharc...\n", processName);}
+	else {fprintf(fl, "PID still not found for \"%s\", game exited?\nTerminating launCharc...\n", processName); fflush(fl);}
 
 
         // Kill any remaining/orphaned game processes before exit
@@ -543,7 +557,15 @@ cleanup:
 	    // Set terminal to text mode and keyboard to original mode
 	    setConsoleGraphicsMode(path, 2, 2, 4);
 	}
+	// Restore terminal sane/default control character handling
 	system("stty sane&&unset ignoreeof");
+	// Restore Pulseaudio of it was present before game launch
+	if (pulseaudioStatus) {
+	    memset (copyCmd, 0, sizeof(copyCmd));
+	    snprintf(copyCmd, sizeof(copyCmd), "%spulseaudio -D >>/dev/null 2>&1", sudoer);
+	    system(copyCmd);
+	}
+	// Final cleanup
 	fflush(stdout);
 	fflush(fl);
 	if (fl != NULL) fclose(fl);
