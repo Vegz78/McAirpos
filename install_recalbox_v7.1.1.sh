@@ -31,6 +31,7 @@ fi
 # 3. Set up MakeCode Arcade files
 cp -r /home/pi/McAirpos/McAirpos/MakeCode/sd /
 chmod -R 755 /sd
+chmod -R 755 /home/pi/McAirpos
 
 # 4. Set up EmulationStation
 # Delete old es_systems.cfg backup file
@@ -45,16 +46,16 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    sed -i '/<system>/{:a;/<\/system>/!{N;ba;}};/<name>MakeCode<\/name>/d;' /etc/emulationstation/es_systems.cfg
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /etc/emulationstation/es_systems.cfg
-   cat /home/pi/McAirpos/McAirpos/Recalbox/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
+   cat /home/pi/McAirpos/McAirpos/Recalbox7.1.1/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
    cp /etc/emulationstation/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox/makecode /etc/emulationstation/themes/recalbox-next/
+   cp -r /home/pi/McAirpos/McAirpos/Recalbox7.1.1/makecode /etc/emulationstation/themes/recalbox-next/
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
 
 # 5. Create MakeCode Arcade games folder for RetroPie, if not present
-if [[ -d ./RetroPie/roms/makecode ]]; then
+if [[ -d /recalbox/share/roms/makecode ]]; then
    echo "MakeCode Arcade games folder already present, continuing..."
 else
    mkdir -p /recalbox/share/roms/makecode
@@ -71,7 +72,9 @@ echo "McAirpos finished installing!"
 echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
 echo "Run MakeCode Arcade games from RetroPie or from the Linux console/CLI:"
 ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
+chmod -R 755 /usr/bin/launCharc
 launCharc
+mount -o remount,ro /
 echo ""
 echo "For more details, please visit https://github.com/Vegz78/McAirpos"
 exit 0
