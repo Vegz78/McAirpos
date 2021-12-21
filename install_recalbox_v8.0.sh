@@ -48,7 +48,7 @@ if [[ -f /recalbox/share_init/system/.emulationstation/systemlist.xml ]]; then
    sed -i '$d' /recalbox/share_init/system/.emulationstation/systemlist.xml
    cat /home/pi/McAirpos/McAirpos/Recalbox8.0/systemlist.xml_MakeCode_RB >> /recalbox/share_init/system/.emulationstation/systemlist.xml
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox8.0/themes/recalbox-next/makecode /recalbos/share_init/system/.emulationstation/themes/recalbox-next/
+   cp -r /home/pi/McAirpos/McAirpos/Recalbox8.0/themes/recalbox-next/makecode /recalbox/share_init/system/.emulationstation/themes/recalbox-next/
 else
    echo "Couldn't find the file /recalbox/share_init/system/.emulationstation/systemlist.xml, continuing script without..."
 fi
