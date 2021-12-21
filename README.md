@@ -118,6 +118,7 @@ If you have a keyboard connected, you can enter the shell by pressing F4 + ALT+F
 Otherwise, connect your recalbox to the network (cable or WiFi), start a terminal on your PC and execute `ssh root@recalbox`.
 The name `recalbox` might be different (for a GPi Case, it is `ssh root@recalboxgpi`). 
 You can lookup the correct name in the network settings of your recalbox or use the IP address.
+Default User/Pass: root/recalboxroot
 
 Run _one_ of these commands from the shell:<br>
 Recalbox 8:<br>
