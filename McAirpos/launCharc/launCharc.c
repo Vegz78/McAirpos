@@ -209,7 +209,7 @@ int main(int argc, char** argv) {
 	memset (game, 0, sizeof(game));
 	snprintf(game, sizeof(game), "/recalbox/share/bootvideos/makecode/%s", basename);  //New location instead of /tmp allows for saving game states in settings and DB extensions etc.
 	// Show MakeCode Arcade splash screen on game loading
-	system("/usr/bin/fbv2 /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
+	system("/usr/bin/fbv2 -f /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
     }
 
 
