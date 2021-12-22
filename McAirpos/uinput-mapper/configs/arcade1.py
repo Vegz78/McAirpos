@@ -75,7 +75,9 @@ def AutoCalibrate(z, min, mid, max, deadzonePos, deadzoneNeg):
 # For EV_ABS values less than center
 def digitizeNeg1(n):
     global min1, mid1, max1, deadzonePos1, deadzoneNeg1
-    print (n, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
+
+    # Debug output
+    #print (n, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
 
     # Calls calibration function until value interval is found
     if n < min1:
@@ -92,7 +94,9 @@ def digitizeNeg1(n):
 # For EV_ABS values greater than center
 def digitizePos1(p):
     global min1, mid1, max1, deadzonePos1, deadzoneNeg1
-    print (p, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
+
+    # Debug output
+    #print (p, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
 
     # Calls calibration function until value interval is found
     if p > max1:
