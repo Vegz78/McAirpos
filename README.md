@@ -248,6 +248,7 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [The MakeCode Newsletter](http://makecode.adafruitdaily.com/monthly/2021/01/22/play-makecode-arcade-games-on-raspberry-pi.html)
 - [MakeCode Arcade hardware pages](https://arcade.makecode.com/hardware/raspberry-pi)
 - [Adafruit tweet](https://twitter.com/anne_engineer/status/1343675578701017088)
+- [Microsoft tweet](https://twitter.com/kikivsit/status/1488682184957251584)
 - [Nippon Online Homelab](https://inippon.com/makecode-arcade-retropie/)
 - [JuegosRobotica.es](https://juegosrobotica.es/maquina-recreativa-makecode-arcade)
 - [@mr_polsky tweet](https://twitter.com/mr_polsky/status/1356472105735397376)
