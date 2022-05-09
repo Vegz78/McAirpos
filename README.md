@@ -23,7 +23,7 @@ Controller support out-of-the-box, tested ok with various combinations of:
 - [GamePi20 handheld](https://www.waveshare.com/gamepi20.htm) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/18#issuecomment-889184610), [@marjian88](https://github.com/marjian88)!)
 - [Picade DIY Arcade](https://shop.pimoroni.com/products/picade) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/22#issuecomment-911939494), [@rdmueller](https://github.com/rdmueller)!)
 - [Retroflag GPi handheld](https://www.retroflag.com/GPi-CASE.html) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/28), [@rdmueller](https://github.com/rdmueller)!)
-- [MarsDevices SNES USB controller](https://www.newegg.com/p/0V7-00D0-00011) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1117715837), [@RecycledMonkey](https://github.com/RecyledMonkey)!)
+- [Mars Devices SNES USB controller](https://www.newegg.com/p/0V7-00D0-00011) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1117715837), [@RecycledMonkey](https://github.com/RecyledMonkey)!)
 
 It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
