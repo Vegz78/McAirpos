@@ -23,6 +23,7 @@ Controller support out-of-the-box, tested ok with various combinations of:
 - [GamePi20 handheld](https://www.waveshare.com/gamepi20.htm) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/18#issuecomment-889184610), [@marjian88](https://github.com/marjian88)!)
 - [Picade DIY Arcade](https://shop.pimoroni.com/products/picade) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/22#issuecomment-911939494), [@rdmueller](https://github.com/rdmueller)!)
 - [Retroflag GPi handheld](https://www.retroflag.com/GPi-CASE.html) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/28), [@rdmueller](https://github.com/rdmueller)!)
+- [MarsDevices SNES USB controller](https://www.newegg.com/p/0V7-00D0-00011) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1117715837), [@RecycledMonkey](https://github.com/RecyledMonkey)!)
 
 It should also work with other controllers with little or no modification of the uinput-mapper [_arcadeX.py_ config files](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls). 
 
@@ -108,11 +109,12 @@ Also, **make sure that every _game\_file.elf_ has executable permissions** if th
 
 ### Quick automatic installation for Recalbox
 Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroot):<br>
-Recalbox 8:<br>
+<br>Recalbox 8 with jack or usb audio:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```<br>
-Recalbox 8 with HDMI audio:<br>
+(if you experience nuisance where audio switches to HDMI after exit of MakeCode Arcade games, [please see here for a workaround...](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1121534032))<br>
+<br>Recalbox 8 with HDMI audio:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0_HDMI-Audio-Fix.sh | bash -```<br>
-Recalbox 7.1.1-Reloaded!:<br>
+<br>Recalbox 7.1.1-Reloaded!:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```<br>
 
 ## Updating
