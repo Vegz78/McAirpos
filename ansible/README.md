@@ -28,19 +28,10 @@ ssh-keygen
 ssh-copy-id root@recalbox.local
 ```
 
-Add your RecalBox machines to a group named `arcades` 
-in `/etc/ansible/hosts`
-
-```ini
-[arcades]
-asteroids.local	ansible_user=root
-rampgage.local	ansible_user=root
-```
-
 ## Install McAirPos to your RecalBox machine(s)
 
 ```shell
-$ ansible-playbook ansible_install.yml
+$ ansible-playbook ./ansible_install.yml --inventory 'asteroids.local,rampage.local' --user 'root'
 
 PLAY [Install McAirPos to allow playing MakeCode Arcade games] ***************************************
 
@@ -48,5 +39,21 @@ PLAY [Install McAirPos to allow playing MakeCode Arcade games] *****************
 
 
 PLAY RECAP *******************************************************************************************
+asteroids.local              : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 rampage.local              : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+## Optional
+
+For long lists of hosts, add all RecalBox machines to a group named `arcades` in the inventory file `/etc/ansible/hosts`.
+
+```ini
+[arcades]
+asteroids.local	ansible_user=root
+rampage.local	ansible_user=root
+```
+
+Then run the playbook with a simpler command:
+```shell
+ansible-playbook ./ansible_install.yml
 ```
