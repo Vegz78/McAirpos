@@ -1,7 +1,7 @@
 ---
 - name: Install McAirPos to allow playing MakeCode Arcade games
-  hosts: arcades
   gather_facts: no
+  hosts: all
   vars:
     home_pi: /home/pi
     git_rb: ../McAirpos/Recalbox8.0
