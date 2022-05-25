@@ -31,7 +31,7 @@ ssh-copy-id root@recalbox.local
 ## Install McAirPos to your RecalBox machine(s)
 
 ```shell
-$ ansible-playbook ./ansible_install.yml --inventory 'asteroids.local,rampage.local' --user 'root'
+$ ansible-playbook -i "rampage.local," --user "root" ./ansible_install.yml
 
 PLAY [Install McAirPos to allow playing MakeCode Arcade games] ***************************************
 
@@ -39,7 +39,6 @@ PLAY [Install McAirPos to allow playing MakeCode Arcade games] *****************
 
 
 PLAY RECAP *******************************************************************************************
-asteroids.local              : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 rampage.local              : ok=4    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
@@ -55,5 +54,5 @@ rampage.local	ansible_user=root
 
 Then run the playbook with a simpler command:
 ```shell
-ansible-playbook ./ansible_install.yml
+ansible-playbook -l 'arcades,' ./ansible_install.yml
 ```
