@@ -47,6 +47,7 @@ if [[ -f /recalbox/share_init/system/.emulationstation/systemlist.xml ]]; then
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /recalbox/share_init/system/.emulationstation/systemlist.xml
    cat /home/pi/McAirpos/McAirpos/Recalbox8.0/systemlist.xml_MakeCode_RB >> /recalbox/share_init/system/.emulationstation/systemlist.xml
+   cat "</systemList>" >> /recalbox/share_init/system/.emulationstation/systemlist.xml
    # Add MakeCode Arcade carbon theme
    cp -r /home/pi/McAirpos/McAirpos/Recalbox8.0/themes/recalbox-next/makecode /recalbox/share_init/system/.emulationstation/themes/recalbox-next/
 else
