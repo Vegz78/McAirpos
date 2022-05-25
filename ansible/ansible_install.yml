@@ -64,3 +64,13 @@
         dest: /usr/bin/launCharc
         mode: '0755'
         state: link
+    - name: Add support for HDMI Audio 1/2 - alsabase.conf
+      ansible.builtin.copy:
+        src: "../McAirpos/Recalbox8.0/etc/modprobe.d/alsa-base.conf"
+        dest: /etc/modprobe.d/alsa-base.conf
+        backup: yes
+    - name: Add support for HDMI Audio 2/2 - vc4-hdmi.conf
+      ansible.builtin.copy:
+        src: "../McAirpos/Recalbox8.0/usr/share/alsa/cards/vc4-hdmi.conf"
+        dest: /usr/share/alsa/cards/vc4-hdmi.conf
+        backup: yes
