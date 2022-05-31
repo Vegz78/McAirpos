@@ -27,23 +27,14 @@
         mode: '0755'
         state: directory
     - name: Configure MakeCode controls
-      copy:
+      ansible.builtin.copy:
         src: "../McAirpos/MakeCode/sd/"
         dest: "{{ root_sd }}"
-    - name: Compress the McAirpos files
-      tags:
-        - quick
-      shell: tar -czf ../McAirpos.tar.gz ../McAirpos
-      delegate_to: localhost
-    - name: Transfer archive and create McAirpos directory
-      copy:
-        src: "../McAirpos.tar.gz"
+    - name: Create McAirpos directory
+      ansible.builtin.copy:
+        src: "../McAirpos"
         dest: "{{ mcairpos }}"
-        mode: '0755'     
-    - name: Decompress archive at target
-      tags:
-        - quick
-      shell: tar -zxf /home/pi/McAirpos/McAirpos.tar.gz -C /home/pi/McAirpos
+        mode: '0755'
     - name: Add MakeCode to available systems
       tags:
         - quick
@@ -57,7 +48,7 @@
     - name: Add MakeCode Theme
       tags:
         - quick
-      copy:
+      ansible.builtin.copy:
         src: "{{ git_rb }}/themes/recalbox-next/makecode"
         dest: "{{ rb_dot_es }}/themes/recalbox-next"
     - name: Create MakeCode Arcade ROMS folder
@@ -73,8 +64,13 @@
         dest: /usr/bin/launCharc
         mode: '0755'
         state: link
-    - name: Reboot target
-      tags:
-        - quick
-      shell: reboot
-
+    - name: Add support for HDMI Audio 1/2 - alsabase.conf
+      ansible.builtin.copy:
+        src: "../McAirpos/Recalbox8.0/etc/modprobe.d/alsa-base.conf"
+        dest: /etc/modprobe.d/alsa-base.conf
+        backup: yes
+    - name: Add support for HDMI Audio 2/2 - vc4-hdmi.conf
+      ansible.builtin.copy:
+        src: "../McAirpos/Recalbox8.0/usr/share/alsa/cards/vc4-hdmi.conf"
+        dest: /usr/share/alsa/cards/vc4-hdmi.conf
+        backup: yes
