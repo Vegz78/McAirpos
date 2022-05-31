@@ -13,7 +13,7 @@ An ARM Linux-based Recalbox machine is required for each _target_ machine.
 [6]: https://www.ansible.com/resources/get-started
 [7]: https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-ansible-run-on-windows
 
-## Setup
+## Setup your _host_ computer
 
 Install Ansible on the _host_ computer.
 
