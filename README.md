@@ -2,10 +2,10 @@
 [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1/8](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
 [![](docs/MakeCode_Arcade_RetroPie.gif)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.gif?raw=true)
 
-Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan), and lately [@rdmueller](https://github.com/rdmueller), for all their help and support, and to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
+Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2022.05.31: Two new Ansible playbooks for installing Recalbox 8 on multiple machines at once](https://github.com/Vegz78/McAirpos/blob/master/ansible)<br>
 [2021.12.18: Recalbox 8 support and installation scripts](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox) and [Python 3.x support for uinput-mapper and major revision of launCharc](https://github.com/Vegz78/McAirpos#development-news)<br>
-[2021.07.06: Major revision of the _arcade1&2.py_ controller configuration files](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.06.29: Updated controller configuration section in README.md](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls)<br>
 [2021.01.26: New quick installation script for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#installation)
 
@@ -117,9 +117,8 @@ Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroo
 <br>Recalbox 7.1.1-Reloaded!:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```<br>
 
-### Installation to Multiple RecalBox Machines
-
-For RecalBox 8.0, an [Ansible Playbook](/ansible/) is available to install to multiple machines at once.
+### Installation on multiple Recalbox devices
+For RecalBox 8, two [Ansible playbooks](/ansible/) are available for installing McAirpos remotely to multiple devices at once. This is well suited for classroom or makerspace settings with many simultaneous programming and arcade projects.<br>
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
@@ -217,6 +216,7 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
+[**2022.05.31:**](https://github.com/Vegz78/McAirpos/commit/819c6dc8a077c09660d681edea18161074aba016) Added Ansible deployment playbooks for Recalbox 8 to enable installation on multiple devices at once.<br>
 [**2021.12.18:**](https://github.com/Vegz78/McAirpos/commit/6e44f74b150ef48080533103e9bbebcb17321e8f) New automatic installation scripts for McAirpos on Recalbox 8 - one for analog/jack audio and one for HDMI audio. [Larger refactoring and bug fixes of the launCharc launcher](https://github.com/Vegz78/McAirpos/commit/22ec726494376ea68551cbc0dc4b8eac1692ad39) and some more bugfixes.<br>
 [**2021.12.16:**](https://github.com/Vegz78/McAirpos/commit/b3caca09a71e2c5f4e131a6593a5c7fa232f0ccc) Added McAirpos support for Recalbox 8, including Python 3.x support in addition to 2.7 for uinput-mapper, fix for broken HDMI alsa audio in MCA games and testing and verifying support for the Retroflag GPi case controller. Thank you very much, [@rdmueller](https://github.com/rdmueller), for testing changes and the GPi controller, and contributing to solutions!<br>
 [**2021.07.13:**](https://github.com/Vegz78/McAirpos/issues/17#issuecomment-879092813) Tested McAirpos running ok with keyboard and gamepad controllers on fresh RetroPie 4/400 image, v4.7.1(buster, kernel 5.4.72).<br>
