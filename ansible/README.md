@@ -2,33 +2,36 @@
 
 Scripts here are for use with [Ansible][6]. 
 
-Ansible is a configuration management tool that can make it easier to update multiple RecalBox machines at once, which can be a significant time savings in a classroom environment.
+Ansible is a configuration management tool that can make it easier to update multiple Recalbox machines at once, which can be a significant time saving in a classroom environment.
 
-Ansible must be run on a separate computer on the same network as the RecalBox machines to be updated.
+Ansible must be run on a separate _host_ computer on the same network as the Recalbox machines to be updated.
 
-Ansible is only official supported running on a Linux machine, but it is possible to [run Ansible inside Windows][7].
+Ansible is only official supported for running on a Linux _host_ computer, but it is possible to [run Ansible inside Windows][7].
 
-Note that this only simplifies the setup. A Linux-based RecalBox machine is still required for each target machine.
+An ARM Linux-based Recalbox machine is required for each _target_ machine.
 
 [6]: https://www.ansible.com/resources/get-started
 [7]: https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-ansible-run-on-windows
 
 ## Setup
 
-Install Ansible.
+Install Ansible on the _host_ computer.
 
 ```shell
 pip3 install ansible
 ```
-
-Set up SSH login to your RecalBox machine(s).
+OR
+```shell
+sudo apt update && sudo apt upgrade && sudo apt install ansible -y
+```
+Set up SSH login to your Recalbox _target_ machine(s).
 
 ```shell
 ssh-keygen
 ssh-copy-id root@recalbox.local
 ```
 
-## Install McAirPos to your RecalBox machine(s)
+## Install McAirPos on your _target_ Recalbox machine(s)
 
 ```shell
 $ ansible-playbook -i "rampage.local," --user "root" ./ansible_install.yml
@@ -44,7 +47,7 @@ rampage.local              : ok=4    changed=2    unreachable=0    failed=0    s
 
 ## Optional
 
-For long lists of hosts, add all RecalBox machines to a group named `arcades` in the inventory file `/etc/ansible/hosts`.
+For long lists of _targets_, add all Recalbox machines to a group named `arcades` in the inventory file `/etc/ansible/hosts`.
 
 ```ini
 [arcades]
