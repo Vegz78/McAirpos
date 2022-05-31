@@ -47,7 +47,7 @@ if [[ -f /recalbox/share_init/system/.emulationstation/systemlist.xml ]]; then
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /recalbox/share_init/system/.emulationstation/systemlist.xml
    cat /home/pi/McAirpos/McAirpos/Recalbox8.0/systemlist.xml_MakeCode_RB >> /recalbox/share_init/system/.emulationstation/systemlist.xml
-   cat "</systemList>" >> /recalbox/share_init/system/.emulationstation/systemlist.xml
+   echo "</systemList>" >> /recalbox/share_init/system/.emulationstation/systemlist.xml
    # Add MakeCode Arcade carbon theme
    cp -r /home/pi/McAirpos/McAirpos/Recalbox8.0/themes/recalbox-next/makecode /recalbox/share_init/system/.emulationstation/themes/recalbox-next/
 else
@@ -68,11 +68,14 @@ fi
 #cd /home/pi
 
 # 7. Finish up
-echo "McAirpos finished installing!"
-echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
-echo "Run MakeCode Arcade games from RetroPie or from the Linux console/CLI:"
 ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
 chmod -R 755 /usr/bin/launCharc
+mount -o remount,ro /
+echo "McAirpos finished installing!"
+echo "Please add a .elf game to the MakeCode roms folder and reboot Recalbox for the changes to take effect."
+echo ""
+echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
+echo "Run MakeCode Arcade games from the Recalbox menu or from the Linux console/CLI:"
 launCharc
 echo ""
 echo "For more details, please visit https://github.com/Vegz78/McAirpos"
