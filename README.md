@@ -4,6 +4,7 @@
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2022.06.05: FINALLY the ](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[_settings namespace/extension_](https://forum.makecode.com/t/quick-tutorial-on-the-settings-namespace/1013)[ has been fixed for Raspberry Pi/ARM](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[, by @nopid!](https://github.com/nopid)<br>
 [2022.05.31: Two new Ansible playbooks for installing McAirpos on multiple Recalbox 8 devices at once](https://github.com/Vegz78/McAirpos/blob/master/ansible)<br>
 [2021.12.18: Recalbox 8 support and installation scripts](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox) and [Python 3.x support for uinput-mapper and major revision of launCharc](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2021.06.29: Updated controller configuration section in README.md](https://github.com/Vegz78/McAirpos#default-and-modifying-the-layout-for-controls)<br>
