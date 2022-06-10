@@ -47,19 +47,18 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /etc/emulationstation/es_systems.cfg
    cat /home/pi/McAirpos/McAirpos/Recalbox7.1.1/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
-   cp /etc/emulationstation/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox7.1.1/makecode /etc/emulationstation/themes/recalbox-next/
+   cp -r /home/pi/McAirpos/McAirpos/Recalbox7.1.1/makecode /etc/emulationstation/themes/es_theme_carbon/
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
 
-# 5. Create MakeCode Arcade games folder for Recalbox, if not present
-if [[ -d /recalbox/share/roms/makecode ]]; then
+# 5. Create MakeCode Arcade games folder for Batocera, if not present
+if [[ -d /userdata/roms/makecode ]]; then
    echo "MakeCode Arcade games folder already present, continuing..."
 else
-   mkdir -p /recalbox/share/roms/makecode
-   chmod -R 755 /recalbox/share/roms/makecode
+   mkdir -p /userdata/roms/makecode
+   chmod -R 755 /userdata/roms/makecode
 fi
 
 # 6. Initialize uinput-mapper
@@ -72,10 +71,10 @@ ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
 chmod -R 755 /usr/bin/launCharc
 mount -o remount,ro /
 echo "McAirpos finished installing!"
-echo "Please add a .elf game to the MakeCode roms folder and reboot Recalbox for the changes to take effect."
+echo "Please add a .elf game to the MakeCode roms folder and reboot Batocera for the changes to take effect."
 echo ""
 echo "Download MakeCode Arcade .elf game files from https://vegz78.github.io/McAirpos"
-echo "Run MakeCode Arcade games from the Recalbox menu or from the Linux console/CLI:"
+echo "Run MakeCode Arcade games from the Batocera menu or from the Linux console/CLI:"
 launCharc
 echo ""
 echo "For more details, please visit https://github.com/Vegz78/McAirpos"

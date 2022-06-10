@@ -54,7 +54,7 @@ else
    echo "Couldn't find the file /recalbox/share_init/system/.emulationstation/systemlist.xml, continuing script without..."
 fi
 
-# 5. Create MakeCode Arcade games folder for RetroPie, if not present
+# 5. Create MakeCode Arcade games folder for Recalbox, if not present
 if [[ -d /recalbox/share/roms/makecode ]]; then
    echo "MakeCode Arcade games folder already present, continuing..."
 else
