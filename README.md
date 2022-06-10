@@ -1,5 +1,5 @@
 # McAirpos
-[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 7.1.1/8](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
+[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 8/7](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
 [![](docs/MakeCode_Arcade_RetroPie.gif)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.gif?raw=true)
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
@@ -109,38 +109,39 @@ Also, **make sure that every _game\_file.elf_ has executable permissions** if th
 ```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
 ### Manual installation for Recalbox
-
-Please use the installation script from down below.
-If you still want to do a manual installation, access the script files and follow the instructions :-)
+Please use the automatic installation scripts below.
+If you still want to do a manual installation, access the script files and follow the instructions inside. :-)
 
 ### Quick automatic installation for Recalbox
-
-
-To install McAirpos on your recalbox, you need shell access (Linux console) to it.
+To install McAirpos on your Recalbox, you will need shell access (Linux console) to it.
 If you have a keyboard connected, you can enter the shell by pressing F4 + ALT+F2.
-Otherwise, connect your recalbox to the network (cable or WiFi), start a terminal on your PC and execute `ssh root@recalbox`.
+Otherwise, connect your Recalbox to the network (cable or WiFi), start a terminal on your PC and execute `ssh root@recalbox`.
 The name `recalbox` might be different (for a GPi Case, it is `ssh root@recalboxgpi`). 
-You can lookup the correct name in the network settings of your recalbox or use the IP address.
+You can lookup the correct name in the network settings of your Recalbox or use the IP address.
 Default User/Pass: root/recalboxroot
 
 Run _one_ of these commands from the shell:<br>
-Recalbox 8:<br>
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```<br>
+<br>Recalbox 8 with jack or usb audio:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.sh | bash -```<br>
 (if you experience nuisance where audio switches to HDMI after exit of MakeCode Arcade games, [please see here for a workaround...](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1121534032))<br>
 <br>Recalbox 8 with HDMI audio:<br>
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0_HDMI-Audio-Fix.sh | bash -```<br>
-<br>Recalbox 7.1.1-Reloaded!:<br>
-```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8_HDMI-Audio-Fix.sh | bash -```<br>
+<br>Recalbox 7-Reloaded!:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.sh | bash -```<br>
 
-
-If you don't know which script to use, start with updating your recalbox and the `v8.0` script.
+If you don't know which script to use, start with updating your Recalbox and the `v8` script.
 If you run into problems with the sound, try the `v8.0_HDMI-Audio-Fix` script.
 
-After running the script, will have a roms folder "makecode". 
+After running the script, there will be a "makecode" roms folder. 
 Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to this folder via scp, directly to your card or SMB mount.
 
-start playing and enjoy
+### Installation on multiple Recalbox devices
+For RecalBox 8, two [Ansible playbooks](/ansible/) are available for installing McAirpos remotely to multiple devices at once. This is well suited for classroom or makerspace settings with many simultaneous programming and arcade projects.<br>
+>>>>>>> master
 
+### Missing HDMI audio in MakeCode Arcade games
+For Linux kernels >= v.5 (newer RetroPie, Recalbox and Batocera releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required, as the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/HDMI-Audio-Fix.sh | bash -```<br>
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
