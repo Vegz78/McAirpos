@@ -108,9 +108,23 @@ Make sure that the _makecode_ games folder is owned by _pi_ and has the correct 
 Also, **make sure that every _game\_file.elf_ has executable permissions** if they aren't set automatically when copying them to the _makecode_ games folder:<br>
 ```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
+### Manual installation for Recalbox
+
+Please use the installation script from down below.
+If you still want to do a manual installation, access the script files and follow the instructions :-)
+
 ### Quick automatic installation for Recalbox
-Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroot):<br>
-<br>Recalbox 8 with jack or usb audio:<br>
+
+
+To install McAirpos on your recalbox, you need shell access (Linux console) to it.
+If you have a keyboard connected, you can enter the shell by pressing F4 + ALT+F2.
+Otherwise, connect your recalbox to the network (cable or WiFi), start a terminal on your PC and execute `ssh root@recalbox`.
+The name `recalbox` might be different (for a GPi Case, it is `ssh root@recalboxgpi`). 
+You can lookup the correct name in the network settings of your recalbox or use the IP address.
+Default User/Pass: root/recalboxroot
+
+Run _one_ of these commands from the shell:<br>
+Recalbox 8:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.0.sh | bash -```<br>
 (if you experience nuisance where audio switches to HDMI after exit of MakeCode Arcade games, [please see here for a workaround...](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1121534032))<br>
 <br>Recalbox 8 with HDMI audio:<br>
@@ -118,8 +132,15 @@ Run _one_ of these commands from the Linux console(F4 + ALT+F2, root/recalboxroo
 <br>Recalbox 7.1.1-Reloaded!:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.1.1.sh | bash -```<br>
 
-### Installation on multiple Recalbox devices
-For RecalBox 8, two [Ansible playbooks](/ansible/) are available for installing McAirpos remotely to multiple devices at once. This is well suited for classroom or makerspace settings with many simultaneous programming and arcade projects.<br>
+
+If you don't know which script to use, start with updating your recalbox and the `v8.0` script.
+If you run into problems with the sound, try the `v8.0_HDMI-Audio-Fix` script.
+
+After running the script, will have a roms folder "makecode". 
+Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to this folder via scp, directly to your card or SMB mount.
+
+start playing and enjoy
+
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
