@@ -130,17 +130,16 @@ Run _one_ of these commands from the shell:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.sh | bash -```<br>
 
 If you don't know which script to use, start with updating your Recalbox and the `v8` script.
-If you run into problems with the sound, try the `v8.0_HDMI-Audio-Fix` script.
+If you run into problems with the sound, try the `v8_HDMI-Audio-Fix` script.
 
 After running the script, there will be a "makecode" roms folder. 
-Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to this folder via scp, directly to your card or SMB mount.
+Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to this folder via scp, directly to your card or SMB mount for MakeCode Arcade to appear as an emulator in the Recalbox main menu after the next reboot.
 
 ### Installation on multiple Recalbox devices
 For RecalBox 8, two [Ansible playbooks](/ansible/) are available for installing McAirpos remotely to multiple devices at once. This is well suited for classroom or makerspace settings with many simultaneous programming and arcade projects.<br>
->>>>>>> master
 
 ### Missing HDMI audio in MakeCode Arcade games
-For Linux kernels >= v.5 (newer RetroPie, Recalbox and Batocera releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required, as the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:
+For Linux kernels >= v.5 (newer RetroPie, Recalbox and Batocera releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required, as the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/HDMI-Audio-Fix.sh | bash -```<br>
 
 ## Updating
