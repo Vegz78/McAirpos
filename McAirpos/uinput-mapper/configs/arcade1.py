@@ -1,3 +1,4 @@
+
 from uinputmapper.cinput import *
 
 """
@@ -48,9 +49,15 @@ def AutoCalibrate(z, min, mid, max, deadzonePos, deadzoneNeg):
                     max = 1
                 elif min >= 0:
                     min = 0
-                    max = pow(2, i) - 1
+                    if int(abs(z)) == int((pow(2, i-1) - 1)):
+                        max = pow(2, i-1) - 1
+                    else:
+                        max = pow(2, i) - 1
                 elif max <= 0:
-                    min = -pow(2, i) + 1
+                    if int(abs(z)) == int((pow(2, i-1) - 1)):
+                        min = -pow(2, i-1) + 1
+                    else:
+                        min = -pow(2, i) + 1
                     max = 0
                 else:
                     min = -pow(2, i-1) + 1
@@ -69,6 +76,9 @@ def AutoCalibrate(z, min, mid, max, deadzonePos, deadzoneNeg):
 def digitizeNeg1(n):
     global min1, mid1, max1, deadzonePos1, deadzoneNeg1
 
+    # Debug output
+    #print (n, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
+
     # Calls calibration function until value interval is found
     if n < min1:
         min1 = n
@@ -84,6 +94,9 @@ def digitizeNeg1(n):
 # For EV_ABS values greater than center
 def digitizePos1(p):
     global min1, mid1, max1, deadzonePos1, deadzoneNeg1
+
+    # Debug output
+    #print (p, min1, max1, mid1, deadzonePos1, deadzoneNeg1)
 
     # Calls calibration function until value interval is found
     if p > max1:

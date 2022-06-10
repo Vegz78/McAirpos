@@ -53,7 +53,7 @@
 // Global variables
 FILE *fl;
 int fd;
-int kbdg;
+int kdkb;
 int pulseaudioStatus = 0;
 
 // Function which returns results from shell commands run through system()
@@ -79,7 +79,7 @@ char* getSystemOutput(char* inputCommand) {
 // The code in this function is borrowed from https://github.com/hobbitalistair/termfix:
 // Terminal Fixer's cleanup part, which returns control of the
 // framebuffer and input mode to calling process after game's exit
-int setConsoleGraphicsMode(char *path, int noOfArguments, ...) {
+int termFix(char *path, int noOfArguments, ...) {
 
     // Open the tty for ioctl
     if (strcmp("not a tty", getSystemOutput("tty | tr -d [:cntrl:]"))) {
@@ -111,14 +111,14 @@ int setConsoleGraphicsMode(char *path, int noOfArguments, ...) {
 		break;
 	    case 3:
 		// Get the current keyboard mode
-		if (ioctl(fd, KDGKBMODE, &kbdg) < 0) {
-		    fprintf(fl, "Warn: ioctl KBSKBMODE failed...\n");
+		if (ioctl(fd, KDGKBMODE, &kdkb) < 0) {
+		    fprintf(fl, "Warn: ioctl KBGKBMODE failed...\n");
 		    fprintf(fl, "Unable to get your keyboard mode.\n");
 		}
 		break;
 	    case 4:
 		// Set the current keyboard mode
-		if (ioctl(fd, KDSKBMODE, K_XLATE) < 0) {
+		if (ioctl(fd, KDSKBMODE, (kdkb >= 0) ? kdkb : K_XLATE) < 0) {
 		    fprintf(fl, "Warn: ioctl KBSKBMODE failed...\n");
 		    fprintf(fl, "Unable to set your keyboard mode.\n");
 		}
@@ -133,7 +133,7 @@ int setConsoleGraphicsMode(char *path, int noOfArguments, ...) {
  		}
 		break;
 	    default:
-		fprintf(fl, "Not a valid choice for setConsoleGraphicsMode()\n");
+		fprintf(fl, "Not a valid choice for termFix()\n");
 		return 1;
 	}
     }
@@ -192,24 +192,27 @@ int main(int argc, char** argv) {
     // Check if and cater for running on Recalbox
     // Run copy of game to circumvent Recalbox' read-only(/) and/or non-executablel(.../share/roms exFAT) file systems
     int isRecalbox = 0;
+    struct stat recalboxFileBuffer;
     char copyCmd[300];
     memset (copyCmd, 0, sizeof(copyCmd));
     char basename[200];
     memset (basename, 0, sizeof(basename));
     snprintf(copyCmd, sizeof(copyCmd), "basename %s | tr -d [:cntrl:]", game);
     strcat(basename, getSystemOutput(copyCmd));
-    if (strstr(getSystemOutput("uname -n | tr -d [:cntrl:]"), "RECALBOX") != NULL) {
+    if (0 == stat("/recalbox", &recalboxFileBuffer)) {
 	isRecalbox = 1;
 	memset (sudoer, 0, sizeof(sudoer));
-	// Copy game_file.elf to /tmp(.../roms folder mount exFAT and cannot execute files)
+	// Copy game_file.elf to new location, since default .../roms folder is a mounted exFAT and cannot execute files
+	// /recalbox/share/bootvideos/makecode allows for saving game states in settings and DB extensions etc.
 	memset (copyCmd, 0, sizeof(copyCmd));
 	snprintf(copyCmd, sizeof(copyCmd), "rsync %s /recalbox/share/bootvideos/makecode/&&chmod +x /recalbox/share/bootvideos/makecode/%s", game, basename);
 	system(copyCmd);
 	// Change game's execution path accordingly
 	memset (game, 0, sizeof(game));
-	snprintf(game, sizeof(game), "/recalbox/share/bootvideos/makecode/%s", basename);  //New location instead of /tmp allows for saving game states in settings and DB extensions etc.
+	snprintf(game, sizeof(game), "/recalbox/share/bootvideos/makecode/%s", basename);
 	// Show MakeCode Arcade splash screen on game loading
-	system("/usr/bin/fbv2 /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
+	system("/usr/bin/fbv2 -f /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png >>/dev/null 2>&1");
+	sleep(2);
     }
 
 
@@ -220,12 +223,12 @@ int main(int argc, char** argv) {
 	system("sed -i \"1s&.*&\"\"&\" /tmp/pxt-pid");
 	foundPxtFile = 1;
     }
-    //Disable pause(CTRL+S), suspend(CTRL+Z), eof(CTRL+D) and interrupt(CTRL+C) in terminal
+    // Disable pause(CTRL+S), suspend(CTRL+Z), eof(CTRL+D) and interrupt(CTRL+C) in terminal
     system("stty -ixon -isig -icanon -iexten intr undef susp undef eof undef stop undef&&set -o ignoreeof");
-    //Kill PulseAudio if running and kernel < 5, Pulseaudio can sometimes halt game looking for ALSA
+    // Kill PulseAudio if running and kernel < 5, Pulseaudio can sometimes halt game looking for ALSA
     // if ((atoi(getSystemOutput("uname -r | grep -o -e '^[0-9]*' | tr -d [:cntrl:]")) < 5) && (strcmp("", getSystemOutput("ps -A | grep pulseaudio")))) {
     // Note: Pulseaudio used to restart automatically on kernels below 5, keep an eye on how this is handled > 5 on RPi OS/RetroPie
-    //Kill PulseAudio if running, Pulseaudio can sometimes halt game looking for and getting access to ALSA
+    // Kill PulseAudio if running, Pulseaudio can sometimes halt game looking for and getting access to ALSA
     if (strcmp("", getSystemOutput("ps -A | grep pulseaudio"))) {
 	pulseaudioStatus = 1;
 	memset (copyCmd, 0, sizeof(copyCmd));
@@ -236,11 +239,12 @@ int main(int argc, char** argv) {
 
     // Check and cater for verbose option
     // Silence the game launch information to Linux console if verbose option is not given
-//    memcpy(gameString, game, strlen(game)+1);
     strcat(gameString, game);
-    system("clear");
     if (verbose) {
-	fl = stdout;
+	system("clear");
+	memset (logfile, 0, sizeof(logfile));
+	strcat(logfile, getSystemOutput("tty | tr -d [:cntrl:]"));
+	fl = fopen(logfile, "w");
     }else {
 	// Create new or truncate existing file
 	fl = fopen(logfile, "w+");
@@ -253,7 +257,7 @@ int main(int argc, char** argv) {
 	    fprintf(fl, "Unable to open %s\n", logfile);
 	}
 	// Switch console to graphics mode to avoid disturbing text output in borders
-	setConsoleGraphicsMode(path, 1, 1);
+	termFix(path, 1, 1);
 	// Change game's execution path accordingly
 	memset (game, 0, sizeof(game));
 	snprintf(game, sizeof(game), "%s >>%s 2>&1", gameString, logfile);
@@ -405,7 +409,8 @@ int main(int argc, char** argv) {
     }
 
 
-    // Flush buffers before fork
+    // Get terminal keyboard mode and flush buffers before fork
+    termFix(path, 1, 3);
     fflush(stdout);
     fflush(fl);
 
@@ -415,7 +420,7 @@ int main(int argc, char** argv) {
     if  (!fork()) {
 
 	// Switch console to graphics mode to avoid disturbing text output in borders and save original keyboard mode
-	setConsoleGraphicsMode(path, 2, 1, 3);
+	termFix(path, 1, 1);
 
 	// Close and reopen FILE fl inside fork to disconnect from pre fork state
 	if (fl != NULL) fclose(fl);
@@ -430,14 +435,14 @@ int main(int argc, char** argv) {
 	// Due to strange zombie process behaviour, system will return values from the first and parent ended MCA game
 	// process, even though spawned child processes and the game itself might actually still be running...
         if ((launchInt == 36608) || (launchInt == 15)) {
-	    fprintf(fl, "\n%s was executed successfully \nand the parent process was exited by the user or reset in-game.\nThe game might still be running in a child process...\n\n", gameString);
+	    fprintf(fl, "\n%s was executed successfully and the parent process was exited by the user or reset in-game. The game might still be running in a child process...\n\n", gameString);
 	} else {
 	    fprintf(fl, "\nERROR: Please first check path to and executable permissions for %s and try again.\nThere might also be other problems with the game file, the runtime or the shell availability...\n\n", gameString);
 	}
 	//Alternative way to launch game, but I need to spawn new process in fork, not replace fork process
         //execl(game, game, NULL);
 
-	fprintf(fl, "DEBUG: \nLaunch path: %s, \nSystem() return value: %d\n\n\n", game, launchInt);
+	//fprintf(fl, "DEBUG: \nLaunch command: %s, \nSystem() return value: %d\n\n\n", game, launchInt);
 
 	// Flush buffers and close FILE fl before child process ends
 	fflush(stdout);
@@ -508,9 +513,9 @@ besure:
 	    snprintf(newProcessID, sizeof(newProcessID), getSystemOutput(processCheckCmd));
 	    if (strcmp(processID, newProcessID)) {
 		if (strcmp(newProcessID, "")) {
-		    fprintf(fl, "launCharc: \"%s\" restarted on PID=%s\n", processName, newProcessID);
+		    fprintf(fl, "\nlaunCharc: \"%s\" restarted on PID=%s\n", processName, newProcessID);
 		} else {
-		    fprintf(fl, "PID not found for \"%s\", trying again...\n", processName);
+		    fprintf(fl, "\nPID not found for \"%s\", trying again...\n", processName);
 		}
 		fflush(fl);
 		snprintf(processID, sizeof(processID), "%s", newProcessID);
@@ -552,10 +557,10 @@ cleanup:
 	    // Show Recalbox loading screen while returning to EmulationStation
 	    system("/usr/bin/fbv2 /recalbox/system/resources/splash/logo-version.png >>/dev/null 2>&1");
 	    // Set terminal to text mode, keyboard to original mode and allow switching virtual terminals
-	    setConsoleGraphicsMode(path, 3, 2, 4, 5);
+	    termFix(path, 3, 2, 4, 5);
 	}else {
 	    // Set terminal to text mode and keyboard to original mode
-	    setConsoleGraphicsMode(path, 2, 2, 4);
+	    termFix(path, 2, 2, 4);
 	}
 	// Restore terminal sane/default control character handling
 	system("stty sane&&unset ignoreeof");

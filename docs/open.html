@@ -29,29 +29,73 @@ SOFTWARE.
 		<meta name="description" content="McAirpos - MakeCode Arcade in RetroPie/Raspberry Pi OS">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
+			.buttonDiv {
+				width: 100%;
+				min-width: 300px;
+				display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+  				display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+  				display: -ms-flexbox;      /* TWEENER - IE 10 */
+  				display: -webkit-flex;     /* NEW - Chrome */
+				display: flex;
+			}
+			input {
+				min-width: 300px;
+				min-height:1em;
+				width: 100%;
+				flex-direction: row;
+				border-radius: 4px;
+				margin-left: 1px;
+			}
+			button {
+				min-height:2em;
+				width:100%;
+				text-align: center;
+				vertical-align: middle;
+				background-color: lightgray;
+				filter: brightness(1.15);
+				border: 1px solid transparent;
+				margin: 1px;
+				border-radius: 4px;
+				-ms-touch-action: manipulation;
+				touch-action: manipulation;
+				cursor: pointer;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
+			button:hover {
+				filter: brightness(1.08);
+			}
 		</style>
 		<script async defer src="https://buttons.github.io/buttons.js"></script>
 		<script>
 			function myFunc() {
+				openMakeCode("https://arcade.makecode.com/");
+			}
+			function myFunc2() {
+				openMakeCode("https://arcade.makecode.com/beta/");
+			}
+			function openMakeCode(targetURL) {
 				var url = document.getElementById("makecode").value;
-				var targetURL = "https://arcade.makecode.com/";
 				var URLSuffix = "?nolocalhost=1&compile=rawELF&hw=rpi";
 				var URLSuffix2 = "#editor";
 				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
 				var regex2 = new RegExp("[_][a-zA-Z0-9]{12}");
 				var regex3 = new RegExp("\/$");
 				var waitTime = 1000;
+				var waitTime2 = waitTime*10;
 				if (regex1.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex1)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
 				}
 				else if (regex2.test(url)) {
 					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex2)[0];
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
 				}
 				else if (url.includes("https://github.com")) {
 					if (regex3.test(url)) {
@@ -62,31 +106,30 @@ SOFTWARE.
 					}
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
 				}
 				else if ((url == "") || (url.includes("arcade.makecode.com"))) {
 					targetURL = targetURL + URLSuffix + URLSuffix2; 
 					document.getElementById("output").innerHTML = targetURL;
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
-					setTimeout(() => { window.open("./index2", "_self"); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
 				}
 				else {
 					document.getElementById("output").innerHTML = "Invalid MakeCode Arcade input!";
-					setTimeout(() => { document.getElementById("output").innerHTML = ""; }, 1500);
+					setTimeout(() => { document.getElementById("output").innerHTML = ""; }, waitTime2);
 				}
 			}
 		</script>
 	</head>
-
 	<body>
-		<div class="myDiv">
-			<form onsubmit="event.preventDefault();myFunc()">
-				<input type="text" style="width: 80%" id="makecode" name="makecode"><br>
-				<button type="button" id="myBtn" onclick="myFunc()">Open MakeCode Arcade with ELF</button>
-			</form>
+		<form onsubmit="event.preventDefault();myFunc()">
+			<input type="text" id="makecode" name="makecode"><br>
+			<div class="buttonDiv">	
+				<button type="button" value ="1" id="myBtn" onclick="myFunc()">Open MakeCode Arcade</button>
+				<button type="button" value ="2" id="myBtn2" onclick="myFunc2()">Open MakeCode Arcade BETA</button>
+			</div>
 			<p id="output"></p>
-			<a class="github-button" href="https://github.com/Vegz78/McAirpos" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-
-label="Star Vegz78/McAirpos on GitHub">Star</a>
-		</div>
+			<a class="github-button" href="https://github.com/Vegz78/McAirpos" data-color-scheme="no-preference: dark; light: light; dark: dark;" data-icon="octicon-star" data-show-count="true" aria-label="Star Vegz78/McAirpos on GitHub">Star</a>
+		</form>
 	</body>
 </html>

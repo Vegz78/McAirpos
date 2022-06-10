@@ -61,9 +61,15 @@ def AutoCalibrate(z, min, mid, max, deadzonePos, deadzoneNeg):
                     max = 1
                 elif min >= 0:
                     min = 0
-                    max = pow(2, i) - 1
+                    if int(abs(z)) == int((pow(2, i-1) - 1)):
+                        max = pow(2, i-1) - 1
+                    else:
+                        max = pow(2, i) - 1
                 elif max <= 0:
-                    min = -pow(2, i) + 1
+                    if int(abs(z)) == int((pow(2, i-1) - 1)):
+                        min = -pow(2, i-1) + 1
+                    else:
+                        min = -pow(2, i) + 1
                     max = 0
                 else:
                     min = -pow(2, i-1) + 1

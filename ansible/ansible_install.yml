@@ -1,0 +1,80 @@
+---
+- name: Install McAirPos to allow playing MakeCode Arcade games
+  gather_facts: no
+  hosts: all
+  vars:
+    home_pi: /home/pi
+    git_rb: ../McAirpos/Recalbox8.0
+    root_sd: /sd
+    es_cfg: "{{ lookup('file', git_rb + '/systemlist.xml_MakeCode_RB') }}"
+    rb_dot_es: "/recalbox/share_init/system/.emulationstation"
+    mcairpos: /home/pi/McAirpos
+
+  tasks:
+    - name: Allow writing to root so we can make changes
+      tags:
+        - quick
+      shell: mount -o remount,rw /
+    - name: Create /home/pi
+      file:
+        path: "{{ mcairpos }}"
+        state: directory
+    - name: Chown /sd folder for controls
+      file:
+        path: "{{ root_sd }}"
+        # owner: pi
+        # group: pi
+        mode: '0755'
+        state: directory
+    - name: Configure MakeCode controls
+      copy:
+        src: "../McAirpos/MakeCode/sd/"
+        dest: "{{ root_sd }}"
+    - name: Compress the McAirpos files
+      tags:
+        - quick
+      shell: tar -czf ../McAirpos.tar.gz ../McAirpos
+      delegate_to: localhost
+    - name: Transfer archive and create McAirpos directory
+      copy:
+        src: "../McAirpos.tar.gz"
+        dest: "{{ mcairpos }}"
+        mode: '0755'     
+    - name: Decompress archive at target
+      tags:
+        - quick
+      shell: tar -zxf /home/pi/McAirpos/McAirpos.tar.gz -C /home/pi/McAirpos
+    - name: Add MakeCode to available systems
+      tags:
+        - quick
+      blockinfile:
+        marker: "<!-- {mark} added by Ansible for Makecode Aracde -->"
+        backup: no
+        path: "{{ rb_dot_es }}/systemlist.xml"
+        state: present
+        insertbefore: "</systemList>"
+        block: "{{ es_cfg }}"
+    - name: Add MakeCode Theme
+      tags:
+        - quick
+      copy:
+        src: "{{ git_rb }}/themes/recalbox-next/makecode"
+        dest: "{{ rb_dot_es }}/themes/recalbox-next"
+    - name: Create MakeCode Arcade ROMS folder
+      file:
+        path: "/recalbox/share/roms/makecode"
+        state: directory
+        mode: '0755'
+    - name: Symlink MakeCode launcher
+      tags:
+        - quick
+      file:
+        src: "{{ mcairpos }}/McAirpos/launCharc/launCharc"
+        dest: /usr/bin/launCharc
+        mode: '0755'
+        state: link
+    - name: Reboot target
+      tags:
+        - quick
+      shell: reboot
+
