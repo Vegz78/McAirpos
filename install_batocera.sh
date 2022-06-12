@@ -46,8 +46,8 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    # Appending updated MakeCode Arcade system from repository
    cp -r /home/pi/McAirpos/McAirpos/Batocera34/configs /userdata/system
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Batocera34/art /etc/emulationstation/themes/es_theme_carbon/
-   cp /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png /etc/emulationstation/themes/es_theme_carbon/art/consoles/makecode.png
+   cp -r /home/pi/McAirpos/McAirpos/Batocera34/art /etc/emulationstation/themes/es-theme-carbon/
+   cp /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png /etc/emulationstation/themes/es-theme-carbon/art/consoles/makecode.png
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
@@ -63,7 +63,7 @@ fi
 # 6. Provide 32-bit runtime environment
 gzip -d /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar.gz
 tar xf /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar -C /
-ln -s /lib32/arm-linux-gnueabihf/ld-2.31 /lib/ld-linux-armhf.so.3
+ln -s /lib32/arm-linux-gnueabihf/ld-2.31.so /lib/ld-linux-armhf.so.3
 cp -r /home/pi/McAirpos/McAirpos/Batocera34/usr /
 if [[ -d /lib32 ]]; then
    echo "Runtime environment provided ok..."
