@@ -63,6 +63,7 @@ fi
 gzip -d /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar.gz
 tar xf /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar -C /
 ln -s /lib32/arm-linux-gnueabihf/ld-2.31 /lib/ld-linux-armhf.so.3
+cp -r /home/pi/McAirpos/McAirpos/Batocera34/usr /
 if [[ -d /lib32 ]]; then
    echo "Runtime environment provided ok..."
 else
