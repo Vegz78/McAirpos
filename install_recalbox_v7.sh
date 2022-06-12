@@ -46,10 +46,10 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    sed -i '/<system>/{:a;/<\/system>/!{N;ba;}};/<name>MakeCode<\/name>/d;' /etc/emulationstation/es_systems.cfg
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /etc/emulationstation/es_systems.cfg
-   cat /home/pi/McAirpos/McAirpos/Recalbox7.1.1/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
+   cat /home/pi/McAirpos/McAirpos/Recalbox7/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
    cp /etc/emulationstation/es_systems.cfg /recalbox/share_init/system/.emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox7.1.1/makecode /etc/emulationstation/themes/recalbox-next/
+   cp -r /home/pi/McAirpos/McAirpos/Recalbox7/makecode /etc/emulationstation/themes/recalbox-next/
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi

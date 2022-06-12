@@ -19,9 +19,10 @@ else
    if [[ -f /usr/bin/wget ]] && [[ -f /bin/tar ]]; then
       echo "Fetching McAirpos..."
       wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz
-      tar -zxf ./master.tar.gz -C /home/pi
+      gzip -d ./master.tar.gz
+      tar -xf ./master.tar -C /home/pi
       mv /home/pi/McAirpos-master /home/pi/McAirpos
-      rm -f ./master.tar.gz
+      rm -f ./master.tar
    else
       echo "wget or tar missing, exiting script..."
       exit 1
@@ -42,13 +43,10 @@ fi
 if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    #Backup original es_systems.cfg file
    cp /etc/emulationstation/es_systems.cfg /etc/emulationstation/es_systems.cfg_McAirpos.bak
-   # Removing MakeCode Arcade system, if present
-   sed -i '/<system>/{:a;/<\/system>/!{N;ba;}};/<name>MakeCode<\/name>/d;' /etc/emulationstation/es_systems.cfg
    # Appending updated MakeCode Arcade system from repository
-   sed -i '$d' /etc/emulationstation/es_systems.cfg
-   cat /home/pi/McAirpos/McAirpos/Recalbox7.1.1/es_systems.cfg_MakeCode_RB >> /etc/emulationstation/es_systems.cfg
+   cp -r /home/pi/McAirpos/McAirpos/Batocera34/configs /userdata/system
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox7.1.1/makecode /etc/emulationstation/themes/es_theme_carbon/
+   cp -r /home/pi/McAirpos/McAirpos/Batocera34/art /etc/emulationstation/themes/es_theme_carbon/
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
@@ -61,14 +59,26 @@ else
    chmod -R 755 /userdata/roms/makecode
 fi
 
-# 6. Initialize uinput-mapper
+# 6. Provide 32-bit runtime environment
+gzip -d /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar.gz
+tar xf /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.tar -C /
+ln -s /lib32/arm-linux-gnueabihf/ld-2.31 /lib/ld-linux-armhf.so.3
+if [[ -d /lib32 ]]; then
+   echo "Runtime environment provided ok..."
+else
+   echo "Runtime environment is missing or faulty, exiting..."
+   exit 1
+fi
+
+# 7. Initialize uinput-mapper
 #cd /home/pi/McAirpos/McAirpos/uinput-mapper
 #make
 #cd /home/pi
 
-# 7. Finish up
+# 8. Finish up
 ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
 chmod -R 755 /usr/bin/launCharc
+/usr/bin/batocera-save-overlay 100
 mount -o remount,ro /
 echo "McAirpos finished installing!"
 echo "Please add a .elf game to the MakeCode roms folder and reboot Batocera for the changes to take effect."

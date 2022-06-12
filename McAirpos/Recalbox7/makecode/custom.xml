@@ -1,0 +1,53 @@
+<theme>
+	<formatVersion>4</formatVersion>
+
+	<view name="system">
+		<text name="info1" extra="true">
+			<text>Developer : Microsoft</text>
+		</text>
+		<text name="info2" extra="true">
+			<text>Initial release : January 6, 2020</text>
+		</text>
+		<text name="info3" extra="true">
+			<text>Website : http://arcade.makecode.com</text>
+		</text>
+		<text name="info4" extra="true">
+			<text>Written in : STS/C++</text>
+		</text>
+		<text name="info5" extra="true">
+			<text>"Microsoft MakeCode Arcade is a web-based beginner-friendly</text>
+		</text>
+		<text name="info6" extra="true">
+			<text>the hardware of arcade game systems in software</text>
+			<text>code editor to create retro arcade games ...</text>
+		</text>
+		<text name="info7" extra="true">
+			<text>... with MakeCode, you can either use blocks[, Python]</text>
+		</text>
+		<text name="info8" extra="true">
+			<text>or JavaScript to build your program ..."</text>
+		</text>
+		<text name="info9" extra="true">
+			<text>Video : "... 160x120 screen showing 16 colors ..."</text>
+		</text>
+		<text name="info10" extra="true">
+			<text>Sound : "... 4-channel retro-appropriate sound system ..."</text>
+		</text>
+		
+	</view>
+
+	<view name="system, basic, detailed">
+		<image name="band1" extra="true">
+			<color>FF69B4</color>
+		</image>
+		<image name="band2" extra="true">
+			<color>36D787</color>
+		</image>
+		<image name="band3" extra="true">
+			<color>4B77BE</color>
+		</image>
+		<image name="band4" extra="true">
+			<color>BE90D4</color>
+		</image>
+	</view>
+</theme>

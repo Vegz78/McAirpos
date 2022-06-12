@@ -46,10 +46,10 @@ if [[ -f /recalbox/share_init/system/.emulationstation/systemlist.xml ]]; then
    sed -i '/<system uuid="7f9da90c-5a4b-475d-a9c2-efdbfc0d9d78" name="MakeCode" fullname="MakeCode Arcade" platforms="MakeCode">/{:a;/<\/system>/!{N;ba;}};/<descriptor command="\/usr\/bin\/launCharc %ROM%" path="%ROOT%\/makecode" theme="makecode" extensions=".elf .ELF" icon="$F251"\/>/d;' /recalbox/share_init/system/.emulationstation/systemlist.xml
    # Appending updated MakeCode Arcade system from repository
    sed -i '$d' /recalbox/share_init/system/.emulationstation/systemlist.xml
-   cat /home/pi/McAirpos/McAirpos/Recalbox8.0/systemlist.xml_MakeCode_RB >> /recalbox/share_init/system/.emulationstation/systemlist.xml
+   cat /home/pi/McAirpos/McAirpos/Recalbox8/systemlist.xml_MakeCode_RB >> /recalbox/share_init/system/.emulationstation/systemlist.xml
    echo "</systemList>" >> /recalbox/share_init/system/.emulationstation/systemlist.xml
    # Add MakeCode Arcade carbon theme
-   cp -r /home/pi/McAirpos/McAirpos/Recalbox8.0/themes/recalbox-next/makecode /recalbox/share_init/system/.emulationstation/themes/recalbox-next/
+   cp -r /home/pi/McAirpos/McAirpos/Recalbox8/themes/recalbox-next/makecode /recalbox/share_init/system/.emulationstation/themes/recalbox-next/
 else
    echo "Couldn't find the file /recalbox/share_init/system/.emulationstation/systemlist.xml, continuing script without..."
 fi
