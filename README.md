@@ -1,5 +1,8 @@
 # McAirpos
 [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk), [Recalbox 8/7](https://www.recalbox.com) and [Batocera](https://batocera.org) (v.34 tested), running natively as ELF executables on [Raspberry Pi OS](https://www.raspberrypi.com/software/)/Linux ARM with gamepad and keyboard support for up to 2 players.<br>
+
+**NB!: Experiencing at the moment either a [local coding regression or a breaking update in _RetroPie_](https://github.com/Vegz78/McAirpos/issues/41), which ruins the game menu/theme for MakeCode Arcade on RetroPie. I am looking into the problem now and hope I can find the fix quickly. Just tested OK on Recalbox 8.0.2 and Batocera 34 on my RPi4, but please wait a little with installing on other systems until this is sorted out.**  
+
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |[![](docs/MakeCode_Arcade_RetroPie.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.png?raw=true)|[![](docs/MakeCode_Arcade_Batocera.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Batocera.png?raw=true)|[![](docs/MakeCode_Arcade_Recalbox.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|
