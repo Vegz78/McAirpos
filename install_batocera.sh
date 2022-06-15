@@ -47,6 +47,7 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    cp -r /home/pi/McAirpos/McAirpos/Batocera34/configs /userdata/system
    # Add MakeCode Arcade carbon theme
    cp -r /home/pi/McAirpos/McAirpos/Batocera34/art /etc/emulationstation/themes/es-theme-carbon/
+   cp -r /home/pi/McAirpos/McAirpos/Batocera34/makecode /etc/emulationstation/themes/es-theme-carbon/
    cp /home/pi/McAirpos/McAirpos/MakeCode/MakeCode_Arcade.png /etc/emulationstation/themes/es-theme-carbon/art/consoles/makecode.png
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."

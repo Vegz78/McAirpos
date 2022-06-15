@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Theme: es-theme-carbon
+author: Fabrice CARUSO
+license: creative commons CC-BY-NC-SA
+originally based on: "Carbon" by Eric Hettervik (Rookervik)
+originally based on: "simple" by nils bonenberger
+-->
+<theme defaultView="Icons">
+  <formatVersion>7</formatVersion>
+  <view name="detailed">  
+    <!-- Sample per-game customisation path definition
+    <gameextras name="gameextras">
+      <path>./../../games/${system.theme}</path>
+    </gameextras>
+    -->
+    <video name="md_video">
+      <pos>0.76 0.408</pos>
+      <maxSize>0.46 0.436</maxSize>
+      <origin>0.5 0.5</origin>
+      <delay>1.4</delay>
+      <showSnapshotNoVideo>true</showSnapshotNoVideo>
+      <showSnapshotDelay>true</showSnapshotDelay>
+      <loops>1</loops>
+      <roundCorners>0.02</roundCorners>
+      <zIndex>30</zIndex>
+      <defaultSnapshot>./../../art/grid/makecode-logo.png</defaultSnapshot>
+    </video>
+    <image name="background">
+      <tile>false</tile>
+      <size>1 1</size>
+      <pos>0 0</pos>
+      <origin>0 0</origin>
+      <path>./../../art/bg.png</path>
+      <color>${backgroundColor}</color>
+      <zIndex>10</zIndex>
+    </image>
+    <image name="consolebk" extra="true" ifSubset="systembackground:consoles">
+      <path>./../../art/background/${system.theme}.jpg</path>
+      <linearSmooth>true</linearSmooth>
+      <pos>0.5 0.5</pos>
+      <minSize>1 1</minSize>
+      <origin>0.5 0.5</origin>
+      <color>FFFFFF12</color>
+      <zIndex>11</zIndex>
+    </image>
+    <image name="ControllerOverlay" extra="true" ifSubset="systembackground:mini-consoles">
+      <path>./../../art/consoles/default.png</path>
+      <path>./../../art/consoles/${system.theme}.png</path>
+      <linearSmooth>true</linearSmooth>
+      <pos>0.25 0.52</pos>
+      <maxSize>0.4 0.4</maxSize>
+      <origin>0.5 0.5</origin>
+      <color>FFFFFF09</color>
+      <zIndex>11</zIndex>
+    </image>
+    <image name="detailsBk" extra="true">
+      <path>./../../art/filter.png</path>
+      <color>00000040</color>
+      <colorEnd>00000000</colorEnd>
+      <gradientType>horizontal</gradientType>
+      <origin>0 0</origin>
+      <pos>0.53 0.16</pos>
+      <size>0.4 0.774</size>
+      <zIndex>12</zIndex>
+    </image>
+    <image name="detailsBkR" extra="true">
+      <path>./../../art/filter.png</path>
+      <color>00000000</color>
+      <colorEnd>00000010</colorEnd>
+      <gradientType>horizontal</gradientType>
+      <origin>0 0</origin>
+      <pos>0.525 0.16</pos>
+      <size>0.005 0.774</size>
+      <size ifHelpPrompts="false">0.005 0.84</size>
+      <zIndex>12</zIndex>
+    </image>
+    <image name="detailsBkLine" extra="true">
+      <path>./../../art/white.png</path>
+      <color>${glowColor}</color>
+      <origin>0 0</origin>
+      <pos>0.526 0.16</pos>
+      <size>0.003 0.775</size>
+      <size ifHelpPrompts="false">0.003 0.84</size>
+      <zIndex>14</zIndex>
+    </image>
+    <textlist name="gamelist">
+      <primaryColor>C0C0C0</primaryColor>
+      <secondaryColor>F0F0F0</secondaryColor>
+      <selectorColor>${centerFadeColor}</selectorColor>
+      <selectedColor>FFFFFFFF</selectedColor>
+      <forceUppercase>0</forceUppercase>
+      <pos>0.021 0.18</pos>
+      <size>0.489 0.73</size>
+      <alignment>left</alignment>
+      <horizontalMargin>0.00</horizontalMargin>
+      <fontPath>./../../art/fonts/Cabin-Regular.ttf</fontPath>
+      <fontSize>0.028</fontSize>
+      <scrollSound>./../../art/sounds/scroll.wav</scrollSound>
+      <scrollbarColor>96969620</scrollbarColor>
+      <scrollbarCorner>0.49</scrollbarCorner>
+      <scrollbarSize>0.0065</scrollbarSize>
+      <scrollbarAlignment>outerright</scrollbarAlignment>
+      <lines>17</lines>
+      <horizontalMargin>0.005</horizontalMargin>      
+    </textlist>
+    <!-- 
+    <text name="md_genre, md_developer, md_publisher, md_lastplayed, md_releasedate, md_players, md_lbl_developer, md_lbl_publisher, md_lbl_lastplayed, md_lbl_playcount, md_lbl_players, md_lbl_releasedate">
+      <storyboard>
+        <animation property="opacity" from="0" duration="350" mode="easeOut"/>
+      </storyboard>
+    </text>
+    -->
+    <text name="md_lbl_developer, md_lbl_publisher, md_lbl_lastplayed, md_lbl_playcount, md_lbl_players, md_lbl_releasedate">
+      <color>969696</color>
+      <forceUppercase>0</forceUppercase>
+      <fontPath>./../../art/fonts/Cabin-Regular.ttf</fontPath>
+      <fontSize>0.023</fontSize>
+    </text>
+    <text name="md_genre, md_developer, md_publisher, md_lastplayed, md_releasedate, md_players">
+      <color>969696</color>
+      <forceUppercase>0</forceUppercase>
+      <fontPath>./../../art/fonts/Cabin-Bold.ttf</fontPath>
+      <fontSize>0.023</fontSize>
+    </text>
+    <text name="md_lbl_rating, md_lbl_publisher, md_publisher, md_lbl_lastplayed, md_lbl_playcount, md_playcount, md_lbl_releasedate, md_lbl_genre, md_lbl_developer">
+      <pos>1 1</pos>
+    </text>
+    <datetime name="md_lastplayed">
+      <pos>1 1</pos>
+    </datetime>
+    <image name="md_flag">
+      <origin>0 0.5</origin>
+      <pos>0.55 0.9</pos>
+      <maxSize>0.02 0.05</maxSize>
+      <linearSmooth>true</linearSmooth>
+    </image>
+    <text name="md_developer">
+      <color>EFEFFF</color>
+      <pos>0.578 0.875</pos>
+      <size>0.30 0.05</size>
+      <alignment>left</alignment>
+      <fontSize>0.025</fontSize>
+    </text>
+    <rating name="md_rating">
+      <pos>0.94 0.886</pos>
+      <size>0.05 0.03</size>
+      <size verticalScreen="true">0.05 0.02</size>
+      <horizontalAlignment>right</horizontalAlignment>
+      <color>FFFF00</color>
+      <unfilledColor>808080</unfilledColor>
+      <unfilledPath>:/star_filled.svg</unfilledPath>
+    </rating>
+    <text name="md_lbl_players">
+      <pos>0.87 0.645</pos>
+      <pos verticalScreen="true">0.85 0.645</pos>
+      <size>0.09 0</size>
+    </text>
+    <text name="md_players">
+      <color>EFEFFF</color>
+      <pos>0.93 0.645</pos>
+      <size>0.05 0.033</size>
+      <alignment>right</alignment>
+      <singleLineScroll>true</singleLineScroll>
+    </text>
+    <text name="md_lbl_releasedate">
+      <color>969696</color>
+      <pos>0.55 0.645</pos>
+      <size>0.2 0</size>
+    </text>
+    <datetime name="md_releasedate">
+      <color>EFEFFF</color>
+      <pos>0.645 0.645</pos>
+      <pos verticalScreen="true">0.7 0.645</pos>
+      <size>0 0.033</size>
+      <format>${dateFormat}</format>
+    </datetime>
+    <text name="md_description">
+      <pos>0.55 0.7</pos>
+      <size>0.43 0.16</size>
+      <color>C0C0C0</color>
+      <forceUppercase>0</forceUppercase>
+      <fontPath>./../../art/fonts/Cabin-Regular.ttf</fontPath>
+      <fontSize>0.023</fontSize>
+    </text>
+    <image name="md_hidden">
+      <path>./../../art/hidden.svg</path>
+      <pos>0.975 0.21</pos>
+      <maxSize>0.02 0.03</maxSize>
+      <origin>0.5 0.5</origin>
+      <color>969696</color>
+      <zIndex>15</zIndex>
+    </image>
+    <image name="md_kidgame">
+      <path>./../../art/kid.svg</path>
+      <pos>0.86 0.9</pos>
+      <maxSize>0.02 0.03</maxSize>
+      <origin>0.5 0.5</origin>
+      <color>969696</color>
+      <zIndex>15</zIndex>
+    </image>
+    <image name="md_manual">
+      <path>./../../art/manual.svg</path>
+      <pos>0.882 0.9</pos>
+      <maxSize>0.02 0.03</maxSize>
+      <origin>0.5 0.5</origin>
+      <color>969696</color>
+      <zIndex>15</zIndex>
+    </image>
+    <!--
+    <image name="md_favorite">
+      <pos>0.975 0.21</pos>
+      <maxSize>0.02 0.03</maxSize>      
+      <path>./../../art/favorite.svg</path>
+      <origin>0.5 0.5</origin>
+      <color>969696</color>
+      <zIndex>60</zIndex>
+    </image>-->
+  </view>
+</theme>

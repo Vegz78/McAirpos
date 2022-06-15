@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>7</formatVersion>
+  <customView name="Tiles" inherits="grid" displayName="${tilesViewName}">
+    <imagegrid name="gamegrid">
+      <autoLayout>3 2</autoLayout>
+      <autoLayout verticalScreen="true">2 3</autoLayout>
+      <cellProportion>1.25</cellProportion>
+      <autoLayout>0 2</autoLayout>
+      <cellProportion verticalScreen="true">0.77</cellProportion>
+      <autoLayout verticalScreen="true">2 0</autoLayout>
+      <autoLayoutSelectedZoom>1.02</autoLayoutSelectedZoom>
+      <imageSource>image</imageSource>
+      <margin>0.002 0.004</margin>
+      <showVideoAtDelay>800</showVideoAtDelay>
+      <zIndex>13</zIndex>
+      <gameImage>./../../art/grid/makecode-logo.png</gameImage>
+      <folderImage>./../../art/grid/deffolder.png</folderImage>
+      <logoBackgroundImage>./../../art/grid/deflogobk.png</logoBackgroundImage>
+    </imagegrid>
+    <ninepatch name="gridtile.background">
+      <path>./../../art/framew.png</path>
+      <cornerSize>20 20</cornerSize>
+      <padding>-2 -2</padding>
+      <edgeColor>000000B0</edgeColor>
+      <centerColor>000000A0</centerColor>            
+    </ninepatch>
+    <ninepatch name="gridtile.background:selected">
+      <path>./../../art/framewsel.png</path>
+      <cornerSize>36 36</cornerSize>
+      <padding>-18 -18</padding>
+      <color>${baseColor}</color>
+    </ninepatch>
+    <gridtile name="default">
+      <backgroundImage/>
+      <backgroundCenterColor>40404080</backgroundCenterColor>
+      <backgroundEdgeColor>40404080</backgroundEdgeColor>
+      <padding>5 5</padding>
+      <imageSizeMode>minSize</imageSizeMode>
+      <imageColor>A0A0A0FF</imageColor>
+      <backgroundCornerSize>0.021</backgroundCornerSize>
+    </gridtile>
+    <gridtile name="selected">
+      <padding>5 5</padding>
+      <imageColor>FFFFFFFF</imageColor>
+      <backgroundCornerSize>0.021</backgroundCornerSize>
+    </gridtile>
+    <!--
+    <image name="gridtile.overlay">
+      <roundCorners>0.020</roundCorners>
+      <path>./../../art/overlay.png</path>
+      <color>FFFFFF70</color>
+    </image>
+
+     <image name="gridtile.overlay:selected">
+      <color>FFFFFF20</color>
+    </image>
+    -->
+    <image name="gridtile.image">
+      <roundCorners>0.020</roundCorners>
+    </image>
+    <text name="gridtile">
+      <color>D0D0D0D0</color>
+      <backgroundColor>00000000</backgroundColor>
+      <fontPath>./../../art/fonts/Cabin-Regular.ttf</fontPath>
+      <fontSize>0.026</fontSize>
+      <alignment>center</alignment>
+      <singleLineScroll>false</singleLineScroll>
+      <padding>0.08 0.02</padding>
+      <size>0 0.22</size>
+      <glowColor>00000060</glowColor>
+      <glowSize>0</glowSize>
+      <glowSize ifArch="windows,x86,x86_64,odroidc4,odroidxu4">1</glowSize>
+    </text>
+    <text name="gridtile:selected">
+      <singleLineScroll>false</singleLineScroll>
+      <color>FFFFFF</color>
+    </text>
+    <image name="gridtile.favorite">
+      <path>./../../art/favorite.png</path>
+      <pos>0.93 0.07</pos>
+      <maxSize>0.10 0.10</maxSize>
+      <origin>0.5 0.5</origin>
+      <horizontalAlignment>right</horizontalAlignment>
+      <color>FFFF00A0</color>
+    </image>
+    <image name="gridtile.favorite:selected">
+      <color>FFFFFFE0</color>
+    </image>
+  </customView>
+</theme>

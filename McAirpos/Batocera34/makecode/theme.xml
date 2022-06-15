@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Theme: es-theme-carbon
+author: Fabrice CARUSO
+license: creative commons CC-BY-NC-SA
+originally based on: "Carbon" by Eric Hettervik (Rookervik)
+originally based on: "simple" by nils bonenberger
+-->
+<theme defaultView="Icons">
+  <formatVersion>7</formatVersion>
+  <variables>
+    <baseColor>8b0000</baseColor>
+    <gradientEndColor>6b2020</gradientEndColor>
+    <centerFadeColor>8b000050</centerFadeColor>
+    <backgroundColor>200000</backgroundColor>
+    <bottomBarColor>8b0000c0</bottomBarColor>
+    <glowColor>Ab000020</glowColor>
+    <systemInfoColor>DDDDDDD8</systemInfoColor>
+    <groupColor>BD4747</groupColor>
+    <groupSeparatorColor>BD4747</groupSeparatorColor>
+    <backgroundImage>./../art/fiber.png</backgroundImage>
+    <tilesViewName>Tiles</tilesViewName>
+    <iconsViewName>Icons</iconsViewName>
+    <roundBorderSubsetName>Round borders</roundBorderSubsetName>
+    <blinkBorderSubsetName>Blinking borders</blinkBorderSubsetName>
+    <previewBarSubsetName>Preview bar</previewBarSubsetName>
+    <videoboxesSubsetName>Show Video in boxes</videoboxesSubsetName>
+    <zoomboxesSubsetName>Zoom boxes</zoomboxesSubsetName>
+    <orientationSubsetName>Orientation</orientationSubsetName>
+    <videosSubsetName>Videos</videosSubsetName>
+    <logosSubsetName>Logos</logosSubsetName>
+    <systemViewExInfos>Extended system informations</systemViewExInfos>
+    <animationsSubsetName>Transition Animations</animationsSubsetName>
+    <hideselectionSubsetName>Hide selection</hideselectionSubsetName>
+    <systemBackgroundName>System background</systemBackgroundName>
+    <optimizesmallscreensSubsetName>Optimize for small screens</optimizesmallscreensSubsetName>
+    <helpSubsetName>Help icons</helpSubsetName>
+    <systemViewName>System view</systemViewName>
+    <systemview.darkened>darkened</systemview.darkened>
+    <systemview.horizontal>horizontal</systemview.horizontal>
+    <systemview.legacy>legacy</systemview.legacy>
+    <systemview.transparent>transparent</systemview.transparent>
+    <systemview.simple>simple</systemview.simple>
+    <systemview.vertical>vertical</systemview.vertical>
+    <systemview.wheel>wheel</systemview.wheel>
+    <colored>Colored</colored>
+    <subset.colorset>Colorset</subset.colorset>
+    <subset.shader>Shader</subset.shader>
+    <glowSubsetName>Glow selection</glowSubsetName>
+    <helpbuttons>Button location</helpbuttons>
+    <xboxbuttons>Xbox buttons</xboxbuttons>
+    <psxbuttons>Playstation buttons</psxbuttons>
+    <marquee>marquee</marquee>
+    <image>image</image>
+    <text>text</text>
+    <thumbnail>thumbnail</thumbnail>
+    <animatedInfobar>Animated preview bar</animatedInfobar>
+  </variables>
+
+  <include lang="fr">./../lang/fr.xml</include>
+  <include lang="pt">./../lang/pt.xml</include>
+  <include lang="es">./../lang/es.xml</include>
+  
+  <!-- Colorsets  -->
+  <subset name="colorset" displayName="${subset.colorset}">
+    <include name="blue" displayName="${blue}">./../subsets/colorsets/blue.xml</include>
+    <include name="red" displayName="${red}">./../subsets/colorsets/red.xml</include>
+    <include name="green" displayName="${green}">./../subsets/colorsets/green.xml</include>
+    <include name="cyan"  displayName="${cyan}">./../subsets/colorsets/cyan.xml</include>
+    <include name="yellow" displayName="${yellow}">./../subsets/colorsets/yellow.xml</include>
+    <include name="violet"  displayName="${violet}">./../subsets/colorsets/violet.xml</include>
+    <include name="orange"  displayName="${orange}">./../subsets/colorsets/orange.xml</include>
+    <include name="gray" displayName="${gray}">./../subsets/colorsets/gray.xml</include>
+  </subset>
+
+  <!-- Common views  -->
+  <include>./../views/menu.xml</include>
+  <include>./../views/screen.xml</include>
+  <include>./../views/system.xml</include>
+  
+  <!-- Subset option for System extended informations -->
+  <subset name="subsetSystemInfoEx" displayName="${systemViewExInfos}" tinyScreen="false">
+    <include name="yes" displayName="${yes}">./../subsets/extendedinfo.xml</include>
+    <include name="no" displayName="${no}"/>
+  </subset>
+  <!-- Subset options for screen -->
+  <subset name="systemview" displayName="${systemViewName}">
+    <include name="darkened" displayName="${systemview.darkened}">./../subsets/systemview/horizontaldark.xml</include>
+    <include name="horizontal" displayName="${systemview.horizontal}">./../subsets/systemview/horizontal.xml</include>
+    <include name="legacy" displayName="${systemview.legacy}" tinyScreen="false">./../subsets/systemview/legacy.xml</include>
+    <include name="transparent" displayName="${systemview.transparent}" tinyScreen="false">./../subsets/systemview/transparent.xml</include>
+    <include name="simple" displayName="${systemview.simple}">./../subsets/systemview/verticalone.xml</include>
+    <include name="vertical"  displayName="${systemview.vertical}">./../subsets/systemview/vertical.xml</include>
+    <include name="wheel" displayName="${systemview.wheel}">./../subsets/systemview/wheel.xml</include>
+  </subset>
+  <!-- Subset option for System view background -->
+  <subset name="systembackground" displayName="${systemBackgroundName}">
+    <include tinyScreen="false" name="mini-consoles" displayName="${systembackground.miniconsoles}">./../subsets/systembackground/consoles.xml</include>
+    <!-- change default for small screens -->
+    <include name="consoles" displayName="${systembackground.consoles}">./../subsets/systembackground/batomachines.xml</include>
+    <include tinyScreen="true" name="mini-consoles" displayName="${systembackground.miniconsoles}">./../subsets/systembackground/consoles.xml</include>
+    <include name="carbon controllers" displayName="${systembackground.carboncontrollers}">./../subsets/systembackground/animatedbackgroundsubset.xml</include>
+    <include name="carbon legacy" displayName="${systembackground.carbonlegacy}">./../subsets/systembackground/carbon.xml</include>
+    <include name="simple" displayName="${systembackground.simple}">./../subsets/systembackground/simple.xml</include>
+    <include name="random video" displayName="${systembackground.randomvideo}">./../subsets/systembackground/video.xml</include>
+    <include name="random fanart" displayName="${systembackground.randomfanart}">./../subsets/systembackground/fanart.xml</include>
+    <include name="random image" displayName="${systembackground.randomimage}">./../subsets/systembackground/image.xml</include>
+    <include name="random box" displayName="${systembackground.randombox}">./../subsets/systembackground/box.xml</include>
+    <include name="mini random image" displayName="${systembackground.minirandomimage}">./../subsets/systembackground/smallscreen.xml</include>
+    <include name="mini random box" displayName="${systembackground.minirandombox}">./../subsets/systembackground/smallbox.xml</include>
+    <include name="mini random video" displayName="${systembackground.minirandomvideo}">./../subsets/systembackground/smallvideo.xml</include>
+  </subset>
+  <!-- Fix for controller image size -->
+  <include subset="systemview" name="simple" displayName="${systemview.simple}">./../subsets/systemview/controllersizefix.xml</include>
+  <include subset="systemview" name="vertical" displayName="${systemview.vertical}">./../subsets/systemview/controllersizefix.xml</include>
+  <include subset="systemview" name="wheel" displayName="${systemview.wheel}">./../subsets/systemview/controllersizefix.xml</include>
+  <!-- Fix for Legacy option in systemview subset : systemInfo colors have to be restored after applying systembackground subset -->
+  <include subset="systemview" name="legacy" displayName="${systemview.legacy}">./../subsets/systemview/legacyfix.xml</include>
+
+  <!-- Common views  -->
+  <include>./../views/common.xml</include>
+  <include>./../views/basic.xml</include>
+  <include>./views/detailed.xml</include>
+  <include>./../views/gamecarousel.xml</include>
+  <include>./../views/grid.xml</include>
+  <!-- Custom views  -->
+  <include>./../views/boxes.xml</include>
+  <include>./../views/carousel.xml</include>
+  <include>.//views/tiles.xml</include>
+  <include>./../views/icons.xml</include>  
+
+  <!-- Subset options for help -->
+  <subset name="helpsystem" displayName="${helpSubsetName}">
+    <include name="buttons" displayName="${helpbuttons}">./../subsets/help/buttons.xml</include>
+    <include name="xboxbuttons" displayName="${xboxbuttons}">./../subsets/help/xboxbuttons.xml</include>
+    <include name="psxbuttons" displayName="${psxbuttons}">./../subsets/help/psxbuttons.xml</include>
+    <include name="colored" displayName="${colored}">./../subsets/help/colorhelp.xml</include>
+    <include name="standard" displayName="${gray}">./../subsets/help/default.xml</include>
+  </subset>
+  <!-- Subset options for screen -->
+  <subset name="shader" displayName="${subset.shader}">
+    <include name="None" displayName="${none}"/>
+    <include name="ScanLines" displayName="${scanlines}">./../subsets/shader/scanlines.xml</include>
+    <include name="Crt" displayName="${crt}">./../subsets/shader/crt.xml</include>
+  </subset>
+  <!-- Specific layout for systems -->
+  <include>./../layouts/${system.theme}.xml</include>
+  <!-- Layout when help is disabled -->
+  <include ifHelpPrompts="false">./../layouts/nohelp.xml</include>
+
+  <!-- add game info bar -->
+  <subset name="gameBar" displayName="${gameBar}" appliesTo="detailed,grid,Tiles,Icons,Carousel,Boxes">
+    <include name="yes" displayName="${yes}">./../subsets/gameinfobar.xml</include>
+    <include name="no" displayName="${no}"/>
+	</subset>
+
+  <!-- Layout for small screens -->
+  <subset tinyScreen="true" name="optimizesmallscreens" displayName="${optimizesmallscreensSubsetName}">
+    <include name="yes" displayName="${yes}">./../layouts/gpicase.xml</include>
+    <include name="no" displayName="${no}"/>
+  </subset>
+
+  <!-- Subset options for grid views -->
+  <subset name="videoboxes" displayName="${videoboxesSubsetName}" appliesTo="Boxes,grid">
+    <include name="no" displayName="${no}"/>
+    <include name="yes" displayName="${yes}">./../subsets/grid/videoboxes.xml</include>
+  </subset>
+  <subset name="zoomboxes" displayName="${zoomboxesSubsetName}" appliesTo="Boxes,grid">
+    <include name="no" displayName="${no}"/>
+    <include name="yes" displayName="${yes}">./../subsets/grid/zoomboxes.xml</include>
+  </subset>
+  <subset name="scrolldirection" displayName="${orientationSubsetName}" appliesTo="Tiles,Icons,Boxes,grid">
+    <include name="vertical"/>
+    <include name="horizontal">./../subsets/grid/scrollhorz.xml</include>
+  </subset>
+  <subset name="hideselection" displayName="${hideselectionSubsetName}" appliesTo="Boxes,grid">
+    <include name="no" displayName="${no}"/>
+    <include name="yes" displayName="${yes}">./../subsets/grid/hidesel.xml</include>
+  </subset>
+  <subset name="previewbar" displayName="${previewBarSubsetName}" appliesTo="Tiles,Icons,Carousel,Boxes,grid">
+    <include name="no" displayName="${no}"/>
+    <include name="yes" displayName="${yes}">./../subsets/grid/previewbar.xml</include>
+  </subset>
+  <subset tinyScreen="false" name="animatedInfobar" displayName="${animatedInfobar}" appliesTo="detailed,grid,gamecarousel,Tiles,Icons,Carousel,Boxes">
+    <include ifArch="windows,x86,x86_64,odroidc4,odroidxu4" name="yes" displayName="${yes}">./../subsets/animatedpreview.xml</include>
+    <include name="no" displayName="${no}"/>
+    <include ifNotArch="windows,x86,x86_64,odroidc4,odroidxu4" name="yes" displayName="${yes}">./../subsets/animatedpreview.xml</include>
+  </subset>
+  
+  <!-- Subset options for Tiles view -->
+  <subset tinyScreen="false" name="glowsel" displayName="${glowSubsetName}" appliesTo="Tiles, Icons">
+    <include name="yes" displayName="${yes}"/>
+    <include name="no" displayName="${no}">./../subsets/tiles/noglow.xml</include>
+  </subset>
+  <subset tinyScreen="false" name="tileborders" displayName="${roundBorderSubsetName}" appliesTo="Tiles, Icons">
+    <!-- default to yes for fast platforms only -->
+    <include ifArch="windows,x86,x86_64,odroidc4,odroidxu4" name="yes" displayName="${yes}"/>
+    <include name="no" displayName="${no}">./../subsets/tiles/squareborders.xml</include>
+    <include ifNotArch="windows,x86,x86_64,odroidc4,odroidxu4" name="yes" displayName="${yes}"/>
+  </subset>
+  <subset name="blinkborders" displayName="${blinkBorderSubsetName}" appliesTo="Tiles,Icons,Carousel,Boxes,grid">
+    <include name="yes" displayName="${yes}"/>
+    <include name="no" displayName="${no}">./../subsets/grid/blinkbordersoff.xml</include>
+  </subset>
+  <subset name="videotiles" displayName="${videosSubsetName}" appliesTo="Icons,Tiles">
+    <include name="yes" displayName="${yes}"/>
+    <include name="no" displayName="${no}">./../subsets/tiles/novideo.xml</include>
+  </subset>
+  <subset name="marqueetiles" displayName="${logosSubsetName}" appliesTo="Tiles">
+    <include name="yes" displayName="${yes}">./../subsets/tiles/marquee.xml</include>
+    <include name="no" displayName="${no}"/>
+  </subset>  
+ 	<subset name="carouselimagesource" displayName="${gamecarouseltype}" appliesTo="gamecarousel">
+		<include name="marquee" displayName="${marquee}">./../subsets/carouselimagesource/marquee.xml</include>
+		<include name="image" displayName="${image}">./../subsets/carouselimagesource/image.xml</include>
+		<include name="text" displayName="${text}">./../subsets/carouselimagesource/text.xml</include>
+		<include name="thumbnail" displayName="${thumbnail}">./../subsets/carouselimagesource/thumbnail.xml</include>
+	</subset>
+  <subset name="storyboards" displayName="${animationsSubsetName}">
+    <include name="yes" displayName="${yes}">./../subsets/storyboards.xml</include>
+    <include name="no" displayName="${no}"/>
+  </subset>
+</theme>
