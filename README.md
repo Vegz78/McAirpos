@@ -6,7 +6,7 @@
 |RetroPie|Batocera|Recalbox|
 ||(In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))||
 
-Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
+Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair), [@MerlijnWajer](https://github.com/MerlijnWajer) and [@freethinker](https://github.com/freethinker), whose projects, [termfix](https://github.com/hobbitalastair/termfix), [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper) and [ttyechoo](https://www.humbug.in/2010/utility-to-send-commands-or-data-to-other-terminals-ttypts/), I have used in my solution!!!<br>
 
 [2022.06.15: Batocera 34 support and installation script](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2022.06.05: FINALLY the ](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[_settings namespace/extension_](https://forum.makecode.com/t/quick-tutorial-on-the-settings-namespace/1013)[ has been fixed for Raspberry Pi/ARM](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[, by @nopid!](https://github.com/nopid)<br>
@@ -150,7 +150,6 @@ You can lookup the correct name in the network settings of your Recalbox or use 
 Default User/Pass: root/linux
 
 Run this command from the shell:<br>
-<br>Recalbox 8 with jack or usb audio:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_batocera.sh | bash -```<br>
 
 ### Missing HDMI audio in MakeCode Arcade games
