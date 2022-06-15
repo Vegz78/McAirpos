@@ -1,9 +1,14 @@
 # McAirpos
-[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk) and [Recalbox 8/7](https://www.recalbox.com), running natively as ELF executables on Raspberry Pi OS with gamepad and keyboard support for up to 2 players.<br>
-[![](docs/MakeCode_Arcade_RetroPie.gif)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.gif?raw=true)
+[MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk), [Recalbox 8/7](https://www.recalbox.com) and [Batocera(34)](https://batocera.org), running natively as ELF executables on [Raspberry Pi OS](https://www.raspberrypi.com/software/)/Linux ARM with gamepad and keyboard support for up to 2 players.<br>
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|[![](docs/MakeCode_Arcade_RetroPie.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.png?raw=true)|[![](docs/MakeCode_Arcade_Batocera.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Batocera.png?raw=true)|[![](docs/MakeCode_Arcade_Recalbox.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|
+|RetroPie|Batocera|Recalbox|
+||(In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))||
 
 Many thanks to [@willmtemple](https://github.com/willmtemple), [@mmoskal](https://github.com/mmoskal) and [@pelikhan](https://github.com/pelikhan) for all their help and support, and lately [@rdmueller](https://github.com/rdmueller) and [@edthedev](https://github.com/edthedev) for their contributions. Special thanks to [@hobbitalastair](https://github.com/hobbitalastair) and [@MerlijnWajer](https://github.com/MerlijnWajer) whose projects, [termfix](https://github.com/hobbitalastair/termfix) and [uinput-mapper](https://github.com/MerlijnWajer/uinput-mapper), I have used in my solution!!!<br>
 
+[2022.06.15: Batocera 34 support and installation script](https://github.com/Vegz78/McAirpos#development-news)<br>
 [2022.06.05: FINALLY the ](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[_settings namespace/extension_](https://forum.makecode.com/t/quick-tutorial-on-the-settings-namespace/1013)[ has been fixed for Raspberry Pi/ARM](https://github.com/microsoft/pxt-arcade/issues/3812#issuecomment-1137197195)[, by @nopid!](https://github.com/nopid)<br>
 [2022.05.31: Two new Ansible playbooks for installing McAirpos on multiple Recalbox 8 devices at once](https://github.com/Vegz78/McAirpos/blob/master/ansible)<br>
 [2021.12.18: Recalbox 8 support and installation scripts](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox) and [Python 3.x support for uinput-mapper and major revision of launCharc](https://github.com/Vegz78/McAirpos#development-news)<br>
@@ -37,11 +42,7 @@ Please scroll down this page or click the following links for: [Downloading game
 [@Vegz78](https://github.com/Vegz78)<br>
 (Thank you for awarding McAirpos a star if you like and use it!)<br>
 (If you're interested in retro gaming in general, please also check out the blog, [retrospill.ninja](https://translate.google.com/translate?sl=auto&tl=en&u=https://retrospill.ninja))<br>
-| | | |
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|[![](docs/MakeCode_Arcade_RetroPie.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|[![](docs/MakeCode_Arcade_Batocera.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|[![](docs/MakeCode_Arcade_Recalbox.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|
-|RetroPie|Batocera|Recalbox|
-||(In-game screenshots provided by [retro2png](https://github.com/Vegz78/retro2png))||
+[![](docs/MakeCode_Arcade_RetroPie.gif)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.gif?raw=true)
 
 ## Make your own or dowload MakeCode Arcade games for RetroPie
 I've made a solution for making [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) ready for downloading native executables of games here:<br>
@@ -111,7 +112,7 @@ Make sure that the _makecode_ games folder is owned by _pi_ and has the correct 
 Also, **make sure that every _game\_file.elf_ has executable permissions** if they aren't set automatically when copying them to the _makecode_ games folder:<br>
 ```sudo chmod -R 755 ~/RetroPie/roms/makecode```
 
-### Manual installation for Recalbox
+### Manual installation for Recalbox and Batocera
 Please use the automatic installation scripts below.
 If you still want to do a manual installation, access the script files and follow the instructions inside. :-)
 
@@ -133,7 +134,7 @@ Run _one_ of these commands from the shell:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.sh | bash -```<br>
 
 If you don't know which script to use, start with updating your Recalbox and the `v8` script.
-If you run into problems with the sound, try the `v8_HDMI-Audio-Fix` script.
+If you run into problems with the sound, try the `v8_HDMI-Audio-Fix` script below, or the general [HDM-Audio-Fix](https://github.com/Vegz78/McAirpos#missing-hdmi-audio-in-makecode-arcade-games) script for Linux kernels >= v.5.
 
 After running the script, there will be a "makecode" roms folder. 
 Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to this folder via scp, directly to your card or SMB mount for MakeCode Arcade to appear as an emulator in the Recalbox main menu after the next reboot.
@@ -141,9 +142,21 @@ Copy your .elf files (generate through https://vegz78.github.io/McAirpos/) to th
 ### Installation on multiple Recalbox devices
 For RecalBox 8, two [Ansible playbooks](/ansible/) are available for installing McAirpos remotely to multiple devices at once. This is well suited for classroom or makerspace settings with many simultaneous programming and arcade projects.<br>
 
+### Quick automatic installation for Batocera
+To install McAirpos on Batocera, you will need shell access (Linux console).
+If you have a keyboard connected, you can enter the shell by pressing CTRL+ALT+F5.
+Otherwise, connect your Batocera device to the network (cable or WiFi), start a terminal on your PC and execute `ssh root@batocera`. 
+You can lookup the correct name in the network settings of your Recalbox or use the IP address.
+Default User/Pass: root/linux
+
+Run this command from the shell:<br>
+<br>Recalbox 8 with jack or usb audio:<br>
+```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_batocera.sh | bash -```<br>
+
 ### Missing HDMI audio in MakeCode Arcade games
-For Linux kernels >= v.5 (newer RetroPie, Recalbox and Batocera releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required, as the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:<br>
+For Linux kernels >= v.5 (newer RetroPie, Recalbox and Raspberry Pi OS releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required by MCA games, on the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/HDMI-Audio-Fix.sh | bash -```<br>
+Batocera does not seem to have this problem, since audo is handled by [Pipewire](https://pipewire.org).
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
@@ -241,6 +254,7 @@ I'm still just learning to code and I don't mind a little [spaghetti code](https
 I would really appreciate feedbacks from your own experiences with McAirpos and maybe pick up some tricks of the trade while we sort out the bugs together!
 
 ## Development news
+[**2022.06.15:**](https://github.com/Vegz78/McAirpos/commit/4c5e06b290d19f07ad9a32fa7d9cc7b11f824fa3) Added Batocera 34 support and installation script.<br>
 [**2022.05.31:**](https://github.com/Vegz78/McAirpos/commit/819c6dc8a077c09660d681edea18161074aba016) Added Ansible deployment playbooks for Recalbox 8 to enable installation on multiple devices at once.<br>
 [**2021.12.18:**](https://github.com/Vegz78/McAirpos/commit/6e44f74b150ef48080533103e9bbebcb17321e8f) New automatic installation scripts for McAirpos on Recalbox 8 - one for analog/jack audio and one for HDMI audio. [Larger refactoring and bug fixes of the launCharc launcher](https://github.com/Vegz78/McAirpos/commit/22ec726494376ea68551cbc0dc4b8eac1692ad39) and some more bugfixes.<br>
 [**2021.12.16:**](https://github.com/Vegz78/McAirpos/commit/b3caca09a71e2c5f4e131a6593a5c7fa232f0ccc) Added McAirpos support for Recalbox 8, including Python 3.x support in addition to 2.7 for uinput-mapper, fix for broken HDMI alsa audio in MCA games and testing and verifying support for the Retroflag GPi case controller. Thank you very much, [@rdmueller](https://github.com/rdmueller), for testing changes and the GPi controller, and contributing to solutions!<br>
