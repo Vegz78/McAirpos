@@ -52,7 +52,7 @@ https://vegz78.github.io/McAirpos
 Either make your own games and extensions in the MakeCode web editor, or download from various places, like:
 
 - [MakeCode Arcade home (https://arcade.makecode.com)](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF)
-- [MakCode's official forum](https://forum.makecode.com/c/Share-your-Arcade-projects-here/show-tell/)
+- [MakeCode's official forum](https://forum.makecode.com/tag/game?order=posts)
 - [itch.io](https://itch.io) (search for MakeCode Arcade game jams)
 - [Here on GitHub](https://github.com/search?q=makecode+arcade+game&type=Repositories)
 - [@Jacob](https://github.com/jacobcarpenter)['s games gallery](https://games-gallery.jacobcarpenter.com)
