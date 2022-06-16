@@ -41,7 +41,12 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    # Appending updated MakeCode Arcade system from repository
    sudo sed -i '$e cat /home/pi/McAirpos/McAirpos/EmulationStation/es_systems.cfg_MakeCode' /etc/emulationstation/es_systems.cfg
    # Add MakeCode Arcade carbon theme
-   sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon/
+   if [[ -d ./etc/emulationstation/themes/carbon-2021 ]]; then
+      sudo cp ~/McAirpos/McAirpos/EmulationStation/makecode/art/controller.svg /etc/emulationstation/themes/carbon-2021/art/controllers/makecode.svg
+      sudo cp ~/McAirpos/McAirpos/EmulationStation/makecode/art/system.svg /etc/emulationstation/themes/carbon-2021/art/systems/makecode.svg
+   else
+      sudo cp -r ~/McAirpos/McAirpos/EmulationStation/makecode /etc/emulationstation/themes/carbon/
+  fi
 else
    echo "Couldn't find the file /etc/emulationstation/es_systems.cfg, continuing script without..."
 fi
