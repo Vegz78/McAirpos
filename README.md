@@ -1,8 +1,6 @@
 # McAirpos
 [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk), [Recalbox 8/7](https://www.recalbox.com) and [Batocera](https://batocera.org) (v.34 tested), running natively as ELF executables on [Raspberry Pi OS](https://www.raspberrypi.com/software/)/Linux ARM with gamepad and keyboard support for up to 2 players.<br>
 
-**NB!: Experiencing at the moment either a [local coding regression or a breaking update in _RetroPie_](https://github.com/Vegz78/McAirpos/issues/41), which ruins the game menu/theme for MakeCode Arcade on RetroPie. I am looking into the problem now and hope I can find the fix quickly. Just tested OK on Recalbox 8.0.2 and Batocera 34 on my RPi4, but please wait a little with installing on other systems until this is sorted out.**  
-
 | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |[![](docs/MakeCode_Arcade_RetroPie.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_RetroPie.png?raw=true)|[![](docs/MakeCode_Arcade_Batocera.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Batocera.png?raw=true)|[![](docs/MakeCode_Arcade_Recalbox.png)](https://github.com/Vegz78/McAirpos/blob/master/docs/MakeCode_Arcade_Recalbox.png?raw=true)|
@@ -159,6 +157,10 @@ Run this command from the shell:<br>
 For Linux kernels >= v.5 (newer RetroPie, Recalbox and Raspberry Pi OS releases, check with `uname -a`) there is [a problem where HDMI audio is not found, as required by MCA games, on the first ALSA audio device, _hw:0,0_](https://github.com/Vegz78/McAirpos/issues/27#issuecomment-1122227034), and MakeCode Arcade games either crash, freeze or play without sound. To resolve this on a recently updated McAirpos installation, run this script:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/HDMI-Audio-Fix.sh | bash -```<br>
 Batocera does not seem to have this problem, since audo is handled by [Pipewire](https://pipewire.org).
+
+### SSL certificate error
+On some systems, you might get an SSL certificate error when running the `curl` commands. Then try one of these commands instead:
+[https://github.com/Vegz78/McAirpos/issues/41#issuecomment-1156973597](https://github.com/Vegz78/McAirpos/issues/41#issuecomment-1156973597)
 
 ## Updating
 Bugfixes, changes and additions are released sporadically as updates to the main branch, without any formal system for releases and history. News about the latest and most important updates are published with dates in the [development section](https://github.com/Vegz78/McAirpos#development-news), with links to further details in the commit comments. 
