@@ -1,0 +1,23 @@
+
+<?xml version="1.0"?>
+<systemList>
+  <system>
+    <fullname>MakeCode Arcade</fullname>
+    <name>MakeCode</name>
+    <manufacturer>Microsoft</manufacturer>
+    <path>/userdata/roms/makecode</path>
+    <release>2020</release>
+    <hardware>emulator</hardware>    
+    <extension>.elf .ELF</extension>
+    <command>. /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.sh;/home/pi/McAirpos/McAirpos/launCharc/launCharc %ROM%</command>
+    <platform>makecode</platform>
+    <theme>makecode</theme>
+    <emulators>
+      <emulator name="launCharc">
+        <cores>
+          <core default="true">launCharc</core>
+        </cores>
+      </emulator>
+    </emulators>
+  </system>
+</systemList>
