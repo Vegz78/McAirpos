@@ -120,13 +120,13 @@ originally based on: "simple" by nils bonenberger
   <!-- Common views  -->
   <include>./../views/common.xml</include>
   <include>./../views/basic.xml</include>
-  <include>./views/detailed.xml</include>
+  <include>././views/detailed.xml</include>
   <include>./../views/gamecarousel.xml</include>
   <include>./../views/grid.xml</include>
   <!-- Custom views  -->
   <include>./../views/boxes.xml</include>
   <include>./../views/carousel.xml</include>
-  <include>.//views/tiles.xml</include>
+  <include>././views/tiles.xml</include>
   <include>./../views/icons.xml</include>  
 
   <!-- Subset options for help -->
