@@ -4,7 +4,6 @@
 mount -o remount,rw /
 mkdir -p /home/pi
 cd /home/pi
-
 if [[ $(pwd) = "/home/pi" ]]; then
    echo "Working direcory ok!: $(pwd)"
 else
@@ -13,21 +12,38 @@ exit 1
 fi
 
 # 2. 1nstall prerequesites and clone McAirpos repository
-if [[ -d ./McAirpos ]]; then
-   echo "McAirpos repository present, countinuing without downloading..."
-else
-   if [[ -f /usr/bin/wget ]] && [[ -f /bin/tar ]]; then
-      echo "Fetching McAirpos..."
-      wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz
-      gzip -d ./master.tar.gz
-      tar -xf ./master.tar -C /home/pi
-      mv /home/pi/McAirpos-master /home/pi/McAirpos
-      rm -f ./master.tar
-   else
-      echo "wget or tar missing, exiting script..."
+   echo "Fetching McAirpos..."
+   if [[ -f /usr/bin/wget ]]; then
+      echo "Trying clone_McAirpos..."
+      if wget https://github.com/Vegz78/McAirpos/raw/master/McAirpos/clone_McAirpos/clone_McAirpos_arm64; then
+        chmod +x clone_McAirpos_arm64
+        if ./clone_McAirpos_arm64; then
+           SUCCESS=1
+        else
+           rm clone_McAirpos_arm64
+        fi
+      fi
+   fi
+   if [[ ! $SUCCESS = 1 ]] && [[ -f /bin/tar ]]; then
+      echo "git failed, trying wget..."
+      if wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz; then
+         SUCCESS=1
+      elif wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz --no-check-certificate; then
+         SUCCESS=1
+      fi
+      if [[ $SUCCESS = 1 ]]; then
+         gzip -d ./master.tar.gz
+         tar -xf ./master.tar -C /home/pi
+         mv /home/pi/McAirpos-master /home/pi/McAirpos
+         rm -f ./master.tar
+      fi
+   fi
+   if [[ ! $SUCCESS = 1 ]]; then
+      echo "git, wget or tar missing or failed, exiting script..."
       exit 1
    fi
 fi
+SUCCESS=
 
 # 3. Set up MakeCode Arcade files
 cp -r /home/pi/McAirpos/McAirpos/MakeCode/sd /

@@ -1,8 +1,14 @@
 #!/bin/bash
 
 # 1. Make sure to start in directory /home/pi
-cd ~
-
+if [[ ! -d /home/pi ]]; then
+   C_USER=$USER
+   sudo mkdir -p /home/pi
+   sudo chmod 755 /home/pi
+   sudo chown $C_USER:$C_USER /home/pi
+   C_USER=
+fi
+cd /home/pi
 if [[ $(pwd) = "/home/pi" ]]; then
    echo "Working direcory ok!: $(pwd)"
 else
@@ -11,17 +17,54 @@ exit 1
 fi
 
 # 2. 1nstall prerequesites and clone McAirpos repository
+SUCCESS=0
 if [[ -d ./McAirpos ]]; then
-   echo "McAirpos repository present, continuing..."
+   echo "McAirpos repository already present, countinuing without downloading..."
 else
-   if [[ -f /usr/bin/git ]]; then
-      echo "Git already installed..."
-   else
-      sudo apt update
-      sudo apt install -y git-core
+   echo "Fetching McAirpos..."
+   if [[ -f /usr/bin/wget ]]; then
+      echo "Trying clone_McAirpos..."
+      if wget https://github.com/Vegz78/McAirpos/raw/master/McAirpos/clone_McAirpos/clone_McAirpos; then
+        chmod +x clone_McAirpos
+        if ./clone_McAirpos; then
+           SUCCESS=1
+        else
+           rm clone_McAirpos
+        fi
+      fi
    fi
-   git clone https://github.com/Vegz78/McAirpos.git
+   if [[ ! $SUCCESS = 1 ]]; then
+      echo "clone_McAirpos failed, trying git..."
+      if [[ -f /usr/bin/git ]]; then
+         echo "Git already installed..."
+      else
+         sudo apt update
+         sudo apt install -y git-core
+      fi
+      if git clone https://github.com/Vegz78/McAirpos.git; then
+         SUCCESS=1
+      fi
+   fi
+   if [[ ! $SUCCESS = 1 ]] && [[ -f /bin/tar ]]; then
+      echo "git failed, trying wget..."
+      if wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz; then
+         SUCCESS=1
+      elif wget https://github.com/Vegz78/McAirpos/archive/master.tar.gz --no-check-certificate; then
+         SUCCESS=1
+      fi
+      if [[ $SUCCESS = 1 ]]; then
+         gzip -d ./master.tar.gz
+         tar -xf ./master.tar -C /home/pi
+         mv /home/pi/McAirpos-master /home/pi/McAirpos
+         rm -f ./master.tar
+      fi
+   fi
+   if [[ ! $SUCCESS = 1 ]]; then
+      echo "git, wget or tar missing or failed, exiting script..."
+      exit 1
+   fi
 fi
+SUCCESS=
 
 # 3. Set up MakeCode Arcade files
 sudo cp -r ~/McAirpos/McAirpos/MakeCode/sd /
