@@ -310,6 +310,7 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - Make more generic as a launcher for other games needing controller mapping?
 
 ## Mentions
+- [The Batocera blog](https://forum.batocera.org/blog/7776-play-makecode-arcade-games-in-batocera)
 - [The MakeCode Newsletter](http://makecode.adafruitdaily.com/monthly/2021/01/22/play-makecode-arcade-games-on-raspberry-pi.html)
 - [MakeCode Arcade hardware pages](https://arcade.makecode.com/hardware/raspberry-pi)
 - [Adafruit tweet](https://twitter.com/anne_engineer/status/1343675578701017088)
