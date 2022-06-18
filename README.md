@@ -1,4 +1,3 @@
-# NB! Installation scripts not working at the moment, BRB... Sorry!
 # McAirpos
 [MakeCode Arcade](https://arcade.makecode.com?nolocalhub=1&hw=rpi&compile=rawELF) games in [RetroPie](https://retropie.org.uk), [Recalbox 8/7](https://www.recalbox.com) and [Batocera](https://batocera.org), running natively as ELF executables on [Raspberry Pi OS](https://www.raspberrypi.com/software/)/Linux ARM with gamepad and keyboard support for up to 2 players.<br>
 
@@ -84,11 +83,27 @@ https://github.com/microsoft/pxt-arcade/issues/2245
 McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
 
 ## Prerequisites
-- Git (```sudo apt install git```) or wget
+- curl or wget
 - Drivers for gamepads you have that don't work "out of the box"
-- [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)
+- [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)(almost always included)
 
 ## Installation
+__RetroPie/Raspberry Pi OS__
+- [Quick automatic installation for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-retropierpi-os)
+- [Manual installation for RetroPie/RPi OS](https://github.com/Vegz78/McAirpos#manual-installation-for-retropierpi-os)
+
+__Recalbox__
+- [Quick automatic installation for Recalbox](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-recalbox)
+- [Manual installation for Recalbox and Batocera](https://github.com/Vegz78/McAirpos#manual-installation-for-recalbox-and-batocera)
+- [Installation on multiple Recalbox devices](https://github.com/Vegz78/McAirpos#installation-on-multiple-recalbox-devices)
+
+__Batocera__
+- [Quick automatic installation for Batocera](https://github.com/Vegz78/McAirpos#quick-automatic-installation-for-batocera)
+
+__Other__
+- [Missing HDMI audio in MakeCode Arcade games](https://github.com/Vegz78/McAirpos#missing-hdmi-audio-in-makecode-arcade-games)
+- [SSL certificate error](https://github.com/Vegz78/McAirpos#ssl-certificate-error)
+
 ### Quick automatic installation for RetroPie/RPi OS
 Run this command without sudo in a terminal or the CLI on RetroPie/RPi OS:<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install.sh | bash -```
