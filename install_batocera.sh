@@ -23,9 +23,9 @@ else
          chmod +x clone_McAirpos_arm64
          if ./clone_McAirpos_arm64; then
             SUCCESS=1
-         else
-            rm clone_McAirpos_arm64
+            rm -rf /home/pi/McAirpos/.git
          fi
+         rm clone_McAirpos_arm64
       fi
    fi
    if [[ ! $SUCCESS = 1 ]] && [[ -f /bin/tar ]]; then
