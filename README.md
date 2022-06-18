@@ -83,7 +83,7 @@ https://github.com/microsoft/pxt-arcade/issues/2245
 McAirpos works around both these issues, making MakeCode Arcade games play like other games in RetroPie.
 
 ## Prerequisites
-- curl or wget
+- curl or [wget](https://github.com/Vegz78/McAirpos/issues/41#issuecomment-1156973597)
 - Drivers for gamepads you have that don't work "out of the box"
 - [ALSA sound driver](https://forum.makecode.com/t/how-to-launch-makecode-arcade-uf2s-in-raspbian-retropie/2725/2)(almost always included)
 
@@ -142,12 +142,12 @@ You can lookup the correct name in the network settings of your Recalbox or use 
 Default User/Pass: root/recalboxroot
 
 Run _one_ of these commands from the shell:<br>
-<br>Recalbox 8 with jack or usb audio:<br>
+<br>__Recalbox 8 with jack or usb audio:__<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8.sh | bash -```<br>
 (if you experience nuisance where audio switches to HDMI after exit of MakeCode Arcade games, [please see here for a workaround...](https://github.com/Vegz78/McAirpos/issues/39#issuecomment-1121534032))<br>
-<br>Recalbox 8 with HDMI audio:<br>
+<br>__Recalbox 8 with HDMI audio:__<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v8_HDMI-Audio-Fix.sh | bash -```<br>
-<br>Recalbox 7-Reloaded!:<br>
+<br>__Recalbox 7-Reloaded!:__<br>
 ```curl -sL https://raw.githubusercontent.com/Vegz78/McAirpos/master/install_recalbox_v7.sh | bash -```<br>
 
 If you don't know which script to use, start with updating your Recalbox and the `v8` script.
