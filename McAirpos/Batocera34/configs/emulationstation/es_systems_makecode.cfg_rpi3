@@ -9,7 +9,7 @@
     <release>2020</release>
     <hardware>emulator</hardware>    
     <extension>.elf .ELF</extension>
-    <command>. /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.sh;/home/pi/McAirpos/McAirpos/launCharc/launCharc %ROM%;. /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.un.sh</command>
+    <command>. /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.sh;/home/pi/McAirpos/McAirpos/launCharc/launCharc_arm64 %ROM%;. /home/pi/McAirpos/McAirpos/Batocera34/batocera_re.un.sh</command>
     <platform>makecode</platform>
     <theme>makecode</theme>
     <emulators>

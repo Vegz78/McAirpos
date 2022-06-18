@@ -103,7 +103,7 @@ fi
 #cd /home/pi
 
 # 8. Finish up
-ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc /usr/bin/launCharc
+ln -s /home/pi/McAirpos/McAirpos/launCharc/launCharc_arm64 /usr/bin/launCharc
 chmod -R 755 /usr/bin/launCharc
 /usr/bin/batocera-save-overlay 100
 mount -o remount,ro /
