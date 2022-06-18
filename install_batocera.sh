@@ -12,16 +12,20 @@ exit 1
 fi
 
 # 2. 1nstall prerequesites and clone McAirpos repository
+SUCCESS=0
+if [[ -d ./McAirpos ]]; then
+   echo "McAirpos repository already present, countinuing without downloading..."
+else
    echo "Fetching McAirpos..."
    if [[ -f /usr/bin/wget ]]; then
       echo "Trying clone_McAirpos..."
       if wget https://github.com/Vegz78/McAirpos/raw/master/McAirpos/clone_McAirpos/clone_McAirpos_arm64; then
-        chmod +x clone_McAirpos_arm64
-        if ./clone_McAirpos_arm64; then
-           SUCCESS=1
-        else
-           rm clone_McAirpos_arm64
-        fi
+         chmod +x clone_McAirpos_arm64
+         if ./clone_McAirpos_arm64; then
+            SUCCESS=1
+         else
+            rm clone_McAirpos_arm64
+         fi
       fi
    fi
    if [[ ! $SUCCESS = 1 ]] && [[ -f /bin/tar ]]; then

@@ -12,6 +12,10 @@ exit 1
 fi
 
 # 2. 1nstall prerequesites and clone McAirpos repository
+SUCCESS=0
+if [[ -d ./McAirpos ]]; then
+   echo "McAirpos repository already present, countinuing without downloading..."
+else
    echo "Fetching McAirpos..."
    if [[ -f /usr/bin/wget ]]; then
       echo "Trying clone_McAirpos..."
