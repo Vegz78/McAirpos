@@ -89,10 +89,15 @@ fi
 #cd /home/pi
 
 # 7. HDMI-Audio-Fix
-cp /etc/modprobe.d/alsa-base.conf /etc/modprobe.d/alsa-base.conf_McAirpos.bak
-cp /usr/share/alsa/cards/vc4-hdmi.conf /usr/share/alsa/cards/vc4-hdmi.conf_McAirpos.bak
-cp /home/pi/McAirpos/McAirpos/Recalbox8.0/etc/modprobe.d/alsa-base.conf /etc/modprobe.d/alsa-base.conf
-cp /home/pi/McAirpos/McAirpos/Recalbox8.0/usr/share/alsa/cards/vc4-hdmi.conf /usr/share/alsa/cards/vc4-hdmi.conf
+if [[ -d /home/pi/McAirpos/McAirpos/Recalbox8 ]]; then
+   cp /etc/modprobe.d/alsa-base.conf /etc/modprobe.d/alsa-base.conf_McAirpos.bak
+   cp /usr/share/alsa/cards/vc4-hdmi.conf /usr/share/alsa/cards/vc4-hdmi.conf_McAirpos.bak
+   cp /home/pi/McAirpos/McAirpos/Recalbox8/etc/modprobe.d/alsa-base.conf /etc/modprobe.d/alsa-base.conf
+   cp /home/pi/McAirpos/McAirpos/Recalbox8/usr/share/alsa/cards/vc4-hdmi.conf /usr/share/alsa/cards/vc4-hdmi.conf
+else
+   echo "Folder /home/pi/McAirpos/McAirpos/Recalbox8 not found, please update McAirpos with \"rm -rf /home/pi/McAirpos\" and run installation script again..."
+   exit 1
+fi
 
 
 # 8. Finish up
