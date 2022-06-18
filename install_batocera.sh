@@ -67,7 +67,7 @@ if [[ -f /etc/emulationstation/es_systems.cfg ]]; then
    if grep -q "Pi 4" /proc/device-tree/model; then
       cp /home/pi/McAirpos/McAirpos/Batocera34/configs/emulationstation/es_systems_makecode.cfg /userdata/system/configs/emulationstation
    else
-      cp /home/pi/McAirpos/McAirpos/Batocera34/configs/emulationstation/es_systems_makecode.cfg_rpi3 /userdata/system/configs/emulationstation/es_system_makecode.cfg
+      cp /home/pi/McAirpos/McAirpos/Batocera34/configs/emulationstation/es_systems_makecode.cfg_rpi3 /userdata/system/configs/emulationstation/es_systems_makecode.cfg
    fi
    # Add MakeCode Arcade carbon theme
    cp -r /home/pi/McAirpos/McAirpos/Batocera34/art /etc/emulationstation/themes/es-theme-carbon/
