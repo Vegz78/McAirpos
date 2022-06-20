@@ -319,4 +319,5 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [JuegosRobotica.es](https://juegosrobotica.es/maquina-recreativa-makecode-arcade)
 - [@mr_polsky tweet](https://twitter.com/mr_polsky/status/1356472105735397376)
 - [@\_RobDominguez tweet](https://twitter.com/_RobDominguez/status/1347381575282012160)
+- [@NeslouSupport](https://t.co/2qz99W6ehM)
 - [@edthedev tweet](https://t.co/c92GY2Xvh4)
