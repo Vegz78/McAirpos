@@ -20,7 +20,7 @@ Controller support out-of-the-box, tested ok with various combinations of:
 - [PS3 controller](https://www.sony.com/sna/EN/graphics/info/pairps-psbutton.gif)
 - [XBox One controller](https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE1rfiZ?ver=03f2&q=90&m=6&h=705&w=1253&b=%23FFF0F0F0&f=jpg&o=f&p=140&aim=true)
 - [SteelSeries Nimbus](https://www.techradar.com/reviews/steelseries-nimbus) (remember to set _invertUp_ to 1 in the _arcadeX.py_ files to invert the Y-axis)
-- [retro-bit controller](https://translate.google.com/translate?sl=no&tl=en&u=https://cdon.no/spill/retro-bit-nes-usb-controller-41757027)
+- [retro-bit controller](https://pricespy-75b8.kxcdn.com/product/standard/800/3206730.jpg)
 - [8BitDo N30 Pro 2 controller](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2020/08/8bitdo-n30-pro-2/)
 - [EG STARTS 2 Player Arcade Joystick](https://www.amazon.com/EG-STARTS-Joystick-American-Raspberry/dp/B07P5BVSYK) (thanks for [testing](https://github.com/Vegz78/McAirpos/issues/6#issuecomment-762341565), [@lars-derichter](https://github.com/lars-derichter)!)
 - [Hori Pokken Tournament DX Pro](https://translate.google.com/translate?sl=no&tl=en&u=https://retrospill.ninja/2018/11/hori-pokken-tournament-dx-pro-pad/) (thanks for testing, [@Gauteweb](https://github.com/Gauteweb)!)
@@ -319,3 +319,4 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [JuegosRobotica.es](https://juegosrobotica.es/maquina-recreativa-makecode-arcade)
 - [@mr_polsky tweet](https://twitter.com/mr_polsky/status/1356472105735397376)
 - [@\_RobDominguez tweet](https://twitter.com/_RobDominguez/status/1347381575282012160)
+- [@edthedev tweet](https://t.co/c92GY2Xvh4)
