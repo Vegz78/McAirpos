@@ -80,9 +80,10 @@ SOFTWARE.
 				var url = document.getElementById("makecode").value;
 				var URLSuffix = "?nolocalhost=1&compile=rawELF&hw=rpi";
 				var URLSuffix2 = "#editor";
-				var regex1 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
-				var regex2 = new RegExp("[_][a-zA-Z0-9]{12}");
-				var regex3 = new RegExp("\/$");
+				var regex1 = new RegExp("[a-zA-Z]{1}[0-9]{5}(-[0-9]{5}){3}");
+				var regex2 = new RegExp("[0-9]{5}(-[0-9]{5}){3}");
+				var regex3 = new RegExp("[_][a-zA-Z0-9]{12}");
+				var regex4 = new RegExp("\/$");
 				var waitTime = 1000;
 				var waitTime2 = waitTime*10;
 				if (regex1.test(url)) {
@@ -97,8 +98,14 @@ SOFTWARE.
 					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
 					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
 				}
+				else if (regex3.test(url)) {
+					targetURL = targetURL + URLSuffix + "#pub:" + url.match(regex3)[0];
+					document.getElementById("output").innerHTML = targetURL;
+					setTimeout(() => { window.open(targetURL, '_blank').focus(); }, waitTime);
+					setTimeout(() => { window.open("./index2", "_self"); }, waitTime2);
+				}
 				else if (url.includes("https://github.com")) {
-					if (regex3.test(url)) {
+					if (regex4.test(url)) {
 						targetURL = targetURL + URLSuffix + "#pub:" + url;
 					}
 					else {
