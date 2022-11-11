@@ -321,3 +321,4 @@ Some thoughts and ideas I might start grappling with in the near or distant futu
 - [@\_RobDominguez tweet](https://twitter.com/_RobDominguez/status/1347381575282012160)
 - [@NeslouSupport](https://t.co/2qz99W6ehM)
 - [@edthedev tweet](https://t.co/c92GY2Xvh4)
+- [Stu Lowe's video comparing MakeCode Arcade handhelds](https://www.youtube.com/watch?v=sfEUX3kceew&lc=UgxSoI-hLT-HH6N1o6R4AaABAg.9Wwj36syz019Wykz7rkwCF)
